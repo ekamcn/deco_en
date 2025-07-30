@@ -11,7 +11,7 @@ const sections = [
         answer: (
           <div className='flex flex-col gap-4'>
             <p>Your order confirmation email may have been filtered into your spam or junk folder. Please check those folders first.</p>
-            <p>If you still cannot find the confirmation email containing your order number, please contact us at <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a> with the subject line: "My Order Number."</p>
+            <p>If you still cannot find the confirmation email containing your order number, please contact us at <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a> with the subject line: "My Order Number."</p>
             <p>We respond within 24 business hours.</p>
           </div>
         ),
@@ -21,7 +21,7 @@ const sections = [
         answer: (
           <div className='flex flex-col gap-4'>
             <p>You can cancel your order within 24 hours of purchase on our store.</p>
-            <p>If you are within this timeframe, please contact our customer service at <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a> with the subject line: "Order Cancellation" and include your order number.</p>
+            <p>If you are within this timeframe, please contact our customer service at <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a> with the subject line: "Order Cancellation" and include your order number.</p>
             <p>Our team will cancel your order and process a full refund.</p>
             <p>If your package has already been shipped, we cannot cancel the order. Once you receive your order, you may return the item to our warehouse for a refund if necessary.</p>
             <p>We respond within 24 business hours.</p>
@@ -46,7 +46,7 @@ const sections = [
               <li>Your order number</li>
               <li>The email address used when placing the order</li>
             </ul>
-            <p>If you need additional information about your order status, feel free to contact our customer service at: <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a></p>
+            <p>If you need additional information about your order status, feel free to contact our customer service at: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></p>
             <p>Please include the subject line: "Order Status" and your order number. We respond within 24 business hours.</p>
           </div>
         ),
@@ -55,7 +55,7 @@ const sections = [
         question: 'How to return an item and get a refund?',
         answer: (
           <div className='flex flex-col gap-4'>
-            <p>We're sorry if you encountered any issues with your order. If you received a damaged or incorrect item, or if you are not satisfied with your purchase, please contact our customer service at: <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a></p>
+            <p>We're sorry if you encountered any issues with your order. If you received a damaged or incorrect item, or if you are not satisfied with your purchase, please contact our customer service at: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></p>
             <p>Please include the subject line: "Return/Refund Request" and your order number. We will respond within 24 business hours.</p>
           </div>
         ),
@@ -64,7 +64,7 @@ const sections = [
         question: 'Can I modify my order?',
         answer: (
           <div className='flex flex-col gap-4'>
-            <p>You can modify your order (color, size, model) within 24 hours of purchase on our store. If you are within this timeframe, please contact our customer service at: <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a> Include the subject line: "Order Modification" and your order number.</p>
+            <p>You can modify your order (color, size, model) within 24 hours of purchase on our store. If you are within this timeframe, please contact our customer service at: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a> Include the subject line: "Order Modification" and your order number.</p>
             <p>If your package has already been shipped, we cannot make any changes until you receive your order. After that, we can arrange a new shipment once the original item is returned to our warehouse.</p>
           </div>
         ),
@@ -84,7 +84,7 @@ const sections = [
     faqs: [
       {
         question: "My tracking number isn't working",
-        answer: <p>Please allow up to 24 hours for your tracking number to update. If it still doesn't work, contact us at <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a>.</p>,
+        answer: <p>Please allow up to 24 hours for your tracking number to update. If it still doesn't work, contact us at <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a>.</p>,
       },
       {
         question: 'Is my information secure?',
@@ -97,7 +97,7 @@ const sections = [
     faqs: [
       {
         question: 'Do you have a contact form?',
-        answer: <p>Yes, you can contact us via our contact form on the website or by emailing <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a>.</p>,
+        answer: <p>Yes, you can contact us via our contact form on the website or by emailing <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a>.</p>,
       },
       {
         question: 'Can I contact you or reply via SMS?',

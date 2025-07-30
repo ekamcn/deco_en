@@ -76,12 +76,12 @@ export function Header({
   return (
     <>
       {/* Top Marquee Bar */}
-      <div className="w-full bg-[#a98b74] overflow-hidden whitespace-nowrap text-xs text-black">
-        <div className="animate-marquee flex gap-136 px-6 py-2 font-medium">
+      <div className="w-full bg-[var(--color-1)] overflow-hidden whitespace-nowrap text-xs">
+        <div className="animate-marquee flex gap-136 px-6 py-2 !font-normal text-black !text-xs  tracking-widest">
           <span>Fast Shipping: 2–4 Days</span>
-          <span>contact@deco-bay.com</span>
+          <span>{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</span>
           <span>US-Based Customer Support 🇺🇸</span> <span>Fast Shipping: 2–4 Days</span>
-          <span>contact@deco-bay.com</span>
+          <span>{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</span>
           <span>US-Based Customer Support 🇺🇸</span>
         </div>
       </div>
@@ -95,13 +95,13 @@ export function Header({
           {/* Left: Logo (Desktop Only) */}
           <div className="hidden md:flex items-center">
             <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-              <Image src="/deco-bay-logo.jpg" alt="Store Logo" className="h-10 w-auto" />
+              <Image src={logo} alt="Store Logo" className="h-10 w-auto" />
             </NavLink>
           </div>
           {/* Center: Logo (Mobile Only, Centered) */}
           <div className="absolute left-1/2 transform -translate-x-1/2 md:hidden">
             <NavLink prefetch="intent" to="/" end>
-              <Image src="/deco-bay-logo.jpg" alt="Store Logo" className="h-10 w-auto" />
+              <Image src={logo} alt="Store Logo" className="h-10 w-auto" />
             </NavLink>
           </div>
 
@@ -124,7 +124,7 @@ export function Header({
       <style>{`
   .animate-marquee {
  display: flex;
- animation: marquee 120s linear infinite;
+ animation: marquee 150s linear infinite;
   }
 
   @keyframes marquee {
@@ -484,7 +484,7 @@ function CartBadge({ count }: { count: number | null }) {
     >
       {/* Cart Icon */}
       <svg
-        className="w-full h-full text-black"
+        className="w-full h-full"
         fill="none"
         stroke="currentColor"
         strokeWidth="1"
@@ -499,7 +499,7 @@ function CartBadge({ count }: { count: number | null }) {
 
       {/* Badge */}
       {count !== null && count > 0 && (
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#9E826D] text-white text-[11px] font-medium rounded-full flex items-center justify-center">
+        <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--color-1)] text-white text-[11px] font-medium rounded-full flex items-center justify-center">
           {count}
         </span>
       )}

@@ -7,11 +7,11 @@ export function Footer() {
   return (
     <footer>
       <CardSection />
-      <svg className='-mb-0.5' viewBox="0 0 1440 110">
+      <svg className='-mb-0.5' viewBox="0 0 1440 110" style={{ fill: 'var(--color-2)' }}>
         <path d="M0,22L1440,88L2880,22L4320,88L5760,44L7200,22L8640,11L10080,44L11520,77L12960,77L14400,55L15840,0L17280,33L18720,22L20160,11L21600,22L23040,22L24480,55L25920,33L27360,99L28800,33L30240,88L31680,11L33120,88L34560,22L34560,110L33120,110L31680,110L30240,110L28800,110L27360,110L25920,110L24480,110L23040,110L21600,110L20160,110L18720,110L17280,110L15840,110L14400,110L12960,110L11520,110L10080,110L8640,110L7200,110L5760,110L4320,110L2880,110L1440,110L0,110Z"></path>
       </svg>
 
-      <div className="bg-black text-white">
+      <div className="footer text-white">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {/* About Us */}
@@ -39,11 +39,11 @@ export function Footer() {
                 <div>
                   Our team is here to help! For any inquiries, simply send us an email at{' '}
                   <a
-                    href="mailto:contact@deco-bay.com"
+                    href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}"
                     className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4"
 
                   >
-                    contact@deco-bay.com
+                    {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
                   </a>.
                 </div>
                 {/* Gap, then Customer Service Hours */}
@@ -54,14 +54,14 @@ export function Footer() {
 
                 {/* Bullet points */}
                 <ul className="!list-disc !list-inside space-y-1 mt-2 text-base">
-                  <li><strong>Company :</strong> D2G Group LLC</li>
-                  <li ><strong>Address :</strong> 81 Commerce Drive Fall River</li>
+                  <li><strong>Company :</strong> {import.meta.env.VITE_COMPANY_NAME}</li>
+                  <li ><strong>Address :</strong> {import.meta.env.VITE_COMPANY_ADDRESS}</li>
                   <li><strong>Mail:</strong>  <a
-                    href="mailto:contact@deco-bay.com"
+                    href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}"
                     className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4"
 
                   >
-                    contact@deco-bay.com
+                    {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
                   </a>.</li>
                   <li><strong>Tel:</strong>  <a
                     href="tel:+14842148789"
@@ -143,10 +143,10 @@ export function Footer() {
                   <p className="!text-white text-sm">
                     Our team is here to assist you! Just send us an email at{' '}
                     <a
-                      href="mailto:contact@deco-bay.com"
+                      href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}"
                       className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4"
                     >
-                      contact@deco-bay.com
+                      {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
                     </a>
                   </p>
                 </div>
@@ -184,22 +184,22 @@ export function Footer() {
           </div>
 
           {/* Payment Methods and Copyright */}
-          <div className="mt-12 pt-8 border-t border-gray-700">
+          <div className="mt-12 pt-8">
             <div className="flex flex-col lg:flex-row justify-center items-center space-y-4  lg:space-y-0">
               {/* Payment Methods */}
               <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-2">
                   <div className=" bg-white rounded flex items-center justify-center">
-                    <Image src='./Visa_Logo.svg' width={24} height={25} className='w-12 h-8' />
+                    <Image src='./Visa_Logo.svg' width={24} height={25} className='w-12 h-6' />
                   </div>
                   <div className=" bg-white rounded flex items-center justify-center">
-                    <Image src='./apple_Logo.svg' width={24} height={25} className='w-12 h-8' />
+                    <Image src='./masterCard_Logo.svg' width={24} height={25} className='w-12 h-6' />
                   </div>
                   <div className=" bg-white rounded flex items-center justify-center">
-                    <Image src='./masterCard_Logo.svg' width={24} height={25} className='w-12 h-8' />
+                    <Image src='./apple_Logo.svg' width={24} height={25} className='w-12 h-6' />
                   </div>
                   <div className=" bg-white rounded flex items-center justify-center">
-                    <Image src='./American-Express_Logo.svg' width={24} height={25} className='w-12 h-8' />
+                    <Image src='./American-Express_Logo.svg' width={24} height={25} className='w-12 h-6' />
                   </div>
                 </div>
                 <br />
@@ -210,7 +210,7 @@ export function Footer() {
             </div>
             {/* Copyright */}
             <div className="text-center mt-4">
-              <p className="text-white text-sm">
+              <p className="text-white !text-sm">
                 © 2025, Deco Bay®
               </p>
             </div>

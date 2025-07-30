@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
                 </div>
                 <div>
                     <h2 className="!text-2xl font-semibold">Who We Are</h2>
-                    <p className='!leading-7'>D2G Group LLC ("we," "us," or "our") operates the website https://deco-bay.com/ (the "Site"). We are a company that provides various services and products. This Privacy Policy describes how we collect, use, disclose, and safeguard your personal information.</p>
+                    <p className='!leading-7'> ("we," "us," or "our") operates the website {import.meta.env.VITE_DOMAIN_NAME}/ (the "Site"). We are a company that provides various services and products. This Privacy Policy describes how we collect, use, disclose, and safeguard your personal information.</p>
                 </div>
                 <div>
                     <h2 className="!text-2xl font-semibold">Information We Collect</h2>
@@ -89,10 +89,10 @@ export default function PrivacyPolicyPage() {
                     <h2 className="!text-2xl font-semibold">Contact Us</h2>
                     <p className='!leading-7 !pb-4'>If you have questions or concerns about this Privacy Policy, please contact us:</p>
                     <p className='flex flex-col gap-2'>
-                        <span>Email: <a href="mailto:contact@deco-bay.com" className="underline underline-offset-4">contact@deco-bay.com</a></span>
-                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">+1(484)2148789</a></span>
-                        <span>Address: 81 Commerce Drive Fall River, MA 02720</span>
-                        <span>Website: <a href="https://deco-bay.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">deco-bay.com</a></span>
+                        <span>Email: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
+                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
+                        <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
+                        <span>Website: <a href="{import.meta.env.VITE_DOMAIN_NAME}" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">{import.meta.env.VITE_STORE_NAME}.com</a></span>
                     </p>
                 </div>
             </div>

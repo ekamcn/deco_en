@@ -169,7 +169,7 @@ function CartLineRemoveButton({
       <button
         disabled={disabled}
         type="submit"
-        className="button button--tertiary p-2 rounded-full transition-colors bg-[#9E8471] text-white cursor-pointer"
+        className="button button--tertiary p-2 rounded-full transition-colors bg-[var(--color-1)] text-white cursor-pointer"
         aria-label="Remove item from cart"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" focusable="false" role="presentation" className="icon icon-remove w-5 h-5">

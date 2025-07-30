@@ -251,7 +251,7 @@ function openMobilePriceAside() {
     const mobileFilterButton = aside ? (
         <div className="flex justify-between items-center pb-4 px-2 lg:hidden">
             <button
-                className="flex items-center gap-2 pt-6 rounded bg-primary text-black"
+                className="flex items-center gap-2 pt-6 rounded bg-primary text-black cursor-pointer"
                 onClick={() => aside.open('mobile')}
                 type="button"
             >
@@ -319,7 +319,7 @@ function openMobilePriceAside() {
                         </button>
                         <button
                             type="submit"
-                            className="product-form__submit flex items-center justify-center gap-2 w-full px-3 py-2 rounded-full text-md font-medium transition-colors duration-200 bg-[#9E8471] text-white cursor-pointer"
+                            className="product-form__submit flex items-center justify-center gap-2 w-full px-3 py-2 rounded-full text-md font-medium transition-colors duration-200 bg-[var(--color-1)] text-white cursor-pointer"
                         >
                             <span className="addbtntext">Apply</span>
                         </button>
@@ -388,7 +388,7 @@ function openMobilePriceAside() {
                         </button>
                         <button
                             type="submit"
-                            className="product-form__submit flex items-center justify-center gap-2 w-full px-3 py-2 rounded-full text-md font-medium transition-colors duration-200 bg-[#9E8471] text-white cursor-pointer"
+                            className="product-form__submit flex items-center justify-center gap-2 w-full px-3 py-2 rounded-full text-md font-medium transition-colors duration-200 bg-[var(--color-1)] text-white cursor-pointer"
                         >
                             <span className="addbtntext">Apply</span>
                         </button>
@@ -451,7 +451,7 @@ function openMobilePriceAside() {
                         </button>
                         <button
                             type="submit"
-                            className="product-form__submit flex items-center justify-center gap-2 w-full px-3 py-2 rounded-full text-md font-medium transition-colors duration-200 bg-[#9E8471] text-white cursor-pointer"
+                            className="product-form__submit flex items-center justify-center gap-2 w-full px-3 py-2 rounded-full text-md font-medium transition-colors duration-200 bg-[var(--color-1)] text-white cursor-pointer"
                         >
                             <span className="addbtntext">Apply</span>
                         </button>

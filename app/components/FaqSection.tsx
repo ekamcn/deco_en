@@ -60,7 +60,7 @@ export default function FaqSection({
     rounded,
 }: FaqSectionProps) {
     return (
-        <section className="relative bg-[#181818] text-white my-20">
+        <section className="relative bg-[var(--color-2)] text-white my-20">
             {/* Top Wave */}
             {rounded && (
                 <div className="absolute top-10 left-0 w-full overflow-hidden leading-none rotate-0 -translate-y-full z-0">
@@ -71,7 +71,7 @@ export default function FaqSection({
                     >
                         <path
                             d="M0,11L120,25.7C240,40,480,70,720,67.8C960,66,1200,33,1440,16.5V110H0Z"
-                            fill="#181818"
+                             fill="var(--color-2)"
                         />
                     </svg>
                 </div>
@@ -85,15 +85,15 @@ export default function FaqSection({
                         </h1>
                         <div className="divide-y divide-white/10">
                             {section.faqs.map((faq) => (
-                                <details key={faq.question} className="group bg-[#181818]">
-                                    <summary className="flex items-center justify-between py-4 px-2 cursor-pointer text-base font-medium group-open:bg-[#232323] group-open:font-semibold transition-colors">
+                                <details key={faq.question} className="group bg-[var(--color-2)]">
+                                    <summary className="flex items-center justify-between py-4 px-2 cursor-pointer text-base font-medium group-open:bg-[var(--color-2)] group-open:font-semibold transition-colors">
                                         <span className="flex items-center hover:underline">
                                             <CheckIcon />
                                             {faq.question}
                                         </span>
                                         <CaretIcon />
                                     </summary>
-                                    <div className="accordion__content px-6 pb-4 pt-2 text-gray-300 text-sm">
+                                    <div className="accordion__content px-6 pb-4 pt-2 text-white text-sm">
                                         {faq.answer}
                                     </div>
                                 </details>
@@ -105,7 +105,7 @@ export default function FaqSection({
                 {showNewsletter && (
                     <div className="text-center mt-8">
                         <h3 className="text-2xl font-bold">Subscribe to Our Newsletter</h3>
-                        <p className="text-sm text-gray-300 mt-1 mb-4">
+                        <p className="text-sm text-[var(--color-2)] mt-1 mb-4">
                             Be the first to know about our new product launches and exclusive
                             promotions!
                         </p>
@@ -113,7 +113,7 @@ export default function FaqSection({
                             <input
                                 type="email"
                                 placeholder="Email"
-                                className="w-full px-4 py-3 border-2 !rounded-full !border-white text-white placeholder-white bg-[#181818] focus:outline-none focus:ring-2 focus:ring-white"
+                                className="w-full px-4 py-3 border-2 !rounded-full !border-white text-white placeholder-white bg-[var(--color-2)] focus:outline-none focus:ring-2 focus:ring-white"
                             />
                             <button
                                 type="submit"
@@ -149,7 +149,7 @@ export default function FaqSection({
                         >
                             <path
                                 d="M0,11L120,25.7C240,40,480,70,720,67.8C960,66,1200,33,1440,16.5V110H0Z"
-                                fill="#181818"
+                                fill="var(--color-2)"
                             />
                         </svg>
                     </div>

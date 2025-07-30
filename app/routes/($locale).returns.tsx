@@ -6,17 +6,17 @@ export default function ReturnPolicyPage() {
             <div className="max-w-7xl mx-auto  flex flex-col gap-10 tracking-wider">
                 <p className='!text-3xl font-bold'>Return Policy</p>
                 <div>
-                    <h1 className="text-4xl font-bold">D2G Group LLC Return and Refund Policy</h1>
+                    <h1 className="text-4xl font-bold">{import.meta.env.VITE_COMPANY_NAME} Return and Refund Policy</h1>
                     <p className='!leading-7 !pb-4'>Last Updated: 1-7-2025</p>
-                    <p className='!leading-7'>Thank you for shopping with us at D2G Group LLC. Our Return and Refund Policy aims to ensure a smooth and transparent experience. Please review the guidelines below for eligibility, processes, and timelines for returns, refunds, and exchanges.</p>
+                    <p className='!leading-7'>Thank you for shopping with us at {import.meta.env.VITE_COMPANY_NAME}. Our Return and Refund Policy aims to ensure a smooth and transparent experience. Please review the guidelines below for eligibility, processes, and timelines for returns, refunds, and exchanges.</p>
                 </div>
                 <div>
                     <h2 className="!text-2xl font-semibold">Scope and Contact Information</h2>
                     <p className='!leading-7 !pb-4'>For questions regarding returns and refunds, please contact us through any of the methods below:</p>
                     <p className='flex flex-col gap-2'>
-                        <span>Email: <a href="mailto:contact@deco-bay.com" className="underline underline-offset-4">contact@deco-bay.com</a></span>
-                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">+1(484)2148789</a></span>
-                        <span>Address: 81 Commerce Drive Fall River, MA 02720</span>
+                        <span>Email: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
+                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
+                        <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
                     </p>
                 </div>
                 <div>
@@ -46,7 +46,7 @@ export default function ReturnPolicyPage() {
                     <h2 className="!text-2xl font-semibold">Return Instructions</h2>
                     <p className='!leading-7 !pb-4'>To start a return, please follow these steps:</p>
                     <ul className="!list-disc !list-inside text-gray-700 space-y-1">
-                        <li>Contact Customer Service: Email contact@deco-bay.com with your order number, reason for return, and any supporting photos if applicable.</li>
+                        <li>Contact Customer Service: Email {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL} with your order number, reason for return, and any supporting photos if applicable.</li>
                         <li>Receive Return Authorization: Our team will review your request and provide a return authorization and detailed instructions.</li>
                         <li>Return Packaging: Safely package the item, ensuring all tags and original packaging are included, and attach the return authorization form.</li>
                         <li>Shipping: Use a reliable shipping service with tracking. Return shipping free and Covered by us even the product is defective or incorrect.</li>
@@ -59,7 +59,7 @@ export default function ReturnPolicyPage() {
                         <li>Processing Time: Approved refunds will be processed to your original payment method within 5 business days. Your bank or credit card provider may require additional time to post the refund.</li>
                         <li>Confirmation: You will receive a confirmation email once the refund is processed.</li>
                     </ul>
-                    <p className='!leading-7 !pt-4'>If you do not see the refund within the expected time, please check with your bank. For further assistance, contact us at contact@deco-bay.com.</p>
+                    <p className='!leading-7 !pt-4'>If you do not see the refund within the expected time, please check with your bank. For further assistance, contact us at {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}.</p>
                 </div>
                 <div>
                     <h2 className="!text-2xl font-semibold">Exchange Policy</h2>
@@ -85,17 +85,17 @@ export default function ReturnPolicyPage() {
                     <h2 className="!text-2xl font-semibold">Return Shipping Address</h2>
                     <p className='!leading-7 !pb-4'>Please send approved returns to:</p>
                     <p className='flex flex-col gap-2'>
-                        <span>D2G Group LLC</span>
-                        <span>81 Commerce Drive Fall River, MA 02720</span>
+                        <span>{import.meta.env.VITE_COMPANY_NAME}</span>
+                        <span>{import.meta.env.VITE_COMPANY_ADDRESS}</span>
                     </p>
                 </div>
                 <div>
                     <h2 className="!text-2xl font-semibold">Contact Information</h2>
                     <p className='!leading-7 !pb-4'>If you have further questions or require assistance with returns or refunds, please reach out:</p>
                     <p className='flex flex-col gap-2'>
-                        <span>Email: <a href="mailto:contact@deco-bay.com" className="underline underline-offset-4">contact@deco-bay.com</a></span>
-                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">+1(484)2148789</a></span>
-                        <span>Address: 81 Commerce Drive Fall River, MA 02720</span>
+                        <span>Email: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
+                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
+                        <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
                     </p>
                 </div>
             </div>

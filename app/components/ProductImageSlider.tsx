@@ -73,12 +73,12 @@ export function ProductImageSlider({ images }: ProductImageSliderProps) {
       <div className="flex items-center space-x-2 lg:space-x-4 pt-2 lg:pt-4">
         <button
           onClick={goLeft}
-          className="p-2 rounded-full border hover:bg-gray-100"
+          className="p-2 rounded-full bg-[var(--color-1)]"
           aria-label="Select previous image"
           disabled={selectedIndex === 0}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" stroke='#ffffff' />
           </svg>
         </button>
         <div className="flex space-x-2 lg:space-x-4 overflow-x-auto">
@@ -105,12 +105,12 @@ export function ProductImageSlider({ images }: ProductImageSliderProps) {
         </div>
         <button
           onClick={goRight}
-          className="p-2 rounded-full border hover:bg-gray-100"
+          className="p-2 rounded-full bg-[var(--color-1)]"
           aria-label="Select next image"
           disabled={selectedIndex === images.length - 1}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" stroke='#ffffff' />
           </svg>
         </button>
       </div>

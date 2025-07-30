@@ -61,10 +61,10 @@ export default function AboutPage() {
           <h2 className="!text-2xl font-semibold text-[#2c3e50]">Contact</h2>
           <p className="text-gray-700 flex flex-col gap-2">
             <span>
-              <strong>Email:</strong> <a href="mailto:contact@deco-bay.com" className="hover:underline">contact@deco-bay.com</a><br />
+              <strong>Email:</strong> <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="hover:underline">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a><br />
               </span>
               <span>
-            <strong>Phone:</strong> <a href="tel:+14842148789" className=" hover:underline">+1(484)2148789</a><br />
+            <strong>Phone:</strong> <a href="tel:+14842148789" className=" hover:underline">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a><br />
               </span>
               <span>
             <strong>Hours:</strong> Monday to Friday, 8:00 AM – 6:00 PM (EST)
@@ -75,19 +75,19 @@ export default function AboutPage() {
           <h2 className="!text-2xl font-semibold text-[#2c3e50]">Company Details</h2>
           <p className="text-gray-700 flex flex-col gap-2">
             <span>
-            <strong>Company: </strong> D2G Group LLC<br />
+            <strong>Company: </strong> {import.meta.env.VITE_COMPANY_NAME}<br />
             </span>
             <span>  
-            <strong>Address: </strong> 81 Commerce Drive, Fall River, MA 02720, USA<br />
+            <strong>Address: </strong> {import.meta.env.VITE_COMPANY_ADDRESS}<br />
             </span>
             <span>
-            <strong>Email: </strong> <a href="mailto:contact@deco-bay.com" className="hover:underline">contact@deco-bay.com</a><br />
+            <strong>Email: </strong> <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="hover:underline">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a><br />
             </span>
             <span>
-            <strong>Phone: </strong> <a href="tel:+14842148789" className=" hover:underline">+1(484)2148789</a><br />
+            <strong>Phone: </strong> <a href="tel:+14842148789" className=" hover:underline">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a><br />
             </span>
             <span>
-            <strong>Website: </strong> <a href="https://deco-bay.com" target="_blank" rel="noopener noreferrer" className="hover:underline">deco-bay.com</a>
+            <strong>Website: </strong> <a href="{import.meta.env.VITE_DOMAIN_NAME}" target="_blank" rel="noopener noreferrer" className="hover:underline">{import.meta.env.VITE_STORE_NAME}.com</a>
             </span>
           </p>
         </div>

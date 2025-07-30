@@ -24,7 +24,7 @@ const sections = [
         answer: (
           <div className='flex flex-col gap-4'>
             <p><strong>PLEASE NOTE :</strong> We kindly ask you to check our FAQ carefully before contacting us.</p>
-            <p>If you don’t find the answer to your question, feel free to email us at <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a>"</p>
+            <p>If you don’t find the answer to your question, feel free to email us at <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a>"</p>
           </div>
         ),
       },
@@ -191,31 +191,31 @@ function FeaturedCollection({
   );
 }
 
-function RecommendedProducts({
-  products,
-}: {
-  products: Promise<RecommendedProductsQuery | null>;
-}) {
-  return (
-    <div className="recommended-products">
-      <h2>Recommended Products</h2>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={products}>
-          {(response) => (
-            <div className="recommended-products-grid">
-              {response
-                ? response.products.nodes.map((product) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
-                : null}
-            </div>
-          )}
-        </Await>
-      </Suspense>
-      <br />
-    </div>
-  );
-}
+// function RecommendedProducts({
+//   products,
+// }: {
+//   products: Promise<RecommendedProductsQuery | null>;
+// }) {
+//   return (
+//     <div className="recommended-products">
+//       <h2>Recommended Products</h2>
+//       <Suspense fallback={<div>Loading...</div>}>
+//         <Await resolve={products}>
+//           {(response) => (
+//             <div className="recommended-products-grid">
+//               {response
+//                 ? response.products.nodes.map((product) => (
+//                     <ProductItem key={product.id} product={product} />
+//                   ))
+//                 : null}
+//             </div>
+//           )}
+//         </Await>
+//       </Suspense>
+//       <br />
+//     </div>
+//   );
+// }
 
 const FEATURED_COLLECTION_QUERY = `#graphql
   fragment FeaturedCollection on Collection {
@@ -259,7 +259,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       height
     }
   }
-  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
+  query RecommendedProductsPage ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
     products(first: 4, sortKey: UPDATED_AT, reverse: true) {
       nodes {

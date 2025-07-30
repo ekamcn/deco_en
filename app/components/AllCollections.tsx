@@ -143,7 +143,6 @@ export function AllCollectionsWidget({
         }
 
         const result = await response.json() as GraphQLResponse;
-console.log(result,"result of the data")
       //  console.log('GraphQL response collection:', result);
         if (result.errors && result.errors.length > 0) {
           throw new Error(result.errors[0].message);
@@ -243,7 +242,7 @@ function CollectionItem({
       to={`/collections/${collection.handle}`}
       prefetch="intent"
     >
-      <div className="w-[100px] h-[100px] max-sm:w-[80px] max-sm:h-[80px] rounded-full bg-gray-100 border-3 border-[#9E8471] shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex items-center justify-center mb-2.5 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:transform hover:scale-105">
+      <div className="w-[100px] h-[100px] max-sm:w-[80px] max-sm:h-[80px] rounded-full bg-gray-100 border-3 border-[var(--color-1)] shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex items-center justify-center mb-2.5 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:transform hover:scale-105">
         {collection?.image && (
           <Image
             alt={collection.image.altText || collection.title}

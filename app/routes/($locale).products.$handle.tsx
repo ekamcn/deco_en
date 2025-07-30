@@ -72,7 +72,7 @@ const sections = [
         question: 'How can I contact you?',
         answer: (
           <div className='flex flex-col gap-4'>
-            <p>You can reach us by visiting our Contact Us page here or by emailing us at <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a>"</p>
+            <p>You can reach us by visiting our Contact Us page here or by emailing us at <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a>"</p>
           </div>
         ),
       }
@@ -151,10 +151,22 @@ function loadDeferredData({ context, params }: LoaderFunctionArgs) {
 }
 
 function getDeliveryDate(daysToAdd: number) {
-  const date = new Date();
-  date.setDate(date.getDate() + daysToAdd);
-  return date.toLocaleDateString('en-US', { day: '2-digit', month: 'long' });
+  const baseDate = new Date(); // Start from today
+  const date = new Date(baseDate);
+  let businessDaysAdded = 0;
+
+  while (businessDaysAdded < daysToAdd) {
+    date.setDate(date.getDate() + 1);
+    if (date.getDay() !== 0) { // Skip Sundays
+      businessDaysAdded++;
+    }
+  }
+
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${month}/${day}`;
 }
+
 
 function FeatureItem({ icon, title, desc }: { icon: string; title: string; desc: string }) {
   return (
@@ -175,7 +187,7 @@ function FeatureItem({ icon, title, desc }: { icon: string; title: string; desc:
 
 function CheckIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#9E8471" viewBox="0 0 16 16" className="mr-1">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="var(--color-1)" viewBox="0 0 16 16" className="mr-1">
       <path d="M13.854 3.646a.5.5 0 0 0-.708-.708L7 9.793 3.854 6.646a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l6.5-6.5z"></path>
     </svg>
   );
@@ -226,15 +238,15 @@ export default function Product() {
           <p className='!pb-8'><strong>Deco Bay 🇺🇸: </strong>The American Brand That Helps You Save BIG with Unbeatable Prices!</p>
           {/* Price, Date, Info */}
           <div className="flex flex-col sm:flex-row items-center sm:items-end gap-2">
-            <span className="text-2xl font-bold text-white bg-[#9E8471] px-4 py-4 rounded-lg">
+            <span className="text-2xl font-bold text-white bg-[var(--color-1)] px-4 py-4 rounded-lg">
               <ProductPrice
                 price={selectedVariant?.price}
                 compareAtPrice={selectedVariant?.compareAtPrice}
               />
             </span>
-            <span className="text-sm text-gray-700 pl-0 sm:pl-4 pb-3   ">
-              Today's Offer — {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-            </span>
+              <span className="text-sm text-gray-700 pl-0 sm:pl-4 pb-3   ">
+                Today's Offer — {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
           </div>
           {/* Stock/Offer Status */}
           <p className="font-normal mb-2 flex items-center text-sm">
@@ -250,10 +262,11 @@ export default function Product() {
       <path d="M9.72974 11.3962C9.72974 11.1201 9.95359 10.8962 10.2297 10.8962H15.2108C15.487 10.8962 15.7108 11.1201 15.7108 11.3962C15.7108 11.6724 15.487 11.8962 15.2108 11.8962H10.2297C9.95359 11.8962 9.72974 11.6724 9.72974 11.3962Z"></path>
       <path d="M10.2297 5.91517C10.5059 5.91517 10.7297 6.13902 10.7297 6.41517V8.90572C10.7297 9.18186 10.5059 9.40572 10.2297 9.40572C9.95359 9.40572 9.72974 9.18186 9.72974 8.90572V6.41517C9.72974 6.13902 9.95359 5.91517 10.2297 5.91517Z"></path>
       <path d="M13.9544 7.30685C14.1497 7.50211 14.1497 7.8187 13.9544 8.01396L12.1934 9.77505C11.9981 9.97031 11.6815 9.97031 11.4862 9.77505C11.291 9.57978 11.291 9.2632 11.4862 9.06794L13.2473 7.30685C13.4426 7.11159 13.7592 7.11159 13.9544 7.30685Z"></path></svg>
-            <span className='font-normal text-sm'>
-              Estimated Delivery Between:&nbsp;
-              <strong>{getDeliveryDate(2)}</strong> and <strong>{getDeliveryDate(7)}</strong>
-            </span>
+      <span className='font-normal text-sm'>
+  Estimated Delivery Between:&nbsp;
+  <strong> {getDeliveryDate(2)} </strong> and <strong> {getDeliveryDate(4)} </strong>
+</span>
+
           </div>
 
           {/* Product Form */}
@@ -262,13 +275,10 @@ export default function Product() {
             selectedVariant={selectedVariant}
           />
 
-          {/* <img src="https://deco-bay.com/cdn/shop/files/2025-06-24_19.05.29.jpg?v=1750784750"  alt="" /> */}
+          {/* <img src="{import.meta.env.VITE_DOMAIN_NAME}/cdn/shop/files/2025-06-24_19.05.29.jpg?v=1750784750"  alt="" /> */}
           <div className=" bg-white rounded flex items-center justify-center">
-                    <Image src='./image_one.jpg'  />
-                  </div>
-
-
-
+            <Image src='./image_one.jpg'  />
+          </div>
           {/* Feature Grid */}
           <div className="grid grid-cols-1 min-lg:grid-cols-2 gap-4 shadow-xl p-4 rounded-lg">
             <FeatureItem
@@ -299,12 +309,12 @@ export default function Product() {
           {/* Money-Back Guarantee Box */}
           {/* <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 shadow w-full max-lg:w-3/4 mx-auto"> */}
 
-          <div className="bg-[#f9f9f9] border border-gray-300 rounded-lg p-4 shadow w-full lg:w-5/6 mx-auto">
+          <div className="bg-[#f9f9f9] border border-gray-300 rounded-lg p-4 shadow-lg w-full lg:w-[350px] xl:w-[420px] mx-auto">
             <div className="flex items-center pb-6 justify-center pt-3">
-              <svg width="24" height="24" fill="none" stroke="#9E8471" strokeWidth="2" viewBox="0 0 24 24">
+              <svg width="24" height="24" fill="none" stroke="var(--color-1)" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M9 12L11 14L15 10M20 12C20 16.4611 14.54 19.6937 12.6414 20.683C12.4361 20.79 12.3334 20.8435 12.191 20.8712C12.08 20.8928 11.92 20.8928 11.809 20.8712C11.6666 20.8435 11.5639 20.79 11.3586 20.683C9.45996 19.6937 4 16.4611 4 12V8.21759C4 7.41808 4 7.01833 4.13076 6.6747C4.24627 6.37113 4.43398 6.10027 4.67766 5.88552C4.9535 5.64243 5.3278 5.50207 6.0764 5.22134L11.4382 3.21067C11.6461 3.13271 11.75 3.09373 11.857 3.07827C11.9518 3.06457 12.0482 3.06457 12.143 3.07827C12.25 3.09373 12.3539 3.13271 12.5618 3.21067L17.9236 5.22134C18.6722 5.50207 19.0465 5.64243 19.3223 5.88552C19.566 6.10027 19.7537 6.37113 19.8692 6.6747C20 7.01833 20 7.41808 20 8.21759V12Z" />
               </svg>
-              <span className="ml-2 font-bold text-[#9E8471] text-base">30-DAY MONEY-BACK GUARANTEE</span>
+              <span className="ml-2 font-bold text-[var(--color-1)] text-base">30-DAY MONEY-BACK GUARANTEE</span>
             </div>
 
             <ul className="list-none pl-0 mb-2 text-sm text-gray-700">
@@ -329,7 +339,7 @@ export default function Product() {
               <p className="font-bold text-center text-gray-800 mb-1 !pt-4">QUESTIONS?</p>
               <p className="text-start !text-sm font-normal">
                 Our customer support team is available 5 days a week:<br />
-                <a href="mailto:contact@deco-bay.com" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">contact@deco-bay.com</a><br />
+                <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a><br />
                 <a href="tel:+14842148789" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">+14842989854</a>
               </p>
             </div>
@@ -354,7 +364,7 @@ export default function Product() {
       <FaqSection sections={sections} showNewsletter />
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={data.recommendedProducts}>
-          {(response) =>
+          {(response:any) =>
             response && response.products && response.products.nodes.length > 0 ? (
               <ProductList products={response.products.nodes} />
             ) : null
