@@ -53,7 +53,7 @@ export function Footer() {
                 </div>
 
                 {/* Bullet points */}
-                <ul className="!list-disc !list-inside space-y-1 mt-2 text-base">
+                <ul className="!list-disc !list-outside pl-4 space-y-1 mt-2 text-base">
                   <li><strong>Company :</strong> {import.meta.env.VITE_COMPANY_NAME}</li>
                   <li ><strong>Address :</strong> {import.meta.env.VITE_COMPANY_ADDRESS}</li>
                   <li><strong>Mail:</strong>  <a

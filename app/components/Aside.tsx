@@ -13,6 +13,17 @@ type AsideContextValue = {
   close: () => void;
 };
 
+// Create a map to store multiple contexts
+const asideContexts = new Map<string, React.Context<AsideContextValue | null>>();
+
+// Get or create a context for a specific ID
+function getAsideContext(contextId: string) {
+  if (!asideContexts.has(contextId)) {
+    asideContexts.set(contextId, createContext<AsideContextValue | null>(null));
+  }
+  return asideContexts.get(contextId)!;
+}
+
 /**
  * A side bar component with Overlay
  * @example
@@ -27,12 +38,14 @@ export function Aside({
   children,
   heading,
   type,
+  contextId = 'default',
 }: {
   children?: React.ReactNode;
   type: AsideType;
   heading: React.ReactNode;
+  contextId?: string;
 }) {
-  const { type: activeType, close } = useAside();
+  const { type: activeType, close } = useAside(contextId);
   const expanded = type === activeType;
 
   useEffect(() => {
@@ -74,10 +87,15 @@ export function Aside({
   );
 }
 
-const AsideContext = createContext<AsideContextValue | null>(null);
-
-Aside.Provider = function AsideProvider({ children }: { children: ReactNode }) {
+Aside.Provider = function AsideProvider({ 
+  children, 
+  contextId = 'default' 
+}: { 
+  children: ReactNode;
+  contextId?: string;
+}) {
   const [type, setType] = useState<AsideType>('closed');
+  const AsideContext = getAsideContext(contextId);
 
   return (
     <AsideContext.Provider
@@ -92,10 +110,12 @@ Aside.Provider = function AsideProvider({ children }: { children: ReactNode }) {
   );
 };
 
-export function useAside() {
+export function useAside(contextId: string = 'default') {
+  const AsideContext = getAsideContext(contextId);
   const aside = useContext(AsideContext);
   if (!aside) {
-    throw new Error('useAside must be used within an AsideProvider');
+    throw new Error(`useAside must be used within an AsideProvider with contextId: ${contextId}`);
   }
   return aside;
 }
+

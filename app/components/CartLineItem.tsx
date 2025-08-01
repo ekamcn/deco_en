@@ -23,7 +23,7 @@ export function CartLineItem({
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
-  const {close} = useAside();
+  const {close} = useAside('header');
 
   return (
     <li key={id} className="cart-line">

@@ -1,13 +1,13 @@
-import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link, type MetaFunction} from 'react-router';
-import {Suspense} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
+import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { Await, useLoaderData, Link, type MetaFunction } from 'react-router';
+import { Suspense } from 'react';
+import { Image, Money } from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
-import {ProductItem} from '~/components/ProductItem';
-import {ImageBanner} from '~/components/ImageBanner';
+import { ProductItem } from '~/components/ProductItem';
+import { ImageBanner } from '~/components/ImageBanner';
 import { AllProductsWidget } from '~/components/AllProductsWidget';
 import { AllCollectionsWidgetSimple } from '~/components/AllCollections';
 import { CollectionByHandle } from '~/components/GetCollectionByHandle';
@@ -34,7 +34,7 @@ const sections = [
           <div className='flex flex-col gap-4'>
             <p>We accept a variety of payment methods, including Visa and MasterCard.</p>
             <p>All transactions are securely processed and encrypted to ensure your peace of mind.</p>
-           
+
           </div>
         ),
       },
@@ -53,7 +53,7 @@ const sections = [
           <div className='flex flex-col gap-4'>
             <p>We offer a flexible return policy. If you’re not satisfied with your purchase, please contact us within 30 days of receiving your order to arrange a return or exchange.</p>
             <p>For full details, please visit our Returns Policy page.</p>
-           
+
           </div>
         ),
       }
@@ -63,7 +63,7 @@ const sections = [
 
 
 export const meta: MetaFunction = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{ title: 'Hydrogen | Home' }];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -73,15 +73,15 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return {...deferredData, ...criticalData};
+  return { ...deferredData, ...criticalData };
 }
 
 /**
  * Load data necessary for rendering content above the fold. This is the critical data
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
-async function loadCriticalData({context}: LoaderFunctionArgs) {
-  const [{collections}] = await Promise.all([
+async function loadCriticalData({ context }: LoaderFunctionArgs) {
+  const [{ collections }] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
     // Add other queries here, so that they are loaded in parallel
   ]);
@@ -96,7 +96,7 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData({context}: LoaderFunctionArgs) {
+function loadDeferredData({ context }: LoaderFunctionArgs) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
     .catch((error) => {
@@ -114,54 +114,54 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home">
- 
-         <ImageBanner 
+
+      <ImageBanner
         title="Deco Bay"
-        imageUrl = {`${import.meta.env.VITE_BANNER}`}
+        imageUrl={`/logo?imagename=VITE_BANNER`}
         subtitle="Welcome to Deco Bay, a proudly American brand committed to transforming your home with style, quality, and unbeatable value."
         description="Founded by a team of passionate home decor enthusiasts, our mission is simple: to make your living space more beautiful, more functional, and above all — more accessible for everyone."
         buttonText="Shop Now"
         buttonUrl=""
       />
 
-        <CollectionByHandle 
-          handle="offre-flash"
-          title="offer flash"
-          limit={6}
-          columnSize="6"
-          badgeText="Flash Sale"
-          showTitle={true}
-          showDescription={false}
-          className="featured-collection"
-        />
+      <CollectionByHandle
+        handle="offre-flash"
+        title="offer flash"
+        limit={6}
+        columnSize="6"
+        badgeText="Flash Sale"
+        showTitle={true}
+        showDescription={false}
+        className="featured-collection"
+      />
 
-        <CollectionByHandle 
-          handle="derniere-chance"
-          title="derniere chance"
-          limit={20}
-          columnSize="4"
-          badgeText="Last Chance"
-          showTitle={true}
-          showDescription={false}
-          className="featured-collection"
-        />
+      <CollectionByHandle
+        handle="derniere-chance"
+        title="derniere chance"
+        limit={20}
+        columnSize="4"
+        badgeText="Last Chance"
+        showTitle={true}
+        showDescription={false}
+        className="featured-collection"
+      />
 
-             
-            <AllCollectionsWidgetSimple />
-             {/* <AllProductsWidget limit={8} /> */}
 
-     <CollectionByHandle 
-          handle="tout-a-moins-de-20"
-          title="tout a moins de 20"
-          limit={20}
-          columnSize="5"
-          showTitle={true}
-          badgeText=""
-          showDescription={false}
-          className="featured-collection"
-        />
+      <AllCollectionsWidgetSimple />
+      {/* <AllProductsWidget limit={8} /> */}
 
-<FaqSection sections={sections} showNewsletter rounded/>
+      <CollectionByHandle
+        handle="tout-a-moins-de-20"
+        title="tout a moins de 20"
+        limit={20}
+        columnSize="5"
+        showTitle={true}
+        badgeText=""
+        showDescription={false}
+        className="featured-collection"
+      />
+
+      <FaqSection sections={sections} showNewsletter rounded />
 
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}

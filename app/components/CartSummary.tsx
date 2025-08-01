@@ -133,7 +133,7 @@ function CartCheckoutActions({
   const s3Param = encodeURIComponent(s3Arr.join(','));
   const s4Param = encodeURIComponent(s4Arr.join(','));
 
-  const url = `${checkoutBaseUrl}?s1=${window.location.origin}/logo&s2=${s2Param}&s3=${s3Param}&s4=${s4Param}&c1=custom1&c2=custom2&c3=custom3&c4=&c5=&c6=&affId=${finalAffId}`;
+  const url = `${checkoutBaseUrl}?s1=${window.location.origin}/logo?imagename=VITE_SQUARE_LOGO&s2=${s2Param}&s3=${s3Param}&s4=${s4Param}&c1=custom1&c2=custom2&c3=custom3&c4=&c5=&c6=&affId=${finalAffId}`;
 
   return (
     <div>

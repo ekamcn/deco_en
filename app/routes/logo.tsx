@@ -1,7 +1,13 @@
 import type { LoaderFunction } from '@shopify/remix-oxygen';
 
-export const loader: LoaderFunction = async ({ context }: any) => {
-  let base64 = context.env.VITE_SQUARE_LOGO;
+export const loader: LoaderFunction = async ({ request, context }: any) => {
+  const url = new URL(request.url);
+  const queryParams = url.searchParams;
+  const someParam: any = queryParams.get('imagename');
+  if (!someParam) {
+    return new Response('Image name not found', { status: 404 });
+  }
+  let base64 = context.env[someParam];
 
   if (!base64) {
     return new Response('Image not found', { status: 404 });

@@ -42,7 +42,7 @@ type SearchResultsPredictiveProps = {
 export function SearchResultsPredictive({
   children,
 }: SearchResultsPredictiveProps) {
-  const aside = useAside();
+  const aside = useAside('header');
   const {term, inputRef, fetcher, total, items} = usePredictiveSearch();
 
   /*

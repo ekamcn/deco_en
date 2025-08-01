@@ -1,5 +1,5 @@
-import { Suspense, useState, useEffect } from 'react';
-import { Await, NavLink, useAsyncValue } from 'react-router';
+import { Suspense, useState, useEffect, useRef } from 'react';
+import { Await, NavLink, useAsyncValue, useLocation } from 'react-router';
 import {
   type CartViewPayload,
   Image,
@@ -71,7 +71,7 @@ export function Header({
   publicStoreDomain,
 }: HeaderProps) {
   const { shop, menu } = header;
-  const logo = import.meta.env.VITE_LOGO;
+  const logo = "/logo?imagename=VITE_LOGO";
 
   return (
     <>
@@ -122,19 +122,19 @@ export function Header({
       </header>
       {/* Marquee Animation Style */}
       <style>{`
-  .animate-marquee {
+ .animate-marquee {
  display: flex;
  animation: marquee 150s linear infinite;
-  }
+ }
 
-  @keyframes marquee {
-    0% {
+ @keyframes marquee {
+ 0% {
  transform: translateX(100%);
-    }
-    100% {
+ }
+ 100% {
  transform: translateX(-100%);
-    }
-  }
+ }
+ }
 `}</style>
     </>
   );
@@ -143,17 +143,18 @@ export function Header({
 // Transform menu object to the desired structure
 function transformMenuToHTML(menu: any, collections: any) {
   // Get collections data from the query
-  const collectionsData = collections?.edges?.map((edge: any) => ({
-    id: edge.node.handle,
-    href: `/collections/${edge.node.handle}`,
-    title: edge.node.title
-  })) || [];
+  const collectionsData =
+    collections?.edges?.map((edge: any) => ({
+      id: edge.node.handle,
+      href: `/collections/${edge.node.handle}`,
+      title: edge.node.title,
+    })) || [];
 
   // Map the original menu items to our desired structure
   const baseItems = menu?.items || [];
 
   const transformedMenu = {
-    className: "header__inline-menu",
+    className: 'header__inline-menu',
     items: [
       // Always add Home as first item
       {
@@ -162,7 +163,8 @@ function transformMenuToHTML(menu: any, collections: any) {
         href: '/',
         title: 'Home',
         isActive: true,
-        className: 'header__menu-item list-menu__item link link--text focus-inset'
+        className:
+          'header__menu-item list-menu__item link link--text focus-inset',
       },
       // Add collections dropdown
       {
@@ -170,7 +172,7 @@ function transformMenuToHTML(menu: any, collections: any) {
         type: 'dropdown' as const,
         title: 'Our Collections',
         className: 'header__menu-item list-menu__item link focus-inset',
-        submenu: collectionsData
+        submenu: collectionsData,
       },
       // Add static menu items
       {
@@ -178,22 +180,32 @@ function transformMenuToHTML(menu: any, collections: any) {
         type: 'simple' as const,
         href: '/about',
         title: 'About Us',
-        className: 'header__menu-item list-menu__item link link--text focus-inset'
+        className:
+          'header__menu-item list-menu__item link link--text focus-inset',
       },
       {
         id: 'faq',
         type: 'simple' as const,
         href: '/faq',
         title: 'FAQ',
-        className: 'header__menu-item list-menu__item link link--text focus-inset'
+        className:
+          'header__menu-item list-menu__item link link--text focus-inset',
       },
       // Transform original menu items (except catalog which becomes dropdown)
       ...baseItems
-        .filter((item: any) => item.type !== 'CATALOG' && item.type !== 'FRONTPAGE' && !item.title.toLowerCase().includes('catalogue'))
+        .filter(
+          (item: any) =>
+            item.type !== 'CATALOG' &&
+            item.type !== 'FRONTPAGE' &&
+            !item.title.toLowerCase().includes('catalogue'),
+        )
         .map((item: any) => {
           // Convert URL to relative path
           let href = item.url;
-          if (href && (href.includes('myshopify.com') || href.includes('http'))) {
+          if (
+            href &&
+            (href.includes('myshopify.com') || href.includes('http'))
+          ) {
             try {
               href = new URL(item.url).pathname;
             } catch {
@@ -206,10 +218,11 @@ function transformMenuToHTML(menu: any, collections: any) {
             type: 'simple' as const,
             href: '/contact',
             title: 'Contact',
-            className: 'header__menu-item list-menu__item link link--text focus-inset'
+            className:
+              'header__menu-item list-menu__item link link--text focus-inset',
           };
-        })
-    ]
+        }),
+    ],
   };
 
   return transformedMenu;
@@ -227,11 +240,15 @@ export function HeaderMenu({
   publicStoreDomain: HeaderProps['publicStoreDomain'];
 }) {
   const className = `header-menu-${viewport}`;
-  const { close } = useAside();
+  const { close } = useAside('header');
+  const location = useLocation();
 
   // State for dynamic collections fetching
   const [collections, setCollections] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  // Refs for click outside detection
+  const dropdownRefs = useRef<{ [key: string]: HTMLDetailsElement | null }>({});
 
   // Fetch collections dynamically
   useEffect(() => {
@@ -257,7 +274,7 @@ export function HeaderMenu({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const result = await response.json() as GraphQLResponse;
+        const result = (await response.json()) as GraphQLResponse;
 
         if (result.errors && result.errors.length > 0) {
           throw new Error(result.errors[0].message);
@@ -279,9 +296,40 @@ export function HeaderMenu({
     fetchCollections();
   }, []);
 
+  // Handle click outside to close dropdowns
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      Object.values(dropdownRefs.current).forEach((dropdownRef) => {
+        if (
+          dropdownRef &&
+          dropdownRef.open &&
+          !dropdownRef.contains(event.target as Node)
+        ) {
+          dropdownRef.open = false;
+        }
+      });
+    }
+
+    // Add event listener when any dropdown might be open
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  // Close dropdowns on route change
+  useEffect(() => {
+    Object.values(dropdownRefs.current).forEach((dropdownRef) => {
+      if (dropdownRef && dropdownRef.open) {
+        dropdownRef.open = false;
+      }
+    });
+  }, [location.pathname]);
   // Transform the menu for desktop view
   if (viewport === 'desktop') {
-    const transformedMenu = transformMenuToHTML(menu || FALLBACK_HEADER_MENU, collections);
+    const transformedMenu = transformMenuToHTML(
+      menu || FALLBACK_HEADER_MENU,
+      collections,
+    );
 
     return (
       <nav className="header__inline-menu max-sm:!hidden">
@@ -297,7 +345,9 @@ export function HeaderMenu({
                     onClick={close}
                     prefetch="intent"
                   >
-                    <span className={`${item.isActive ? 'header__active-menu-item ' : ''}`}>
+                    <span
+                      className={`${item.isActive ? 'header__active-menu-item ' : ''}`}
+                    >
                       {item.title}
                     </span>
                   </NavLink>
@@ -307,7 +357,13 @@ export function HeaderMenu({
               return (
                 <li key={item.id}>
                   <div className="header-menu-dropdown">
-                    <details id={`Details-HeaderMenu-${item.id}`} className="header-details-parent">
+                    <details
+                      id={`Details-HeaderMenu-${item.id}`}
+                      className="header-details-parent"
+                      ref={(el) => {
+                        dropdownRefs.current[item.id] = el;
+                      }}
+                    >
                       <summary
                         className={item.className}
                         role="button"
@@ -339,18 +395,24 @@ export function HeaderMenu({
                         className="header__submenu color-scheme-1 gradient gradient first-header__submenu list-menu list-menu--disclosure gradient caption-large motion-reduce global-settings-popup"
                         tabIndex={-1}
                       >
-                        {item.submenu?.map((subItem: { id: string; href: string; title: string }) => (
-                          <li key={subItem.id}>
-                            <NavLink
-                              to={subItem.href}
-                              className="header__menu-item list-menu__item link link--text focus-inset caption-large "
-                              onClick={close}
-                              prefetch="intent"
-                            >
-                              {subItem.title}
-                            </NavLink>
-                          </li>
-                        ))}
+                        {item.submenu?.map(
+                          (subItem: {
+                            id: string;
+                            href: string;
+                            title: string;
+                          }) => (
+                            <li key={subItem.id}>
+                              <NavLink
+                                to={subItem.href}
+                                className="header__menu-item list-menu__item link link--text focus-inset caption-large "
+                                onClick={close}
+                                prefetch="intent"
+                              >
+                                {subItem.title}
+                              </NavLink>
+                            </li>
+                          ),
+                        )}
                       </ul>
                     </details>
                   </div>
@@ -365,10 +427,16 @@ export function HeaderMenu({
   }
 
   // Mobile menu with same transformed structure as desktop
-  const transformedMenu = transformMenuToHTML(menu || FALLBACK_HEADER_MENU, collections);
+  const transformedMenu = transformMenuToHTML(
+    menu || FALLBACK_HEADER_MENU,
+    collections,
+  );
 
   return (
-    <nav className={`${className} flex flex-col space-y-2 p-4`} role="navigation">
+    <nav
+      className={`${className} flex flex-col space-y-2 p-4`}
+      role="navigation"
+    >
       {transformedMenu.items.map((item) => {
         if (item.type === 'simple') {
           return (
@@ -396,21 +464,28 @@ export function HeaderMenu({
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </summary>
                 <div className="mt-2 ml-4 space-y-1">
-                  {item.submenu?.map((subItem: { id: string; href: string; title: string }) => (
-                    <NavLink
-                      key={subItem.id}
-                      to={subItem.href}
-                      className="block py-2 px-3 text-sm text-gray-600 rounded-md hover:bg-gray-50 transition-colors"
-                      onClick={close}
-                      prefetch="intent"
-                    >
-                      {subItem.title}
-                    </NavLink>
-                  ))}
+                  {item.submenu?.map(
+                    (subItem: { id: string; href: string; title: string }) => (
+                      <NavLink
+                        key={subItem.id}
+                        to={subItem.href}
+                        className="block py-2 px-3 text-sm text-gray-600 rounded-md hover:bg-gray-50 transition-colors"
+                        onClick={close}
+                        prefetch="intent"
+                      >
+                        {subItem.title}
+                      </NavLink>
+                    ),
+                  )}
                 </div>
               </details>
             </div>
@@ -430,12 +505,12 @@ function HeaderCtas({
     <nav className="header-ctas flex items-center !gap-2" role="navigation">
       {/* <HeaderMenuMobileToggle /> */}
       {/* <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <Suspense fallback="Sign in">
-          <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-          </Await>
-        </Suspense>
-      </NavLink> */}
+ <Suspense fallback="Sign in">
+ <Await resolve={isLoggedIn} errorElement="Sign in">
+ {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
+ </Await>
+ </Suspense>
+ </NavLink> */}
       {/* <SearchToggle /> */}
       <CartToggle cart={cart} />
     </nav>
@@ -443,7 +518,7 @@ function HeaderCtas({
 }
 
 function HeaderMenuMobileToggle() {
-  const { open } = useAside();
+  const { open } = useAside('header');
   return (
     <button
       className="header-menu-mobile-toggle reset"
@@ -455,7 +530,7 @@ function HeaderMenuMobileToggle() {
 }
 
 function SearchToggle() {
-  const { open } = useAside();
+  const { open } = useAside('header');
   return (
     <button className="reset" onClick={() => open('search')}>
       Search
@@ -464,7 +539,7 @@ function SearchToggle() {
 }
 
 function CartBadge({ count }: { count: number | null }) {
-  const { open } = useAside();
+  const { open } = useAside('header');
   const { publish, shop, cart, prevCart } = useAnalytics();
 
   return (
@@ -577,3 +652,4 @@ function activeLinkStyle({
     color: isPending ? 'grey' : 'black',
   };
 }
+

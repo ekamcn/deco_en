@@ -704,6 +704,9 @@ export type StoreCollectionsQuery = {
 export type GetCursorsQueryVariables = StorefrontAPI.Exact<{
   first: StorefrontAPI.Scalars['Int']['input'];
   after?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+  query?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+  sortKey?: StorefrontAPI.InputMaybe<StorefrontAPI.ProductSortKeys>;
+  reverse?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Boolean']['input']>;
 }>;
 
 export type GetCursorsQuery = {
@@ -734,6 +737,9 @@ export type ProductFragmentFragment = Pick<
 export type ProductListQueryVariables = StorefrontAPI.Exact<{
   first?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
   after?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+  query?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+  sortKey?: StorefrontAPI.InputMaybe<StorefrontAPI.ProductSortKeys>;
+  reverse?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Boolean']['input']>;
 }>;
 
 export type ProductListQuery = {
@@ -1395,11 +1401,11 @@ interface GeneratedQueryTypes {
     return: StoreCollectionsQuery;
     variables: StoreCollectionsQueryVariables;
   };
-  '#graphql\n  query GetCursors($first: Int!, $after: String) {\n    products(first: $first, after: $after) {\n      edges {\n        cursor\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n  }\n': {
+  '#graphql\n  query GetCursors($first: Int!, $after: String, $query: String, $sortKey: ProductSortKeys, $reverse: Boolean) {\n    products(first: $first, after: $after, query: $query, sortKey: $sortKey, reverse: $reverse) {\n      edges {\n        cursor\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n  }\n': {
     return: GetCursorsQuery;
     variables: GetCursorsQueryVariables;
   };
-  '#graphql\n  fragment MoneyFragment on MoneyV2 {\n    amount\n    currencyCode\n  }\n \n  fragment ProductFragment on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyFragment\n      }\n      maxVariantPrice {\n        ...MoneyFragment\n      }\n    }\n  }\n \n  query ProductList($first: Int, $after: String) {\n    products(first: $first, after: $after) {\n      nodes {\n        ...ProductFragment\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n  }\n': {
+  '#graphql\n  fragment MoneyFragment on MoneyV2 {\n    amount\n    currencyCode\n  }\n \n  fragment ProductFragment on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyFragment\n      }\n      maxVariantPrice {\n        ...MoneyFragment\n      }\n    }\n  }\n \n  query ProductList($first: Int, $after: String, $query: String, $sortKey: ProductSortKeys, $reverse: Boolean) {\n    products(first: $first, after: $after, query: $query, sortKey: $sortKey, reverse: $reverse) {\n      nodes {\n        ...ProductFragment\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n  }\n': {
     return: ProductListQuery;
     variables: ProductListQueryVariables;
   };

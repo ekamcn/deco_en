@@ -51,7 +51,7 @@ function CartEmpty({
   hidden: boolean;
   layout?: CartMainProps['layout'];
 }) {
-  const {close} = useAside();
+  const {close} = useAside('header');
   return (
     <div
       hidden={hidden}

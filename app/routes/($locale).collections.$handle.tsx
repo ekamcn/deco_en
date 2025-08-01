@@ -258,6 +258,7 @@ export default function Collection() {
           <CollectionFilters
             totalProducts={totalProducts}
             filters={filters}
+            featured
             onChangeFilters={updateFilters}
             sortBy={sortBy}
             onChangeSortBy={updateSort}
