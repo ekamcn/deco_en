@@ -117,7 +117,7 @@ export default function Homepage() {
 
       <ImageBanner
         title="Deco Bay"
-        imageUrl={`/logo?imagename=VITE_BANNER`}
+        imageUrl={import.meta.env.VITE_BANNER}
         subtitle="Welcome to Deco Bay, a proudly American brand committed to transforming your home with style, quality, and unbeatable value."
         description="Founded by a team of passionate home decor enthusiasts, our mission is simple: to make your living space more beautiful, more functional, and above all — more accessible for everyone."
         buttonText="Shop Now"

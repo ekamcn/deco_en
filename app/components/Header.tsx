@@ -71,8 +71,7 @@ export function Header({
   publicStoreDomain,
 }: HeaderProps) {
   const { shop, menu } = header;
-  const logo = "/logo?imagename=VITE_LOGO";
-
+  const logo = import.meta.env.VITE_LOGO;
   return (
     <>
       {/* Top Marquee Bar */}

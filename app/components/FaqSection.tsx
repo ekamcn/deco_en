@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface Faq {
     question: string;
@@ -30,7 +30,6 @@ function CheckIcon() {
         </svg>
     );
 }
-
 function CaretIcon() {
     return (
         <svg
@@ -59,6 +58,19 @@ export default function FaqSection({
     showNewsletter = false,
     rounded,
 }: FaqSectionProps) {
+    const [isNewsletterSubmitted, setIsNewsletterSubmitted] = useState(false);
+
+    const handleNewsletterSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsNewsletterSubmitted(true);
+
+        // Reset form after submission
+        const form = e.target as HTMLFormElement;
+        form.reset();
+
+        // Success message will persist until page reload
+    };
+
     return (
         <section className="relative bg-[var(--color-2)] text-white my-20">
             {/* Top Wave */}
@@ -71,7 +83,7 @@ export default function FaqSection({
                     >
                         <path
                             d="M0,11L120,25.7C240,40,480,70,720,67.8C960,66,1200,33,1440,16.5V110H0Z"
-                             fill="var(--color-2)"
+                            fill="var(--color-2)"
                         />
                     </svg>
                 </div>
@@ -101,16 +113,19 @@ export default function FaqSection({
                         </div>
                     </div>
                 ))}
-
                 {showNewsletter && (
-                    <div className="text-center mt-8">
-                        <h3 className="text-2xl font-bold">Subscribe to Our Newsletter</h3>
-                        <p className="text-sm text-[var(--color-2)] mt-1 mb-4">
-                            Be the first to know about our new product launches and exclusive
-                            promotions!
+                    <div className="text-center mt-8 px-4 sm:px-6">
+                        <h3 className="text-2xl sm:text-3xl font-bold">Subscribe to Our Newsletter</h3>
+                        <p className="text-sm sm:text-base text-[var(--color-2)] mt-1 mb-4">
+                            Be the first to know about our new product launches and exclusive promotions!
                         </p>
-                        <form className="max-w-md mx-auto relative mt-2">
+
+                        <form
+                            onSubmit={handleNewsletterSubmit}
+                            className="w-full max-w-md mx-auto relative mt-2"
+                        >
                             <input
+                                required
                                 type="email"
                                 placeholder="Email"
                                 className="w-full px-4 py-3 border-2 !rounded-full !border-white text-white placeholder-white bg-[var(--color-2)] focus:outline-none focus:ring-2 focus:ring-white"
@@ -121,7 +136,7 @@ export default function FaqSection({
                                 aria-label="Subscribe"
                             >
                                 <svg
-                                    className="w-4 h-4"
+                                    className="w-4 h-4 sm:w-5 sm:h-5"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -135,6 +150,31 @@ export default function FaqSection({
                                 </svg>
                             </button>
                         </form>
+                        {isNewsletterSubmitted && (
+                            <div className="w-full max-w-md mx-auto mt-2 px-2 sm:px-0 text-left lg:px-6 md:px-6">
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                    <svg
+                                        aria-hidden="true"
+                                        focusable="false"
+                                        role="presentation"
+                                        className="icon icon-success flex-shrink-0 w-4 h-4"
+                                        viewBox="0 0 13 13"
+                                    >
+                                        <path
+                                            d="M6.5 12.35C9.73087 12.35 12.35 9.73086 12.35 6.5C12.35 3.26913 9.73087 0.65 6.5 0.65C3.26913 0.65 0.65 3.26913 0.65 6.5C0.65 9.73086 3.26913 12.35 6.5 12.35Z"
+                                            fill="#428445"
+                                            stroke="white"
+                                            strokeWidth="0.7"
+                                        ></path>
+                                        <path d="M5.53271 8.66357L9.25213 4.68197" stroke="white"></path>
+                                        <path d="M4.10645 6.7688L6.13766 8.62553" stroke="white"></path>
+                                    </svg>
+                                    <span className="font-semibold text-sm text-white">
+                                        Thanks for subscribing
+                                    </span>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

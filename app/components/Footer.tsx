@@ -1,9 +1,21 @@
 import { Image } from '@shopify/hydrogen';
 import { Link } from 'react-router';
 import CardSection from './CardSection';
+import { useState } from 'react';
 
 
 export function Footer() {
+  const [isFooterNewsletterSubmitted, setIsFooterNewsletterSubmitted] = useState(false);
+
+    const handleFooterNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsFooterNewsletterSubmitted(true);
+  
+    const form = e.target as HTMLFormElement;
+    form.reset();
+  
+  };
+
   return (
     <footer>
       <CardSection />
@@ -12,16 +24,16 @@ export function Footer() {
       </svg>
 
       <div className="footer text-white">
-        <div className="container mx-auto px-4 py-12 lg:py-16">
+        <div className="container mx-auto px-10 py-12 lg:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {/* About Us */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">About Us</h3>
+              <h3 className="text-base lg:text-lg font-semibold mb-4">About Us</h3>
               <div className='flex flex-col gap-4'>
-                <p className="text-sm leading-relaxed w-3/4">
+                <p className="text-sm leading-relaxed">
                   Welcome to Deco Bay, a proudly American brand dedicated to transforming your living space with style, quality, and great value.
                 </p>
-                <p className="text-sm leading-relaxed w-3/4">
+                <p className="text-sm leading-relaxed ">
                   Founded by a team passionate about home decor, our mission is simple: to make your space more beautiful, more functional, and most importantly — more accessible to everyone.
                 </p>
               </div>
@@ -29,7 +41,7 @@ export function Footer() {
 
             {/* Contact */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
+              <h3 className="text-base lg:text-lg font-semibold mb-4">Contact</h3>
               <div className="space-y-4 text-sm">
                 {/* First line */}
                 <div>
@@ -53,19 +65,18 @@ export function Footer() {
                 </div>
 
                 {/* Bullet points */}
-                <ul className="!list-disc !list-outside pl-4 space-y-1 mt-2 text-base">
-                  <li><strong>Company :</strong> {import.meta.env.VITE_COMPANY_NAME}</li>
-                  <li ><strong>Address :</strong> {import.meta.env.VITE_COMPANY_ADDRESS}</li>
-                  <li><strong>Mail:</strong>  <a
+                <ul className="!list-disc !list-outside !pl-5 space-y-1 mt-2 text-sm sm:text-base">
+                  <li className="break-words"><strong>Company:</strong> {import.meta.env.VITE_COMPANY_NAME}</li>
+                  <li className="break-words"><strong>Address:</strong> {import.meta.env.VITE_COMPANY_ADDRESS}</li>
+                  <li className="break-words"><strong>Mail:</strong> <a
                     href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}"
-                    className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4"
-
+                    className="hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4 break-all"
                   >
                     {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
-                  </a>.</li>
-                  <li><strong>Tel:</strong>  <a
+                  </a></li>
+                  <li><strong>Tel:</strong> <a
                     href="tel:+14842148789"
-                    className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4"
+                    className="hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4"
                   >
                     +14842148789
                   </a></li>
@@ -74,9 +85,9 @@ export function Footer() {
             </div>
 
             {/* Useful Links Section */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white mb-4">Useful Links</h3>
-              <nav className="space-y-3">
+            <div className="space-y-4 lg:space-y-3">
+              <h3 className="text-base lg:text-lg font-semibold text-white mb-4">Useful Links</h3>
+              <nav className="space-y-6 lg:space-y-3">
                 <Link
                   to="/contact"
                   className="block !text-white  transition-colors text-sm hover:underline hover:underline-white"
@@ -91,7 +102,7 @@ export function Footer() {
                 </Link>
                 <div className=" border-gray-700">
 
-                  <div className="space-y-3">
+                  <div className="space-y-6 lg:space-y-3">
                     <Link
                       to="/about"
                       className="block !text-white transition-colors text-sm"
@@ -133,14 +144,14 @@ export function Footer() {
               </nav>
             </div>
 
-            {/* Sign Up for Our Emails Section */}
+            {/* Sign Up for Our Emails Section */} 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white mb-4">Sign Up for Our Emails</h3>
+              <h3 className="text-base lg:text-lg font-semibold text-white mb-4">Sign Up for Our Emails</h3>
 
               <div className="space-y-3">
                 <div>
-                  <h4 className="text-white font-medium mb-2">Need Help or Have Questions?</h4>
-                  <p className="!text-white text-sm">
+                  <h4 className="text-white font-medium text-sm lg:text-base mb-2">Need Help or Have Questions?</h4>
+                  <p className="!text-white text-sm lg:text-base">
                     Our team is here to assist you! Just send us an email at{' '}
                     <a
                       href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}"
@@ -151,32 +162,47 @@ export function Footer() {
                   </p>
                 </div>
 
-                <form className="space-y-3">
-                  <div className="relative">
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      className="w-full px-4 py-3 bg-[var(--color-2)] border !border-white text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all !rounded-full"
-                    />
-                    <button
-                      type="submit"
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2  text-white p-2 rounded-md transition-colors"
-                      aria-label="Subscribe"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                <form onSubmit={handleFooterNewsletterSubmit} className="space-y-3">
+                  <div>
+                    <div className="relative">
+                      <input
+                        required
+                        type="email"
+                        placeholder="Email"
+                        className="w-full px-4 py-3 bg-[var(--color-2)] border !border-white text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all !rounded-full"
+                      />
+                      <button
+                        type="submit"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2  text-white p-2 rounded-md transition-colors"
+                        aria-label="Subscribe"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    {isFooterNewsletterSubmitted && (
+                      <div className="w-full mt-3 text-center sm:text-left">
+                        <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3">
+                          <svg aria-hidden="true" focusable="false" role="presentation" className="icon icon-success flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 13 13">
+                            <path d="M6.5 12.35C9.73087 12.35 12.35 9.73086 12.35 6.5C12.35 3.26913 9.73087 0.65 6.5 0.65C3.26913 0.65 0.65 3.26913 0.65 6.5C0.65 9.73086 3.26913 12.35 6.5 12.35Z" fill="#428445" stroke="white" strokeWidth="0.7"></path>
+                            <path d="M5.53271 8.66357L9.25213 4.68197" stroke="white"></path>
+                            <path d="M4.10645 6.7688L6.13766 8.62553" stroke="white"></path>
+                          </svg>
+                          <span className="font-semibold text-sm sm:text-base text-white">Thanks for subscribing</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </form>
               </div>
@@ -203,10 +229,7 @@ export function Footer() {
                   </div>
                 </div>
                 <br />
-
               </div>
-
-
             </div>
             {/* Copyright */}
             <div className="text-center mt-4">

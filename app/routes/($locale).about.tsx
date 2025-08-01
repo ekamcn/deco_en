@@ -2,10 +2,10 @@ import React from 'react';
 
 export default function AboutPage() {
   return (
-    <div className="bg-white min-h-screen py-12 !pl-5">
+    <div className="bg-white min-h-screen py-12 !px-5">
         <div className="max-w-7xl mx-auto flex flex-col gap-10 tracking-wider">
         <p className='!text-3xl font-bold'>About Us</p>
-        <div>
+        <div className='flex flex-col'>
           <h1 className="text-4xl font-bold text-[#2c3e50]">Welcome to Deco Bay</h1>
           <p className="text-lg text-gray-700"><strong>Deco Bay</strong> is a home décor brand committed to transforming your space with style, quality, and affordability. Founded by a team passionate about interior design, our mission is simple: to make your home more beautiful, functional, and accessible to everyone.</p>
         </div>
