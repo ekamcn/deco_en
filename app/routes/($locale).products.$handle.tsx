@@ -294,7 +294,7 @@ export default function Product() {
   const data = useLoaderData<typeof loader>();
   return (
     <div>
-      <div className="product flex flex-col md:flex-row gap-4 mx-auto max-w-7xl p-4 ">
+      <div className="product flex flex-col md:flex-row gap-4 mx-auto max-w-7xl p-4">
         <div className="flex flex-col items-center">
           <div className="sticky top-8">
             <ProductImageSlider

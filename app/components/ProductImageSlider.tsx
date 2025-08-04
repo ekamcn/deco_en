@@ -66,14 +66,18 @@ export function ProductImageSlider({ images }: ProductImageSliderProps) {
         <img
           src={images[selectedIndex].url}
           alt={images[selectedIndex].altText || `Product image ${selectedIndex + 1}`}
-          className="rounded-lg object-contain max-h-[300px] max-w-[300px] lg:max-h-[500px] lg:max-w-[500px] w-auto mx-auto"
+          className="rounded-lg object-contain max-h-[300px] max-w-[300px] lg:max-h-[500px] lg:max-w-[500px] w-auto h-auto"
         />
       </div>
       {/* Slider Controls and Thumbnails */}
       <div className="flex items-center space-x-2 lg:space-x-4 pt-2 lg:pt-4">
         <button
           onClick={goLeft}
-          className="p-2 rounded-full bg-[var(--color-1)]"
+          className={`p-2 rounded-full cursor-pointer transition-all ${
+            selectedIndex === 0 
+              ? 'bg-[var(--color-1)] cursor-not-allowed opacity-70' 
+              : 'bg-[var(--color-1)] hover:bg-[var(--color-1)]/80'
+          }`}
           aria-label="Select previous image"
           disabled={selectedIndex === 0}
         >
@@ -88,7 +92,7 @@ export function ProductImageSlider({ images }: ProductImageSliderProps) {
               <button
                 key={img.id || actualIndex}
                 onClick={() => handleThumbClick(actualIndex)}
-                className={`border rounded-md p-1 transition-all ${
+                className={`border rounded-md p-1 transition-all cursor-pointer ${
                   actualIndex === selectedIndex ? 'border-black' : 'border-transparent'
                 }`}
                 aria-label={`Show image ${actualIndex + 1}`}
@@ -105,7 +109,11 @@ export function ProductImageSlider({ images }: ProductImageSliderProps) {
         </div>
         <button
           onClick={goRight}
-          className="p-2 rounded-full bg-[var(--color-1)]"
+          className={`p-2 rounded-full cursor-pointer transition-all ${
+            selectedIndex === images.length - 1 
+              ? 'bg-[var(--color-1)] cursor-not-allowed opacity-70' 
+              : 'bg-[var(--color-1)] hover:bg-[var(--color-1)]/80'
+          }`}
           aria-label="Select next image"
           disabled={selectedIndex === images.length - 1}
         >
