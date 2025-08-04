@@ -161,7 +161,7 @@ function transformMenuToHTML(menu: any, collections: any) {
         type: 'simple' as const,
         href: '/',
         title: 'Home',
-        isActive: true,
+        // isActive: true,
         className:
           'header__menu-item list-menu__item link link--text focus-inset',
       },
@@ -343,6 +343,7 @@ export function HeaderMenu({
                     end={item.href === '/'}
                     onClick={close}
                     prefetch="intent"
+                    style={activeLinkStyle}
                   >
                     <span
                       className={`${item.isActive ? 'header__active-menu-item ' : ''}`}
@@ -406,6 +407,7 @@ export function HeaderMenu({
                                 className="header__menu-item list-menu__item link link--text focus-inset caption-large "
                                 onClick={close}
                                 prefetch="intent"
+                                style={activeLinkStyle}
                               >
                                 {subItem.title}
                               </NavLink>

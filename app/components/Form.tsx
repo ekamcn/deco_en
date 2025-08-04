@@ -15,7 +15,7 @@ export default function Form() {
 
   return (
     <div className="pb-4 px-4 flex flex-col items-center justify-center w-full">
-      <h2 className="!text-3xl font-bold text-center !pb-5">Contact Us</h2>    
+      <p className="!text-2xl font-bold text-center !pb-5 lg:!text-3xl">Contact Us</p>    
 
         {isSubmitted && (
           <div className="w-full !max-w-2xl mb-4">

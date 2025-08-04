@@ -3,14 +3,15 @@ import Form from '~/components/Form';
 
 export default function ContactPage() {
     return (
-        <div className="bg-white min-h-screen py-12 px-5">
-            <div className="max-w-7xl mx-auto flex flex-col gap-10 tracking-wider">
-                <p className="!text-3xl font-bold text-center">Contact</p>
+        <div className="bg-white min-h-screen py-8 sm:py-12 px-4 sm:px-5">
+            <div className="max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8 lg:gap-10 tracking-wider">
+                <p className="!text-2xl lg:!text-3xl font-bold text-center">Contact</p>
+                <p className="!text-xl sm:!text-xl lg:!text-2xl font-bold mb-4">
+                    CONTACT INFORMATION
+                </p>
                 <div>
-                    <div className="md:text-2xl text-xl font-bold mb-4">
-                        CONTACT INFORMATION
-                    </div>
-                    <p>
+
+                    <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
                         We strive for optimal customer satisfaction. Please do not hesitate
                         to contact our specialized customer service team via the contact
                         details above or by filling out the contact form below. Your
@@ -19,10 +20,10 @@ export default function ContactPage() {
                     </p>
                 </div>
                 <div>
-                    <h2 className="!text-2xl font-semibold">
+                    <h2 className="!text-lg sm:!text-2xl font-semibold">
                         {import.meta.env.VITE_COMPANY_NAME}
                     </h2>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 !text-sm sm:!text-base">
                         <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
                         <span>
                             Email:
@@ -57,8 +58,8 @@ export default function ContactPage() {
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-2xl font-semibold">QUICK LINKS</h2>
-                    <div className="flex flex-col gap-2">
+                    <h2 className="!text-lg sm:!text-2xl font-semibold">QUICK LINKS</h2>
+                    <div className="flex flex-col gap-2 !text-sm sm:!text-base">
                         <a
                             href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
                             className="underline underline-offset-2"

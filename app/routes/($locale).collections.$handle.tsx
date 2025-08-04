@@ -75,7 +75,7 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
       first: pageSize,
       after,
       filters,
-      sortKey: sortKeyMap[sortBy] || 'BEST_SELLING',
+      sortKey: sortKeyMap[sortBy]?.toUpperCase() as any || 'BEST_SELLING',
       reverse: reverseMap[sortBy] || false,
     },
   });
@@ -264,7 +264,7 @@ export default function Collection() {
             onChangeSortBy={updateSort}
             onReset={resetFilters}
           />
-          <div className="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+          <div className="products-grid  !grid-cols-2  lg:!grid-cols-4 gap-6 mt-10">
             {collection.products.nodes.map((product: any, index: any) => (
               <ProductItem
                 key={product.id}
