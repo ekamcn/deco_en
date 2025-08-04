@@ -100,7 +100,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
       first: pageSize,
       after,
       query,
-      sortKey,
+      sortKey: sortKey as any, // Type assertion to satisfy InputMaybe<ProductSortKeys>
       reverse,
     },
   });
@@ -296,7 +296,7 @@ export default function Collection() {
         onReset={resetFilters}
       />
       {/* Product Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+      <div className="grid !grid-cols-2  lg:!grid-cols-4 gap-6 mt-10">
         {products.map((product: any, index: number) => (
           <ProductItem
             key={product.id}
