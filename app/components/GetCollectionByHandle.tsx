@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router';
-import { Image, Money } from '@shopify/hydrogen';
-import type { ProductItemFragment } from 'storefrontapi.generated';
-import { useVariantUrl } from '~/lib/variants';
+import type { AllProductsItemFragment } from 'storefrontapi.generated';
 import { ProductItem } from './ProductItem';
 
 interface ProductNode {
@@ -94,7 +91,7 @@ const GET_COLLECTION_BY_HANDLE_QUERY = `
 `;
 
 // Function to convert GraphQL product to ProductItemFragment format
-function convertToProductItemFragment(node: ProductNode): ProductItemFragment {
+function convertToProductItemFragment(node: ProductNode): AllProductsItemFragment {
   const firstVariant = node.variants.edges[0]?.node;
   const price = firstVariant?.price || { amount: '0', currencyCode: 'USD' };
 

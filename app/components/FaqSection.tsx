@@ -51,12 +51,14 @@ interface FaqSectionProps {
     sections: FaqSectionType[];
     showNewsletter?: boolean;
     rounded?: boolean;
+    heading?:string;
 }
 
 export default function FaqSection({
     sections,
     showNewsletter = false,
     rounded,
+    heading,
 }: FaqSectionProps) {
     const [isNewsletterSubmitted, setIsNewsletterSubmitted] = useState(false);
 
@@ -115,7 +117,7 @@ export default function FaqSection({
                 ))}
                 {showNewsletter && (
                     <div className="text-center mt-8 px-4 sm:px-6">
-                        <h3 className="text-2xl sm:text-3xl font-bold">Subscribe to Our Newsletter</h3>
+                        <h3 className="text-2xl sm:text-3xl font-bold">Subscribe to Our {heading}</h3>
                         <p className="text-sm sm:text-base text-[var(--color-2)] mt-1 mb-4">
                             Be the first to know about our new product launches and exclusive promotions!
                         </p>

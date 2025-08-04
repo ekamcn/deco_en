@@ -161,7 +161,7 @@ export default function Homepage() {
         className="featured-collection"
       />
 
-      <FaqSection sections={sections} showNewsletter rounded />
+      <FaqSection sections={sections} showNewsletter rounded heading='Emails' />
 
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}

@@ -500,7 +500,7 @@ export default function Product() {
         />
       </div>
       <div>
-        <FaqSection sections={sections} showNewsletter />
+        <FaqSection sections={sections} showNewsletter heading='Newsletter' />
       </div>
       <div>
         <Suspense fallback={<div>Loading...</div>}>
