@@ -13,9 +13,9 @@ export function ProductItem({
   badgeText
 }: {
   product:
-    | CollectionItemFragment
-    | ProductItemFragment
-    | RecommendedProductFragment;
+  | CollectionItemFragment
+  | ProductItemFragment
+  | RecommendedProductFragment;
   loading?: 'eager' | 'lazy';
   badgeText?: string; // Optional badge text for flash deals or discounts
 }) {
@@ -26,10 +26,10 @@ export function ProductItem({
   const priceRange = product.priceRange as any;
   const minPrice = priceRange.minVariantPrice;
   const maxPrice = priceRange.maxVariantPrice || priceRange.minVariantPrice;
-  
+
   // Get compare-at-price from custom property added by AllProductsWidget
   const compareAtPrice = (product as any).__compareAtPrice;
-  
+
   // Check if there's a discount (compareAtPrice exists and is higher than regular price)
   const hasDiscount = compareAtPrice && 
     parseFloat(compareAtPrice.amount) > parseFloat(minPrice.amount);
@@ -44,10 +44,10 @@ export function ProductItem({
       {/* Flash Deal Badge - positioned absolute like the CSS */}
       {badgeText && (
         <div className="absolute top-1 left-1 bg-[var(--color-1)] text-white p-2 text-xs rounded-sm flex items-center">
-         {badgeText}
+          {badgeText}
         </div>
       )}
-      
+
       {/* Product Image */}
       <div className="mb-2.5">
         {image && (
@@ -61,45 +61,61 @@ export function ProductItem({
           />
         )}
       </div>
-      
+
       {/* Product Title */}
-      <h4 className="text-sm font-bold text-gray-800 mb-2 line-clamp-2 min-h-[2.5rem] leading-tight">
+      <h4 className="flex flex-wrap text-sm font-bold text-gray-800 mb-2 line-clamp-2 min-h-[2.5rem] leading-tight">
         {product.title}
       </h4>
-      
+
       {/* Price Info Section - with margin like CSS */}
-      <div className={`my-2.5 flex ${compareAtPrice ? 'flex-wrap' : 'flex-col'} gap-1 justify-center items-center`}>
+      <div
+        className={`my-2.5 flex ${compareAtPrice ? 'flex-wrap' : 'flex-col'} gap-1 justify-center items-center`}
+      >
         {/* Compare At Price (strikethrough if discounted) - show first */}
         {hasDiscount && compareAtPrice && (
           <div className="text-md text-[gray-500] line-through">
             <Money data={compareAtPrice} />
           </div>
         )}
-        
+
         {/* Current Price */}
         <div className="text-lg font-bold text-[var(--color-1)]">
           <Money data={minPrice} />
-          {minPrice.amount !== maxPrice.amount && compareAtPrice &&(
+          {minPrice.amount !== maxPrice.amount && compareAtPrice && (
             <>
-              <span className="text-sm font-normal text-[var(--color-1)]"> - </span>
+              <span className="text-sm font-normal text-[var(--color-1)]">
+                {' '}
+                -{' '}
+              </span>
               <Money data={maxPrice} />
             </>
           )}
         </div>
-        
+
         {/* Savings Badge - only if there's a discount */}
-        {badgeText== "Flash Sale" && (
-          <div className="text-xs font-medium text-[#666666] px-2 py-1 rounded self-center border-t border-gray-300 md:mt-2">
-           <p className='text-[#B7B7B7] !text-xs  !md:pt-2'>Today&apos;s Special Offer:</p>
-           <div className="flex items-center gap-1">
-             <span>{new Date().toLocaleDateString('en-US', { weekday: 'long' })},</span>
-             <span className="text-red-600">{new Date().toLocaleDateString('en-US', { month: 'long' })}</span>
-             <span>{new Date().toLocaleDateString('en-US', { day: 'numeric' })},</span>
-             <span>{new Date().toLocaleDateString('en-US', { year: 'numeric' })}</span>
-           </div>
+        {badgeText === 'Flash Sale' && (
+          <div className="w-full !text-sm font-medium text-[#666666] px-2 py-1 mt-3">
+            <p className="text-[#B7B7B7] !text-xs  !md:pt-2">
+              Today&apos;s Special Offer:
+            </p>
+            <div className="flex flex-wrap justify-center gap-1 !text-xs text-center">
+              <span>
+                {new Date().toLocaleDateString('en-US', { weekday: 'long' })},
+              </span>
+              <span className="text-red-600">
+                {new Date().toLocaleDateString('en-US', { month: 'long' })}
+              </span>
+              <span>
+                {new Date().toLocaleDateString('en-US', { day: 'numeric' })},
+              </span>
+              <span>
+                {new Date().toLocaleDateString('en-US', { year: 'numeric' })}
+              </span>
+            </div>
           </div>
         )}
       </div>
     </Link>
   );
 }
+

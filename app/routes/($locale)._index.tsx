@@ -77,9 +77,9 @@ export async function loader(args: LoaderFunctionArgs) {
 }
 
 /**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- */
+* Load data necessary for rendering content above the fold. This is the critical data
+* needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
+*/
 async function loadCriticalData({ context }: LoaderFunctionArgs) {
   const [{ collections }] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
@@ -92,10 +92,10 @@ async function loadCriticalData({ context }: LoaderFunctionArgs) {
 }
 
 /**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
+* Load data for rendering content below the fold. This data is deferred and will be
+* fetched after the initial page load. If it's unavailable, the page should still 200.
+* Make sure to not throw any errors here, as it will cause the page to 500.
+*/
 function loadDeferredData({ context }: LoaderFunctionArgs) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
@@ -133,6 +133,7 @@ export default function Homepage() {
         showTitle={true}
         showDescription={false}
         className="featured-collection"
+        forceSmallCols2={true}
       />
 
       <CollectionByHandle
@@ -144,6 +145,7 @@ export default function Homepage() {
         showTitle={true}
         showDescription={false}
         className="featured-collection"
+        forceSmallCols2={true}
       />
 
 
@@ -268,3 +270,4 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     }
   }
 ` as const;
+

@@ -91,7 +91,9 @@ const GET_COLLECTION_BY_HANDLE_QUERY = `
 `;
 
 // Function to convert GraphQL product to ProductItemFragment format
-function convertToProductItemFragment(node: ProductNode): AllProductsItemFragment {
+function convertToProductItemFragment(
+  node: ProductNode,
+): AllProductsItemFragment {
   const firstVariant = node.variants.edges[0]?.node;
   const price = firstVariant?.price || { amount: '0', currencyCode: 'USD' };
 
@@ -99,13 +101,15 @@ function convertToProductItemFragment(node: ProductNode): AllProductsItemFragmen
     id: node.id,
     handle: node.handle,
     title: node.title,
-    featuredImage: node.featuredImage ? {
-      id: node.featuredImage.id,
-      altText: node.title,
-      url: node.featuredImage.url,
-      width: 400,
-      height: 400,
-    } : undefined,
+    featuredImage: node.featuredImage
+      ? {
+        id: node.featuredImage.id,
+        altText: node.title,
+        url: node.featuredImage.url,
+        width: 400,
+        height: 400,
+      }
+      : undefined,
     priceRange: {
       minVariantPrice: {
         amount: price.amount,
@@ -119,12 +123,16 @@ function convertToProductItemFragment(node: ProductNode): AllProductsItemFragmen
   };
 
   // Add compare-at-price data as a custom property
-  (productFragment as any).__compareAtPrice = firstVariant?.compareAtPrice;
+  // Add compare-at-price data as a custom property
+  (productFragment as any).__compareAtPrice = firstVariant?.compareAtPrice ?? null;
 
-  return productFragment;
+  // Ensure the returned object matches AllProductsItemFragment type requirements
+  // Add a default description if missing (to satisfy lint/type error)
+  return {
+    ...productFragment,
+    description: (node as any).description ?? '',
+  } as AllProductsItemFragment;
 }
-
-
 
 interface CollectionByHandleProps {
   handle: string;
@@ -135,36 +143,40 @@ interface CollectionByHandleProps {
   showTitle?: boolean;
   badgeText?: string; // Optional badge text for flash deals or discounts
   showDescription?: boolean;
+  forceSmallCols2?: boolean;
 }
 
 /**
- * CollectionByHandle - A component that fetches and displays products from a specific collection
- * 
- * This component fetches products from a collection using its handle and displays them in a grid.
- * It includes loading states, error handling, and matches the product card styling.
- * 
- * Usage:
- * ```tsx
- * <CollectionByHandle 
- *   handle="featured-products"
- *   title="Featured Collection" 
- *   limit={8} 
- *   showTitle={true}
- *   showDescription={true}
- * />
- * ```
- */
+* CollectionByHandle - A component that fetches and displays products from a specific collection
+*
+* This component fetches products from a collection using its handle and displays them in a grid.
+* It includes loading states, error handling, and matches the product card styling.
+*
+* Usage:
+* ```tsx
+* <CollectionByHandle
+*   handle="featured-products"
+*   title="Featured Collection"
+*   limit={8}
+*   showTitle={true}
+*   showDescription={true}
+* />
+* ```
+*/
 export function CollectionByHandle({
   handle,
   title,
   limit = 12,
-  columnSize = "4",
+  columnSize = '4',
   className = 'collection-by-handle',
   badgeText = '',
   showTitle = true,
   showDescription = false,
+  forceSmallCols2 = false,
 }: CollectionByHandleProps) {
-  const [collection, setCollection] = React.useState<CollectionNode | null>(null);
+  const [collection, setCollection] = React.useState<CollectionNode | null>(
+    null,
+  );
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -191,7 +203,7 @@ export function CollectionByHandle({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const result = await response.json() as GraphQLResponse;
+        const result = (await response.json()) as GraphQLResponse;
         if (result.errors && result.errors.length > 0) {
           throw new Error(result.errors[0].message);
         }
@@ -205,7 +217,9 @@ export function CollectionByHandle({
         setCollection(collectionData);
       } catch (err) {
         console.error('Error fetching collection:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch collection');
+        setError(
+          err instanceof Error ? err.message : 'Failed to fetch collection',
+        );
       } finally {
         setLoading(false);
       }
@@ -264,7 +278,7 @@ export function CollectionByHandle({
   };
 
   return (
-    <div className={`${className} my-4 px-10 max-w-7xl mx-auto`}>
+    <div className={`${className} my-4 px-4 max-w-7xl mx-auto`}>
       {/* Collection Header */}
       {showTitle && (
         <h2 className="mb-4 text-xl md:!text-3xl text-gray-800 text-center capitalize">
@@ -280,7 +294,10 @@ export function CollectionByHandle({
       )}
 
       {/* Products Grid */}
-      <div className={`grid grid-cols-1 sm:grid-cols-3 ${getGridCols(columnSize)} gap-6 mt-4`}>
+      <div
+        className={`grid grid-cols-1 ${forceSmallCols2 ? 'grid-cols-2' : 'grid-cols-1'
+          } ${getGridCols(columnSize)} gap-6 mt-4 md:grid-cols-3`}
+      >
         {products.map((productNode, index) => {
           const product = convertToProductItemFragment(productNode);
           return (
@@ -307,13 +324,13 @@ export function CollectionByHandle({
 }
 
 /**
- * CollectionByHandleSimple - A no-props version for quick usage
- * 
- * Usage:
- * ```tsx
- * <CollectionByHandleSimple handle="featured-products" />
- * ```
- */
+* CollectionByHandleSimple - A no-props version for quick usage
+*
+* Usage:
+* ```tsx
+* <CollectionByHandleSimple handle="featured-products" />
+* ```
+*/
 export function CollectionByHandleSimple({ handle }: { handle: string }) {
   return (
     <CollectionByHandle
