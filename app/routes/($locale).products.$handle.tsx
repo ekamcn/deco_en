@@ -280,7 +280,7 @@ export default function Product() {
     product.selectedOrFirstAvailableVariant,
     getAdjacentAndFirstAvailableVariants(product),
   );
-  console.log(selectedVariant?.price, "fhjdsfghjdsfhgds");
+  // console.log(selectedVariant?.price, "fhjdsfghjdsfhgds");
 
 
   useSelectedOptionInUrlParam(selectedVariant.selectedOptions);
@@ -294,7 +294,7 @@ export default function Product() {
   const data = useLoaderData<typeof loader>();
   return (
     <div>
-      <div className="product flex flex-col md:flex-row gap-4 mx-auto max-w-7xl p-4 pb-20">
+      <div className="product flex flex-col md:flex-row gap-4 mx-auto max-w-7xl p-4 ">
         <div className="flex flex-col items-center">
           <div className="sticky top-8">
             <ProductImageSlider
@@ -499,10 +499,10 @@ export default function Product() {
           }}
         />
       </div>
-      <div className="pb-20">
+      <div>
         <FaqSection sections={sections} showNewsletter />
       </div>
-      <div className="pb-20">
+      <div>
         <Suspense fallback={<div>Loading...</div>}>
           <Await resolve={data.recommendedProducts}>
             {(response: any) =>
