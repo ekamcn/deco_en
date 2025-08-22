@@ -1,11 +1,11 @@
-import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import { useLoaderData, type MetaFunction, useSearchParams } from 'react-router';
-import { Analytics } from '@shopify/hydrogen';
+import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {useLoaderData, type MetaFunction, useSearchParams} from 'react-router';
+import {Analytics} from '@shopify/hydrogen';
 import CollectionFilters from '~/components/CollectionFilters';
-import { ProductItem } from '~/components/ProductItem';
+import {ProductItem} from '~/components/ProductItem';
 
 export const meta: MetaFunction = () => {
-  return [{ title: `Hydrogen | Products` }];
+  return [{title: `Hydrogen | Products`}];
 };
 
 // Helper to build Shopify Storefront API query string from filters
@@ -46,20 +46,21 @@ function buildProductQueryString({
   return queryParts.join(' ');
 }
 
-export async function loader({ context, request }: LoaderFunctionArgs) {
-  const { storefront } = context;
+export async function loader({context, request}: LoaderFunctionArgs) {
+  const {storefront} = context;
   const url = new URL(request.url);
 
   const page = getPageFromRequest(request);
   const pageSize = 24;
-  const availability = url.searchParams.get('filter.v.availability') || undefined;
+  const availability =
+    url.searchParams.get('filter.v.availability') || undefined;
   const priceGte = url.searchParams.get('filter.v.price.gte') || undefined;
   const priceLte = url.searchParams.get('filter.v.price.lte') || undefined;
   const sortBy = url.searchParams.get('sort_by') || 'best-selling';
 
   // Convert filters to Shopify query string
-  const query = buildProductQueryString({ availability, priceGte, priceLte }) || '';
-  console.log('Generated Query:', query, 'Sort By:', sortBy); // Debug filters and sort
+  const query =
+    buildProductQueryString({availability, priceGte, priceLte}) || '';
 
   const sortKeyMap: Record<string, string> = {
     'best-selling': 'BEST_SELLING',
@@ -83,7 +84,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
   const reverse = reverseMap[sortBy] || false;
 
   // Get all cursors and total products with filters and sort
-  const { cursors, totalProducts } = await getAllProductCursors(
+  const {cursors, totalProducts} = await getAllProductCursors(
     storefront,
     pageSize,
     query,
@@ -95,22 +96,22 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
   const actualPage = Math.min(page, totalPages);
   const after = cursors[actualPage - 1] ?? null;
 
-  const { products } = await storefront.query(CATALOG_QUERY, {
+  const {products} = await storefront.query(CATALOG_QUERY, {
     variables: {
       first: pageSize,
       after,
       query,
-      sortKey: sortKey as any, // Type assertion to satisfy InputMaybe<ProductSortKeys>
+      sortKey: (sortKeyMap[sortBy]?.toUpperCase() as any) || 'BEST_SELLING',
       reverse,
     },
   });
 
   return {
-    products: products.nodes,
+    products: products?.nodes,
     page: actualPage,
     pageSize,
     totalPages,
-    hasNextPage: products.pageInfo.hasNextPage,
+    hasNextPage: products?.pageInfo?.hasNextPage,
     hasPreviousPage: actualPage > 1,
     filters: {
       availability,
@@ -140,11 +141,11 @@ async function getAllProductCursors(
   while (hasNextPage) {
     const response: {
       products: {
-        edges: { cursor: string }[];
-        pageInfo: { hasNextPage: boolean };
+        edges: {cursor: string}[];
+        pageInfo: {hasNextPage: boolean};
       };
     } = await storefront.query(GET_CURSOR_QUERY, {
-      variables: { first: pageSize, after, query, sortKey, reverse },
+      variables: {first: pageSize, after, query, sortKey, reverse},
     });
 
     const products = response.products;
@@ -163,7 +164,7 @@ async function getAllProductCursors(
     hasNextPage = products.pageInfo.hasNextPage;
   }
 
-  return { cursors, totalProducts };
+  return {cursors, totalProducts};
 }
 
 function getPageFromRequest(request: Request): number {
@@ -185,6 +186,12 @@ export default function Collection() {
     totalProducts,
   } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const filteredProducts = products.filter((product: any) => {
+  const values = product.metafield?.value
+    ?.split(",")
+    .map((v: string) => v.trim());
+  return values?.includes(import.meta.env.VITE_STORE_NAME);
+});
 
   const updateFilters = (newFilters: {
     availability?: string;
@@ -219,17 +226,19 @@ export default function Collection() {
 
   const updateSort = (newSortBy: string) => {
     const params = new URLSearchParams(searchParams);
-    if ([
-      'best-selling',
-      'manual',
-      'featured',
-      'title-ascending',
-      'title-descending',
-      'price-ascending',
-      'price-descending',
-      'created-ascending',
-      'created-descending',
-    ].includes(newSortBy)) {
+    if (
+      [
+        'best-selling',
+        'manual',
+        'featured',
+        'title-ascending',
+        'title-descending',
+        'price-ascending',
+        'price-descending',
+        'created-ascending',
+        'created-descending',
+      ].includes(newSortBy)
+    ) {
       params.set('sort_by', newSortBy);
     } else {
       params.set('sort_by', 'best-selling'); // Fallback to default
@@ -288,66 +297,76 @@ export default function Collection() {
     <div className="collection max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold">Products</h1>
       <CollectionFilters
-        totalProducts={totalProducts}
+        totalProducts={filteredProducts.length}
         filters={filters}
         onChangeFilters={updateFilters}
         sortBy={sortBy}
         onChangeSortBy={updateSort}
         onReset={resetFilters}
       />
-      {/* Product Grid */}
-      <div className="grid !grid-cols-2  lg:!grid-cols-4 gap-6 mt-10">
-        {products.map((product: any, index: number) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            loading={index < 8 ? 'eager' : undefined}
+
+      {!filteredProducts || filteredProducts.length === 0 ? (
+        <div className="flex flex-col items-center justify-center bg-white p-6 mt-10">
+          <h1 className="text-4xl font-bold mb-8">No products found.</h1>
+        </div>
+      ) : (
+        <>
+          {/* Product Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+            {filteredProducts.map((product: any, index: number) => (
+              <ProductItem
+                key={product.id}
+                product={product}
+                loading={index < 8 ? 'eager' : undefined}
+              />
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-center items-center gap-2 mt-8">
+            {hasPreviousPage && (
+              <a
+                href={getPaginationQueryString(page - 1)}
+                className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
+              >
+                ‹
+              </a>
+            )}
+
+            {pagination.map((p) => (
+              <a
+                key={p}
+                href={getPaginationQueryString(Number(p) || page)}
+                className={`px-3 py-1 rounded ${
+                  page === p
+                    ? 'font-semibold underline underline-offset-4'
+                    : 'hover:bg-gray-200'
+                }`}
+              >
+                {p}
+              </a>
+            ))}
+
+            {hasNextPage && page < totalPages && (
+              <a
+                href={getPaginationQueryString(page + 1)}
+                className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
+              >
+                ›
+              </a>
+            )}
+          </div>
+
+          <Analytics.CollectionView
+            data={{
+              collection: {
+                id: 'all-products',
+                handle: 'all-products',
+              },
+            }}
           />
-        ))}
-      </div>
-
-      {/* Pagination Controls */}
-      <div className="flex justify-center items-center gap-2 mt-8">
-        {hasPreviousPage && (
-          <a
-            href={getPaginationQueryString(page - 1)}
-            className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
-          >
-            ‹
-          </a>
-        )}
-
-        {pagination.map((p) => (
-          <a
-            key={p}
-            href={getPaginationQueryString(Number(p) || page)}
-            className={`px-3 py-1 rounded ${page === p
-                ? 'font-semibold underline underline-offset-4'
-                : 'hover:bg-gray-200'
-              }`}
-          >
-            {p}
-          </a>
-        ))}
-
-        {hasNextPage && page < totalPages && (
-          <a
-            href={getPaginationQueryString(page + 1)}
-            className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
-          >
-            ›
-          </a>
-        )}
-      </div>
-
-      <Analytics.CollectionView
-        data={{
-          collection: {
-            id: 'all-products',
-            handle: 'all-products',
-          },
-        }}
-      />
+        </>
+      )}
     </div>
   );
 }
@@ -389,6 +408,9 @@ const CATALOG_QUERY = `#graphql
       maxVariantPrice {
         ...MoneyFragment
       }
+    }
+    metafield(namespace: "custom", key: "theme_types") {
+     value
     }
   }
  

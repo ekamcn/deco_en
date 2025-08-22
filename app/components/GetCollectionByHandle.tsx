@@ -1,6 +1,6 @@
 import * as React from 'react';
-import type { AllProductsItemFragment } from 'storefrontapi.generated';
-import { ProductItem } from './ProductItem';
+import type {AllProductsItemFragment} from 'storefrontapi.generated';
+import {ProductItem} from './ProductItem';
 
 interface ProductNode {
   id: string;
@@ -45,7 +45,7 @@ interface GraphQLResponse {
   data?: {
     collectionByHandle: CollectionNode | null;
   };
-  errors?: Array<{ message: string }>;
+  errors?: Array<{message: string}>;
 }
 
 // GraphQL query for fetching collection by handle with products
@@ -69,6 +69,9 @@ const GET_COLLECTION_BY_HANDLE_QUERY = `
             id
             url
           }
+          metafield(namespace: "custom", key: "theme_types") {
+          value
+        }
           variants(first: 1) {
             edges {
               node {
@@ -95,7 +98,7 @@ function convertToProductItemFragment(
   node: ProductNode,
 ): AllProductsItemFragment {
   const firstVariant = node.variants.edges[0]?.node;
-  const price = firstVariant?.price || { amount: '0', currencyCode: 'USD' };
+  const price = firstVariant?.price || {amount: '0', currencyCode: 'USD'};
 
   const productFragment = {
     id: node.id,
@@ -103,12 +106,12 @@ function convertToProductItemFragment(
     title: node.title,
     featuredImage: node.featuredImage
       ? {
-        id: node.featuredImage.id,
-        altText: node.title,
-        url: node.featuredImage.url,
-        width: 400,
-        height: 400,
-      }
+          id: node.featuredImage.id,
+          altText: node.title,
+          url: node.featuredImage.url,
+          width: 400,
+          height: 400,
+        }
       : undefined,
     priceRange: {
       minVariantPrice: {
@@ -124,7 +127,8 @@ function convertToProductItemFragment(
 
   // Add compare-at-price data as a custom property
   // Add compare-at-price data as a custom property
-  (productFragment as any).__compareAtPrice = firstVariant?.compareAtPrice ?? null;
+  (productFragment as any).__compareAtPrice =
+    firstVariant?.compareAtPrice ?? null;
 
   // Ensure the returned object matches AllProductsItemFragment type requirements
   // Add a default description if missing (to satisfy lint/type error)
@@ -144,25 +148,26 @@ interface CollectionByHandleProps {
   badgeText?: string; // Optional badge text for flash deals or discounts
   showDescription?: boolean;
   forceSmallCols2?: boolean;
+  badgeIcon?: boolean;
 }
 
 /**
-* CollectionByHandle - A component that fetches and displays products from a specific collection
-*
-* This component fetches products from a collection using its handle and displays them in a grid.
-* It includes loading states, error handling, and matches the product card styling.
-*
-* Usage:
-* ```tsx
-* <CollectionByHandle
-*   handle="featured-products"
-*   title="Featured Collection"
-*   limit={8}
-*   showTitle={true}
-*   showDescription={true}
-* />
-* ```
-*/
+ * CollectionByHandle - A component that fetches and displays products from a specific collection
+ *
+ * This component fetches products from a collection using its handle and displays them in a grid.
+ * It includes loading states, error handling, and matches the product card styling.
+ *
+ * Usage:
+ * ```tsx
+ * <CollectionByHandle
+ *   handle="featured-products"
+ *   title="Featured Collection"
+ *   limit={8}
+ *   showTitle={true}
+ *   showDescription={true}
+ * />
+ * ```
+ */
 export function CollectionByHandle({
   handle,
   title,
@@ -173,10 +178,19 @@ export function CollectionByHandle({
   showTitle = true,
   showDescription = false,
   forceSmallCols2 = false,
+  badgeIcon = false,
 }: CollectionByHandleProps) {
   const [collection, setCollection] = React.useState<CollectionNode | null>(
     null,
   );
+
+  const filteredProducts = collection?.products.nodes.filter((product: any) => {
+    const values = product.metafield?.value
+      ?.split(',')
+      .map((v: string) => v.trim());
+    return values?.includes(import.meta.env.VITE_STORE_NAME);
+  });
+
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -253,18 +267,8 @@ export function CollectionByHandle({
     );
   }
 
-  if (!collection || !collection.products.nodes.length) {
-    return (
-      <div className={`${className}`}>
-        <p className="text-center p-8 text-gray-600 bg-gray-50 rounded">
-          No products found in this collection.
-        </p>
-      </div>
-    );
-  }
-
-  const displayTitle = title || collection.title;
-  const products = collection.products.nodes.slice(0, limit);
+  const displayTitle = collection?.title;
+  const products = filteredProducts?.slice(0, limit);
 
   // Map columnSize to actual Tailwind classes
   const getGridCols = (size: string) => {
@@ -287,51 +291,50 @@ export function CollectionByHandle({
       )}
 
       {/* Collection Description */}
-      {showDescription && collection.description && (
+      {showDescription && collection?.description && (
         <p className="mb-6 text-gray-600 text-center max-w-3xl mx-auto">
-          {collection.description}
+          {collection?.description}
         </p>
       )}
 
-      {/* Products Grid */}
-      <div
-        className={`grid grid-cols-1 ${forceSmallCols2 ? 'grid-cols-2' : 'grid-cols-1'
+      {/* Products Grid OR No Products Message */}
+      {filteredProducts && filteredProducts.length > 0 ? (
+        <div
+          className={`grid grid-cols-1 ${
+            forceSmallCols2 ? 'grid-cols-2' : 'grid-cols-1'
           } ${getGridCols(columnSize)} gap-6 mt-4 md:grid-cols-3`}
-      >
-        {products.map((productNode, index) => {
-          const product = convertToProductItemFragment(productNode);
-          return (
-            <ProductItem
-              key={product.id}
-              product={product}
-              badgeText={badgeText}
-              loading={index < 8 ? 'eager' : undefined}
-            />
-          );
-        })}
-      </div>
-
-      {/* Collection Info
-      {collection.products.nodes.length > limit && (
-        <div className="text-center mt-6">
-          <p className="text-gray-600">
-            Showing {limit} of {collection.products.nodes.length} products
-          </p>
+        >
+          {filteredProducts.slice(0, limit).map((productNode, index) => {
+            const product = convertToProductItemFragment(productNode);
+            return (
+              <ProductItem
+                key={product.id}
+                product={product}
+                badgeText={badgeText}
+                loading={index < 8 ? 'eager' : undefined}
+                badgeIcon={badgeIcon}
+              />
+            );
+          })}
         </div>
-      )} */}
+      ) : (
+        <p className="text-center p-8 text-gray-600 bg-gray-50 rounded">
+          No products found in this collection.
+        </p>
+      )}
     </div>
   );
 }
 
 /**
-* CollectionByHandleSimple - A no-props version for quick usage
-*
-* Usage:
-* ```tsx
-* <CollectionByHandleSimple handle="featured-products" />
-* ```
-*/
-export function CollectionByHandleSimple({ handle }: { handle: string }) {
+ * CollectionByHandleSimple - A no-props version for quick usage
+ *
+ * Usage:
+ * ```tsx
+ * <CollectionByHandleSimple handle="featured-products" />
+ * ```
+ */
+export function CollectionByHandleSimple({handle}: {handle: string}) {
   return (
     <CollectionByHandle
       handle={handle}
@@ -342,4 +345,3 @@ export function CollectionByHandleSimple({ handle }: { handle: string }) {
     />
   );
 }
-

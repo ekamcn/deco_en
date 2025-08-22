@@ -11,16 +11,17 @@ import type { ProductFragment } from 'storefrontapi.generated';
 export function ProductForm({
   productOptions,
   selectedVariant,
+  buyNowButtonRef,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
+  buyNowButtonRef?: React.RefObject<HTMLButtonElement>;
 }) {
   const navigate = useNavigate();
   const { open } = useAside('header');
   return (
     <div className="product-form">
       {productOptions.map((option) => {
-        // If there is only a single value in the option values, don't display the option
         if (option.optionValues.length === 1) return null;
 
         return (
@@ -101,6 +102,7 @@ export function ProductForm({
         );
       })}
       <AddToCartButton
+        ref={buyNowButtonRef}
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
           open('cart');
@@ -147,3 +149,4 @@ function ProductOptionSwatch({
     </div>
   );
 }
+

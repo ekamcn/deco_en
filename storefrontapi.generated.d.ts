@@ -609,6 +609,7 @@ export type CollectionProductItemFragment = Pick<
     minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
     maxVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
   };
+  metafield?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
 };
 
 export type CollectionQueryVariables = StorefrontAPI.Exact<{
@@ -649,6 +650,9 @@ export type CollectionQuery = {
                 'amount' | 'currencyCode'
               >;
             };
+            metafield?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Metafield, 'value'>
+            >;
           }
         >;
         pageInfo: Pick<
@@ -732,6 +736,7 @@ export type ProductFragmentFragment = Pick<
     minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
     maxVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
   };
+  metafield?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
 };
 
 export type ProductListQueryVariables = StorefrontAPI.Exact<{
@@ -762,6 +767,7 @@ export type ProductListQuery = {
             'amount' | 'currencyCode'
           >;
         };
+        metafield?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
       }
     >;
     pageInfo: Pick<StorefrontAPI.PageInfo, 'hasNextPage'>;
@@ -1393,7 +1399,7 @@ interface GeneratedQueryTypes {
     return: CollectionCursorQuery;
     variables: CollectionCursorQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment CollectionProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $after: String\n    $filters: [ProductFilter!]\n    $sortKey: ProductCollectionSortKeys\n    $reverse: Boolean\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(first: $first, after: $after, filters: $filters, sortKey: $sortKey, reverse: $reverse) {\n        nodes {\n          ...CollectionProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment CollectionProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n    metafield(namespace: "custom", key: "theme_types") {\n    value\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $after: String\n    $filters: [ProductFilter!]\n    $sortKey: ProductCollectionSortKeys\n    $reverse: Boolean\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(first: $first, after: $after, filters: $filters, sortKey: $sortKey, reverse: $reverse) {\n        nodes {\n          ...CollectionProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n        }\n      }\n    }\n  }\n': {
     return: CollectionQuery;
     variables: CollectionQueryVariables;
   };
@@ -1405,7 +1411,7 @@ interface GeneratedQueryTypes {
     return: GetCursorsQuery;
     variables: GetCursorsQueryVariables;
   };
-  '#graphql\n  fragment MoneyFragment on MoneyV2 {\n    amount\n    currencyCode\n  }\n \n  fragment ProductFragment on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyFragment\n      }\n      maxVariantPrice {\n        ...MoneyFragment\n      }\n    }\n  }\n \n  query ProductList($first: Int, $after: String, $query: String, $sortKey: ProductSortKeys, $reverse: Boolean) {\n    products(first: $first, after: $after, query: $query, sortKey: $sortKey, reverse: $reverse) {\n      nodes {\n        ...ProductFragment\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n  }\n': {
+  '#graphql\n  fragment MoneyFragment on MoneyV2 {\n    amount\n    currencyCode\n  }\n \n  fragment ProductFragment on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyFragment\n      }\n      maxVariantPrice {\n        ...MoneyFragment\n      }\n    }\n    metafield(namespace: "custom", key: "theme_types") {\n     value\n    }\n  }\n \n  query ProductList($first: Int, $after: String, $query: String, $sortKey: ProductSortKeys, $reverse: Boolean) {\n    products(first: $first, after: $after, query: $query, sortKey: $sortKey, reverse: $reverse) {\n      nodes {\n        ...ProductFragment\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n  }\n': {
     return: ProductListQuery;
     variables: ProductListQueryVariables;
   };

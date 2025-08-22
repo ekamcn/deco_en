@@ -1,6 +1,8 @@
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import type {CartLayout} from '~/components/CartMain';
 import {Money, type OptimisticCart} from '@shopify/hydrogen';
+import {LuLoaderCircle} from 'react-icons/lu';
+import { useEffect, useRef, useState } from 'react';
  
 const pricingMatrix = {
   french: [
@@ -146,21 +148,55 @@ function CartCheckoutActions({cart}: CartCheckoutActionsProps) {
     return match ? decodeURIComponent(match[1]) : '';
   })();
  
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const spinnerTimeoutRef = useRef<number | null>(null);
+ 
+  function startSpinnerForOneSecond() {
+    setShowSpinner(true);
+    setIsDisabled(true); // disable button after first click
+    if (spinnerTimeoutRef.current) {
+      window.clearTimeout(spinnerTimeoutRef.current);
+    }
+    spinnerTimeoutRef.current = window.setTimeout(() => {
+      setShowSpinner(false);
+      setIsDisabled(false); // disable button after first click
+      spinnerTimeoutRef.current = null;
+    }, 2500);
+  }
+ 
+ 
+  useEffect(() => {
+    return () => {
+      if (spinnerTimeoutRef.current) {
+        window.clearTimeout(spinnerTimeoutRef.current);
+      }
+    };
+  }, []);
+ 
   const url = `${checkoutBaseUrl}?s1=${window.location.origin}/${import.meta.env.VITE_LOGO}&s2=${s2Param}&s3=${s3Param}&s4=${s4Param}&c1=custom1&c2=custom2&c3=custom3&c4=&c5=&c6=&affId=${finalAffId}}&l1=${l1Param}&l2=${l2Param}&l3=${l3Param}&l4=${l4Param}&m1=${m1param}&m2=&gclId=${gclid}`;
  
   return (
     <div>
       <a href={url} target="_self">
-        <button
+      <button
           type="submit"
-          className="product-form__submit flex items-center justify-center gap-2 w-[100%] py-2 rounded-full text-lg font-bold transition-colors duration-200 bg-[var(--color-1)] text-white"
-        >
-          <span className="addbtntext">Continue to Checkout</span>
+          onClick={() => {
+            startSpinnerForOneSecond();
+          }}
+          disabled={isDisabled}
+          className={`product-form__submit flex items-center justify-center gap-2 w-[100%] py-2 rounded-full text-lg font-bold transition-colors duration-200
+            ${isDisabled ? "opacity-50 cursor-not-allowed" : "bg-[var(--color-1)] text-white"}`}        >
+          {showSpinner ? (
+            <div className="w-full flex justify-center items-center">
+              <LuLoaderCircle className="w-6 h-6 my-0.5 animate-spin" />
+            </div>
+          ) : (
+            <span className="addbtntext">Continue to Checkout</span>
+          )}
         </button>
       </a>
       <br />
     </div>
   );
 }
- 
- 

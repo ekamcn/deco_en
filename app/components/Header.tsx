@@ -1,13 +1,14 @@
-import { Suspense, useState, useEffect, useRef } from 'react';
-import { Await, NavLink, useAsyncValue, useLocation } from 'react-router';
+import {Suspense, useState, useEffect, useRef} from 'react';
+import {Await, NavLink, useAsyncValue, useLocation} from 'react-router';
 import {
   type CartViewPayload,
   Image,
   useAnalytics,
   useOptimisticCart,
 } from '@shopify/hydrogen';
-import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
-import { useAside } from '~/components/Aside';
+import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
+import {Aside, useAside} from '~/components/Aside';
+import {BsArrowLeft, BsArrowRight} from 'react-icons/bs';
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -29,7 +30,7 @@ interface CollectionNode {
 
 interface GraphQLResponse {
   data?: GraphQLCollectionsResponse;
-  errors?: Array<{ message: string }>;
+  errors?: Array<{message: string}>;
 }
 
 interface GraphQLCollectionsResponse {
@@ -45,23 +46,26 @@ type Viewport = 'desktop' | 'mobile';
 
 // GraphQL query for fetching collections
 const ALL_COLLECTIONS_QUERY = `
- query GetAllCollections($first: Int!) {
- collections(first: $first) {
- edges {
- cursor
- node {
- id
- handle
- title
- description
- image {
- id
- url
- }
- }
- }
- }
- }
+  query GetAllCollections($first: Int!) {
+    collections(first: $first) {
+      edges {
+       cursor
+        node {
+          id
+          handle
+          title
+          description
+          metafield(namespace: "custom", key: "theme_types") {
+          value
+        }
+          image {
+            id
+            url
+          }
+        }
+      }
+    }
+  }
 `;
 
 export function Header({
@@ -70,42 +74,93 @@ export function Header({
   cart,
   publicStoreDomain,
 }: HeaderProps) {
-  const { shop, menu } = header;
+  const {shop, menu} = header;
   const logo = import.meta.env.VITE_LOGO;
+
   return (
     <>
-      {/* Top Marquee Bar */}
       <div className="w-full bg-[var(--color-1)] overflow-hidden whitespace-nowrap text-xs">
-        <div className="animate-marquee flex gap-136 px-6 py-2 !font-normal text-black !text-xs  tracking-widest">
-          <span>Fast Shipping: 2–4 Days</span>
-          <span>{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</span>
-          <span>US-Based Customer Support 🇺🇸</span> <span>Fast Shipping: 2–4 Days</span>
-          <span>{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</span>
-          <span>US-Based Customer Support 🇺🇸</span>
+        <div className="relative flex md:gap-16 lg:gap-0 gap-10">
+          {/* Marquee Content (duplicated for seamless loop) */}
+          <div className="marquee-content flex gap-14 md:gap-20 lg:min-w-full max-w-max justify-between md:justify-around">
+            <p className="px-2 md:px-4 !py-2 font-normal text-black tracking-widest !text-xs">
+              {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
+            </p>
+            <p className="px-2 md:px-4 !py-2 font-normal text-black tracking-widest !text-xs">
+            US-Based Customer Support 🇺🇸
+            </p>
+            <p className="px-2 md:px-4 !py-2 font-normal text-black tracking-widest !text-xs">
+            Fast Shipping: 2–4 Days
+            </p>
+          </div>
+          <div
+            className="marquee-content flex gap-14 md:gap-20 lg:min-w-full max-w-max justify-between md:justify-around"
+            aria-hidden="true"
+          >
+            <p className="px-2 md:px-4 !py-2 font-normal text-black tracking-widest !text-xs">
+            {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
+            </p>
+            <p className="px-2 md:px-4 !py-2 font-normal text-black tracking-widest !text-xs">
+            US-Based Customer Support 🇺🇸
+            </p>
+            <p className="px-2 md:px-4 !py-2 font-normal text-black tracking-widest !text-xs">
+            Fast Shipping: 2–4 Days
+            </p>
+          </div>
+          <style>{`
+            .marquee-content {
+              animation: marquee-scroll 95s linear infinite;
+            }
+            .w-full:hover .marquee-content {
+              animation-play-state: paused;
+            }
+            @keyframes marquee-scroll {
+              0% {
+                transform: translateX(0%);
+              }
+              100% {
+                transform: translateX(-100%);
+              }
+            }
+            @media (max-width: 768px) {
+              .marquee-content {
+                animation-duration: 70s;
+              }
+            }
+          `}</style>
         </div>
       </div>
       {/* Main Header */}
-      <header className="sticky top-0 z-2 w-full bg-white shadow-md px-4 md:px-8 lg:px-20 mb-4">
-        <div className="max-w-screen-2xl mx-auto flex items-center justify-between py-4 relative">
+      <header className="sticky top-0 z-2 w-full bg-white shadow-md">
+ 
+        <div className="px-4 md:px-8 lg:px-20 max-w-screen-2xl mx-auto flex items-center justify-between py-4 relative">
           {/* Left: Mobile Menu Toggle */}
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center lg:hidden">
             <HeaderMenuMobileToggle />
           </div>
           {/* Left: Logo (Desktop Only) */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden lg:flex items-center pl-40">
             <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-              <Image src={logo} alt="Store Logo" className="h-10 w-auto" />
+              <Image
+                src={logo}
+                alt="Store Logo"
+                className="h-8 w-auto md:h-10 lg:h-12 xl:h-14 object-contain"
+              />
             </NavLink>
           </div>
           {/* Center: Logo (Mobile Only, Centered) */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 md:hidden">
+          <div className="absolute left-1/2 transform -translate-x-1/2 lg:hidden">
             <NavLink prefetch="intent" to="/" end>
-              <Image src={logo} alt="Store Logo" className="h-10 w-auto" />
+              <Image
+                src={logo}
+                alt="Store Logo"
+                className="h-10 w-auto object-contain max-w-[250px]"
+              />
             </NavLink>
           </div>
 
           {/* Center: Desktop Menu */}
-          <div className="hidden md:flex items-center flex-1 justify-center">
+          <div className="!hidden md:flex items-center ml-8 flex-1 mt-2 lg:!block">
             <HeaderMenu
               menu={menu}
               viewport="desktop"
@@ -119,41 +174,38 @@ export function Header({
           </div>
         </div>
       </header>
+      <CollectionsAside />
       {/* Marquee Animation Style */}
-      <style>{`
- .animate-marquee {
- display: flex;
- animation: marquee 150s linear infinite;
- }
 
- @keyframes marquee {
- 0% {
- transform: translateX(100%);
- }
- 100% {
- transform: translateX(-100%);
- }
- }
-`}</style>
     </>
   );
 }
 
 // Transform menu object to the desired structure
-function transformMenuToHTML(menu: any, collections: any) {
+function transformMenuToHTML(menu: any, collections: any, currentTheme: string) {
   // Get collections data from the query
+const excludedHandles = ["derniere-chance", "tout-a-moins-de-20", "offre-flash"];
   const collectionsData =
-    collections?.edges?.map((edge: any) => ({
-      id: edge.node.handle,
-      href: `/collections/${edge.node.handle}`,
-      title: edge.node.title,
-    })) || [];
+    collections?.edges
+      ?.filter((edge: any) => {
+        const values = edge.node.metafield?.value
+          ?.split(",")
+          .map((v: string) => v.trim());
+ 
+        return values?.includes(currentTheme);
+      })
+      ?.filter((edge: any) => !excludedHandles.includes(edge.node.handle)) // exclude unwanted
+      ?.map((edge: any) => ({
+        id: edge.node.handle,
+        href: `/collections/${edge.node.handle}`,
+        title: edge.node.title,
+      })) || [];
 
   // Map the original menu items to our desired structure
   const baseItems = menu?.items || [];
 
   const transformedMenu = {
-    className: 'header__inline-menu',
+    className: 'header__inline-menu !lg:hidden',
     items: [
       // Always add Home as first item
       {
@@ -169,18 +221,17 @@ function transformMenuToHTML(menu: any, collections: any) {
       {
         id: 'collections',
         type: 'dropdown' as const,
-        title: 'Our Collections',
+        title: 'All Collections',
         className: 'header__menu-item list-menu__item link focus-inset',
         submenu: collectionsData,
       },
       // Add static menu items
       {
-        id: 'about',
-        type: 'simple' as const,
-        href: '/about',
-        title: 'About Us',
-        className:
-          'header__menu-item list-menu__item link link--text focus-inset',
+      id: 'about',
+      type: 'simple' as const,
+      href: '/about',
+      title: 'About Us',
+      className: 'header__menu-item list-menu__item link link--text focus-inset'
       },
       {
         id: 'faq',
@@ -239,15 +290,14 @@ export function HeaderMenu({
   publicStoreDomain: HeaderProps['publicStoreDomain'];
 }) {
   const className = `header-menu-${viewport}`;
-  const { close } = useAside('header');
+  const {close, open} = useAside('header');
   const location = useLocation();
 
   // State for dynamic collections fetching
   const [collections, setCollections] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
   // Refs for click outside detection
-  const dropdownRefs = useRef<{ [key: string]: HTMLDetailsElement | null }>({});
+  const dropdownRefs = useRef<{[key: string]: HTMLDetailsElement | null}>({});
 
   // Fetch collections dynamically
   useEffect(() => {
@@ -264,7 +314,7 @@ export function HeaderMenu({
           body: JSON.stringify({
             query: ALL_COLLECTIONS_QUERY,
             variables: {
-              first: 50,
+              first: 100,
             },
           }),
         });
@@ -328,6 +378,7 @@ export function HeaderMenu({
     const transformedMenu = transformMenuToHTML(
       menu || FALLBACK_HEADER_MENU,
       collections,
+    `${import.meta.env.VITE_STORE_NAME }`
     );
 
     return (
@@ -373,7 +424,6 @@ export function HeaderMenu({
                         <span className="">
                           {item.title}
 
-                          {/* {loading && <span className="ml-1 text-xs">(Loading...)</span>} */}
                         </span>
                         <svg
                           aria-hidden="true"
@@ -392,7 +442,7 @@ export function HeaderMenu({
                       </summary>
                       <ul
                         id={`HeaderMenu-MenuList-${item.id}`}
-                        className="header__submenu color-scheme-1 gradient gradient first-header__submenu list-menu list-menu--disclosure gradient caption-large motion-reduce global-settings-popup"
+                        className="header__submenu color-scheme-1 gradient gradient first-header__submenu list-menu list-menu--disclosure gradient caption-large motion-reduce global-settings-popup  !overflow-y-auto !max-h-[410px]	 "
                         tabIndex={-1}
                       >
                         {item.submenu?.map(
@@ -431,11 +481,12 @@ export function HeaderMenu({
   const transformedMenu = transformMenuToHTML(
     menu || FALLBACK_HEADER_MENU,
     collections,
+    `${import.meta.env.VITE_STORE_NAME }`
   );
 
   return (
     <nav
-      className={`${className} flex flex-col space-y-2 p-4`}
+      className={`${className} flex flex-col space-y-2 p-4 lg:hidden`}
       role="navigation"
     >
       {transformedMenu.items.map((item) => {
@@ -444,11 +495,17 @@ export function HeaderMenu({
             <NavLink
               key={item.id}
               to={item.href}
-              className="header-menu-item block py-2 px-3 text-base font-medium rounded-md hover:bg-gray-100 transition-colors"
+              className="header-menu-item block py-2 px-3 text-lg font-medium rounded-md hover:bg-gray-100 transition-colors w-full"
               end={item.href === '/'}
               onClick={close}
               prefetch="intent"
-              style={activeLinkStyle}
+              style={({isActive}) => ({
+                backgroundColor: isActive
+                  ? 'rgba(var(--color-1), 0.2)'
+                  : 'transparent',
+                color: 'black',
+                opacity: isActive ? 1 : 1,
+              })}
             >
               {item.title}
             </NavLink>
@@ -456,39 +513,13 @@ export function HeaderMenu({
         } else if (item.type === 'dropdown') {
           return (
             <div key={item.id} className="mobile-dropdown">
-              <details className="group">
-                <summary className="flex justify-between items-center py-2 px-3 text-base font-medium rounded-md hover:bg-gray-100 cursor-pointer list-none">
-                  <span>{item.title}</span>
-                  <svg
-                    className="w-4 h-4 transition-transform group-open:rotate-180"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </summary>
-                <div className="mt-2 ml-4 space-y-1">
-                  {item.submenu?.map(
-                    (subItem: { id: string; href: string; title: string }) => (
-                      <NavLink
-                        key={subItem.id}
-                        to={subItem.href}
-                        className="block py-2 px-3 text-sm text-gray-600 rounded-md hover:bg-gray-50 transition-colors"
-                        onClick={close}
-                        prefetch="intent"
-                      >
-                        {subItem.title}
-                      </NavLink>
-                    ),
-                  )}
-                </div>
-              </details>
+              <button
+                className="flex justify-between items-center py-2 px-3 text-lg font-medium rounded-md hover:bg-gray-100 cursor-pointer w-full text-left"
+                onClick={() => open('collections')}
+              >
+                <span>{item.title}</span>
+                <BsArrowRight className="w-5 h-5" />
+              </button>
             </div>
           );
         }
@@ -519,21 +550,32 @@ function HeaderCtas({
 }
 
 function HeaderMenuMobileToggle() {
-  const { open } = useAside('header');
+  const {open} = useAside('header');
   return (
     <button
       className="header-menu-mobile-toggle reset"
       onClick={() => open('mobile')}
     >
-<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation"  className='w-5 h-5' fill="none" viewBox="0 0 18 16">
-  <path d="M1 .5a.5.5 0 100 1h15.71a.5.5 0 000-1H1zM.5 8a.5.5 0 01.5-.5h15.71a.5.5 0 010 1H1A.5.5 0 01.5 8zm0 7a.5.5 0 01.5-.5h15.71a.5.5 0 010 1H1a.5.5 0 01-.5-.5z" fill="currentColor">
-</path></svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+        role="presentation"
+        className="w-5 h-5"
+        fill="none"
+        viewBox="0 0 18 16"
+      >
+        <path
+          d="M1 .5a.5.5 0 100 1h15.71a.5.5 0 000-1H1zM.5 8a.5.5 0 01.5-.5h15.71a.5.5 0 010 1H1A.5.5 0 01.5 8zm0 7a.5.5 0 01.5-.5h15.71a.5.5 0 010 1H1a.5.5 0 01-.5-.5z"
+          fill="currentColor"
+        ></path>
+      </svg>
     </button>
   );
 }
 
 function SearchToggle() {
-  const { open } = useAside('header');
+  const {open} = useAside('header');
   return (
     <button className="reset" onClick={() => open('search')}>
       Search
@@ -541,9 +583,9 @@ function SearchToggle() {
   );
 }
 
-function CartBadge({ count }: { count: number | null }) {
-  const { open } = useAside('header');
-  const { publish, shop, cart, prevCart } = useAnalytics();
+function CartBadge({count}: {count: number | null}) {
+  const {open} = useAside('header');
+  const {publish, shop, cart, prevCart} = useAnalytics();
 
   return (
     <button
@@ -585,7 +627,7 @@ function CartBadge({ count }: { count: number | null }) {
   );
 }
 
-function CartToggle({ cart }: Pick<HeaderProps, 'cart'>) {
+function CartToggle({cart}: Pick<HeaderProps, 'cart'>) {
   return (
     <Suspense fallback={<CartBadge count={null} />}>
       <Await resolve={cart}>
@@ -632,13 +674,13 @@ const FALLBACK_HEADER_MENU = {
       items: [],
     },
     {
-      id: 'gid://shopify/MenuItem/461609599032',
-      resourceId: 'gid://shopify/Page/92591030328',
-      tags: [],
-      title: 'About',
-      type: 'PAGE',
-      url: '/pages/about',
-      items: [],
+    id: 'gid://shopify/MenuItem/461609599032',
+    resourceId: 'gid://shopify/Page/92591030328',
+    tags: [],
+    title: 'About',
+    type: 'PAGE',
+    url: '/pages/about',
+    items: [],
     },
   ],
 };
@@ -656,3 +698,118 @@ function activeLinkStyle({
   };
 }
 
+// Add CollectionsAside component
+function CollectionsAside() {
+  const aside = useAside('header');
+  const [collections, setCollections] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const currentTheme = import.meta.env.VITE_STORE_NAME;
+  const excludedHandles = ["derniere-chance", "tout-a-moins-de-20", "offre-flash"];
+  const collectionsData =
+    collections?.edges
+      ?.filter((edge: any) => {
+        const values = edge.node.metafield?.value
+          ?.split(",")
+          .map((v: string) => v.trim());
+ 
+        return values?.includes(currentTheme);
+      })
+      ?.filter((edge: any) => !excludedHandles.includes(edge.node.handle)) // exclude unwanted
+      ?.map((edge: any) => ({
+        id: edge.node.handle,
+        href: `/collections/${edge.node.handle}`,
+        title: edge.node.title,
+      })) || [];
+      
+  // Fetch collections
+  useEffect(() => {
+    async function fetchCollections() {
+      try {
+        setLoading(true);
+        const response = await fetch('/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: ALL_COLLECTIONS_QUERY,
+            variables: {
+              first: 50,
+            },
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = (await response.json()) as GraphQLResponse;
+        if (result.errors && result.errors.length > 0) {
+          throw new Error(result.errors[0].message);
+        }
+
+        const graphqlData = result.data;
+        if (graphqlData) {
+          setCollections(graphqlData.collections);
+        }
+      } catch (err) {
+        console.error('Error fetching collections:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCollections();
+  }, []);
+
+  const collectionsAside = aside && aside.type === 'collections' && (
+    <div className="lg:hidden">
+      <Aside type="collections" heading="Our Collections" contextId="header">
+        <div className="bg-white h-full overflow-y-auto relative pt-4 flex flex-col gap-8 pb-24">
+          <div className="px-4 flex flex-col gap-3">
+            <div>
+              <button
+                type="button"
+                className="flex gap-2 items-center pl-4 pb-3 cursor-pointer"
+                onClick={() => aside.open('mobile')}
+                aria-label="Back to mobile menu"
+              >
+                <BsArrowLeft className="w-5 h-5" />
+                <p>Our Collections</p>
+              </button>
+              {loading ? (
+                <div className="text-center py-8">
+                  <div className="inline-block w-5 h-5 border-3 border-gray-200 border-t-gray-800 rounded-full animate-spin"></div>
+                  <p className="mt-2 text-sm text-gray-600">
+                    Loading collections...
+                  </p>
+                </div>
+              ) : collections ? (
+                <div className="grid grid-cols-1 gap-1">
+                  {collectionsData?.map((edge: any) => (
+                    <NavLink
+                      key={edge?.id}
+                      to={`${edge?.href}`}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors w-full"
+                      onClick={() => aside.close()}
+                    >
+                      <p className="font-normal text-gray-900 !text-lg">
+                        {edge?.title}
+                      </p>
+                    </NavLink>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center py-8 text-gray-600">
+                  No collections found.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </Aside>
+    </div>
+  );
+
+  return <>{collectionsAside}</>;
+}

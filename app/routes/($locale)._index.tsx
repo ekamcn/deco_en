@@ -24,7 +24,7 @@ const sections = [
         answer: (
           <div className='flex flex-col gap-4'>
             <p><strong>PLEASE NOTE :</strong> We kindly ask you to check our FAQ carefully before contacting us.</p>
-            <p>If you don’t find the answer to your question, feel free to email us at <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className=" hover:text-blue-300 transition-colors !text-[var(--color-1)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a>"</p>
+            <p>If you don’t find the answer to your question, feel free to email us at <a href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`} className=" hover:text-blue-300 transition-colors !text-[var(--color-footer)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></p>
           </div>
         ),
       },
@@ -116,9 +116,10 @@ export default function Homepage() {
     <div className="home">
 
       <ImageBanner
-        title="Deco Bay"
+        title={import.meta.env.VITE_STORE_TITLE}
         imageUrl={import.meta.env.VITE_BANNER}
-        subtitle="Welcome to Deco Bay, a proudly American brand committed to transforming your home with style, quality, and unbeatable value."
+        mobileImageUrl={import.meta.env.VITE_MOBILE_BANNER}
+        subtitle={`Welcome to ${import.meta.env.VITE_STORE_TITLE}, a proudly American brand committed to transforming your  style, quality, and unbeatable value.`}
         description="Founded by a team of passionate home decor enthusiasts, our mission is simple: to make your living space more beautiful, more functional, and above all — more accessible for everyone."
         buttonText="Shop Now"
         buttonUrl=""
@@ -126,7 +127,7 @@ export default function Homepage() {
 
       <CollectionByHandle
         handle="offre-flash"
-        title="offer flash"
+        // title="offer flash"
         limit={6}
         columnSize="6"
         badgeText="Flash Sale"
@@ -138,10 +139,11 @@ export default function Homepage() {
 
       <CollectionByHandle
         handle="derniere-chance"
-        title="derniere chance"
+        // title="derniere chance"
         limit={20}
         columnSize="4"
         badgeText="Last Chance"
+        badgeIcon={true}
         showTitle={true}
         showDescription={false}
         className="featured-collection"
@@ -154,7 +156,7 @@ export default function Homepage() {
 
       <CollectionByHandle
         handle="tout-a-moins-de-20"
-        title="tout a moins de 20"
+        // title="tout a moins de 20"
         limit={20}
         columnSize="5"
         showTitle={true}

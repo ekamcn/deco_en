@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 
-type AsideType = 'search' | 'cart' | 'mobile' | 'closed' | 'mobile-availability' | 'mobile-price';
+type AsideType = 'search' | 'cart' | 'mobile' | 'closed' | 'mobile-availability' | 'mobile-price' | 'collections';
 type AsideContextValue = {
   type: AsideType;
   open: (mode: AsideType) => void;
@@ -72,8 +72,8 @@ export function Aside({
       role="dialog"
     >
       <button className="close-outside" onClick={close} />
-      <aside>
-        <header>
+      <aside style={{ height: '100vh' }} className="flex flex-col">
+        <header className="flex-shrink-0">
           <h3>{heading}</h3>
           <button className="close reset w-5 h-5" onClick={close} aria-label="Close">
             <svg onClick={close} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation"  fill="none" viewBox="0 0 18 17">
@@ -81,7 +81,7 @@ export function Aside({
               </path></svg>
           </button>
         </header>
-        <main>{children}</main>
+        <main className="flex-1 min-h-0 overflow-y-auto">{children}</main>
       </aside>
     </div>
   );

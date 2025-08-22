@@ -6,7 +6,7 @@ export function StoreConfigViewer() {
   // Get environment variables
   const storeConfig = {
     // Store Basics
-    storeName: import.meta.env.VITE_STORE_NAME || 'Store Name Not Set', //done
+    storeName: import.meta.env.VITE_STORE_TITLE || 'Store Name Not Set', //done
     customerSupportEmail: import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL || 'Email Not Set', //done
     customerServicePhone: import.meta.env.VITE_CUSTOMER_SERVICE_PHONE || 'Phone Not Set', //done
     domainName: import.meta.env.VITE_DOMAIN_NAME || 'Domain Not Set', //done

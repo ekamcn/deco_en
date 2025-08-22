@@ -75,7 +75,7 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
       first: pageSize,
       after,
       filters,
-      sortKey: sortKeyMap[sortBy]?.toUpperCase() as any || 'BEST_SELLING',
+      sortKey: (sortKeyMap[sortBy]?.toUpperCase() as any) || 'BEST_SELLING',
       reverse: reverseMap[sortBy] || false,
     },
   });
@@ -245,6 +245,12 @@ export default function Collection() {
   }
 
   const pagination = getPagination(page, totalPages);
+  const filteredProducts = collection?.products.nodes.filter((product: any) => {
+  const values = product?.metafield?.value
+    ?.split(",")
+    .map((v: string) => v.trim());
+  return values?.includes(import.meta.env.VITE_STORE_NAME);
+});
 
   return (
     <>
@@ -256,7 +262,7 @@ export default function Collection() {
             <p className="text-gray-600 mt-2">{collection.description}</p>
           )}
           <CollectionFilters
-            totalProducts={totalProducts}
+            totalProducts={filteredProducts.length}
             filters={filters}
             featured
             onChangeFilters={updateFilters}
@@ -264,58 +270,75 @@ export default function Collection() {
             onChangeSortBy={updateSort}
             onReset={resetFilters}
           />
-          <div className="products-grid  !grid-cols-2  lg:!grid-cols-4 gap-6 mt-10">
-            {collection.products.nodes.map((product: any, index: any) => (
-              <ProductItem
-                key={product.id}
-                product={product}
-                loading={index < 8 ? 'eager' : undefined}
+
+          {filteredProducts.length === 0 ? (
+            <div className="flex flex-col items-center justify-center bg-white p-6 mt-10">
+              <h1 className="text-4xl font-bold mb-8">
+                No products found in this collection.
+              </h1>
+              <a
+                href="/collections/all"
+                className="px-6 py-2 bg-[var(--color-1)] text-[var(--color-2)] rounded-full hover:bg-[var(--color-1)] transition-colors"
+              >
+                Continue shopping
+              </a>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+                {filteredProducts.map((product: any, index: any) => (
+                  <ProductItem
+                    key={product.id}
+                    product={product}
+                    loading={index < 8 ? 'eager' : undefined}
+                  />
+                ))}
+              </div>
+
+              <div className="flex justify-center items-center gap-2 mt-8">
+                {hasPreviousPage && (
+                  <a
+                    href={getPaginationQueryString(prevPage)}
+                    className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
+                  >
+                    ‹
+                  </a>
+                )}
+
+                {pagination.map((p) => (
+                  <a
+                    key={p}
+                    href={getPaginationQueryString(Number(p) || page)}
+                    className={`px-3 py-1 rounded ${
+                      page === p
+                        ? 'font-semibold underline underline-offset-4'
+                        : 'hover:bg-gray-200'
+                    }`}
+                  >
+                    {p}
+                  </a>
+                ))}
+
+                {hasNextPage && (
+                  <a
+                    href={getPaginationQueryString(nextPage)}
+                    className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
+                  >
+                    ›
+                  </a>
+                )}
+              </div>
+
+              <Analytics.CollectionView
+                data={{
+                  collection: {
+                    id: collection.id,
+                    handle: collection.handle,
+                  },
+                }}
               />
-            ))}
-          </div>
-
-          <div className="flex justify-center items-center gap-2 mt-8">
-            {hasPreviousPage && (
-              <a
-                href={getPaginationQueryString(prevPage)}
-                className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
-              >
-                ‹
-              </a>
-            )}
-
-            {pagination.map((p) => (
-              <a
-                key={p}
-                href={getPaginationQueryString(Number(p) || page)}
-                className={`px-3 py-1 rounded ${
-                  page === p
-                    ? 'font-semibold underline underline-offset-4'
-                    : 'hover:bg-gray-200'
-                }`}
-              >
-                {p}
-              </a>
-            ))}
-
-            {hasNextPage && (
-              <a
-                href={getPaginationQueryString(nextPage)}
-                className="px-3 py-1 text-xl font-semibold rounded hover:bg-gray-200"
-              >
-                ›
-              </a>
-            )}
-          </div>
-
-          <Analytics.CollectionView
-            data={{
-              collection: {
-                id: collection.id,
-                handle: collection.handle,
-              },
-            }}
-          />
+            </>
+          )}
         </div>
       </div>
     </>
@@ -373,6 +396,9 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         ...MoneyProductItem
       }
     }
+    metafield(namespace: "custom", key: "theme_types") {
+    value
+    }
   }
 ` as const;
 
@@ -407,4 +433,3 @@ const COLLECTION_QUERY = `#graphql
     }
   }
 ` as const;
-

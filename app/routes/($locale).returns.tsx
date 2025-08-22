@@ -7,15 +7,15 @@ export default function ReturnPolicyPage() {
                 <p className='!text-2xl sm:!text-3xl font-bold'>Return Policy</p>
                     <p className="!text-2xl sm:!text-3xl lg:!text-3xl font-bold">{import.meta.env.VITE_COMPANY_NAME} Return and Refund Policy</p>
                 <div>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4'>Last Updated: 1-7-2025</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4'>Last Updated: 16-7-2025</p>
                     <p className='leading-6 sm:leading-7 !text-sm sm:!text-base'>Thank you for shopping with us at {import.meta.env.VITE_COMPANY_NAME}. Our Return and Refund Policy aims to ensure a smooth and transparent experience. Please review the guidelines below for eligibility, processes, and timelines for returns, refunds, and exchanges.</p>
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Scope and Contact Information</h2>
                     <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4'>For questions regarding returns and refunds, please contact us through any of the methods below:</p>
                     <p className='flex flex-col gap-2 !text-sm sm:!text-base'>
-                        <span>Email: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
-                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
+                        <span>Email: <a href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`} className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
+                        <span>Phone: <a href={`tel:${import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}`} className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
                         <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
                     </p>
                 </div>
@@ -63,13 +63,13 @@ export default function ReturnPolicyPage() {
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Exchange Policy</h2>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base'>We offer exchanges for incorrect or defective items. Contact us within 30 days of delivery, and we'll cover the return shipping costs for eligible exchanges. If an incorrect size was ordered, please follow the return process and then place a new order for the correct size.</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base'>We offer exchanges for incorrect or defective items. Contact us within 30 days of delivery, and we&apos;ll cover the return shipping costs for eligible exchanges. If an incorrect size was ordered, please follow the return process and then place a new order for the correct size.</p>
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Exceptions and Special Cases</h2>
                     <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
-                        <li>Defective or Damaged Items: If your item arrives damaged or defective, contact us within 48 hours. We'll arrange a return at no cost to you and offer a replacement or full refund as per your preference.</li>
-                        <li>Incorrect Product: If you receive an incorrect item, please contact us, and we'll cover the return shipping and send you the correct item promptly.</li>
+                        <li>Defective or Damaged Items: If your item arrives damaged or defective, contact us within 48 hours. We&apos;ll arrange a return at no cost to you and offer a replacement or full refund as per your preference.</li>
+                        <li>Incorrect Product: If you receive an incorrect item, please contact us, and we&apos;ll cover the return shipping and send you the correct item promptly.</li>
                         <li>Lost Packages: If your package does not arrive within the estimated timeframe, contact us so we can initiate an investigation with the shipping carrier.</li>
                     </ul>
                 </div>
@@ -93,8 +93,8 @@ export default function ReturnPolicyPage() {
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Contact Information</h2>
                     <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4'>If you have further questions or require assistance with returns or refunds, please reach out:</p>
                     <p className='flex flex-col gap-2 !text-sm sm:!text-base'>
-                        <span>Email: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
-                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
+                        <span>Email: <a href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`} className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
+                        <span>Phone: <a href={`tel:${import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}`} className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
                         <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
                     </p>
                 </div>

@@ -4,14 +4,15 @@ export default function PrivacyPolicyPage() {
     return (
         <div className="bg-white min-h-screen py-8 sm:py-12 px-4 sm:px-5 [&_ul]:-indent-[1.3em]">
             <div className="max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8 lg:gap-10 tracking-wider">
-                <p className='!text-2xl sm:!text-3xl font-bold'>Privacy policy</p>
-                    <p className="!text-2xl sm:!text-3xl lg:!text-3xl font-bold">PRIVACY POLICY</p>
+                <p className="!text-2xl sm:!text-3xl lg:!text-3xl font-bold">Privacy Policy</p>
                 <div>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base '>Updated on 1-7-2025</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base '>Updated on 16-7-2025</p>
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Who We Are</h2>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base'> ("we," "us," or "our") operates the website {import.meta.env.VITE_DOMAIN_NAME}/ (the "Site"). We are a company that provides various services and products. This Privacy Policy describes how we collect, use, disclose, and safeguard your personal information.</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base'>
+                        {import.meta.env.VITE_COMPANY_NAME} (<span>&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;</span>) operates the website {import.meta.env.VITE_DOMAIN_NAME} (the &quot;Site&quot;). We are a company that provides various services and products. This Privacy Policy describes how we collect, use, disclose, and safeguard your personal information.
+                    </p>
                 </div>
                 <div>
                     <h2 className="!text-lg sm:!text-xl lg:!text-2xl font-semibold">Information We Collect</h2>
@@ -33,7 +34,9 @@ export default function PrivacyPolicyPage() {
                 </div>
                 <div>
                     <h3 className="!text-lg sm:!text-xl font-semibold !pb-3">Cookies and Tracking Technologies</h3>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base lg:!text-base'>Our Site may use "cookies" to improve User experience. Cookies are small files stored on your device by your web browser to help remember settings and preferences, and track site usage. Users can configure their browser settings to refuse cookies or alert them when cookies are sent.</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base lg:!text-base'>
+                        Our Site may use &quot;cookies&quot; to improve User experience. Cookies are small files stored on your device by your web browser to help remember settings and preferences, and track site usage. Users can configure their browser settings to refuse cookies or alert them when cookies are sent.
+                    </p>
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">How We Use Collected Information</h2>
@@ -52,7 +55,7 @@ export default function PrivacyPolicyPage() {
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Data Sharing and Disclosure</h2>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4 lg:!text-base'>We do not sell, trade, or rent Users' personal identification information. However, we may share information:</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4 lg:!text-base'>We do not sell, trade, or rent Users&apos; personal identification information. However, we may share information:</p>
                          <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8 lg:!text-base">
                         <li>With Service Providers: We may share information with third-party providers who assist us in our business operations (e.g., payment processing, shipping, or customer support).</li>
                         <li>For Legal Compliance: We may disclose information if required by law or to protect against legal liability.</li>
@@ -78,8 +81,9 @@ export default function PrivacyPolicyPage() {
                     </ul>
                 </div>
                 <div>
-                    <h2 className="!text-xl sm:!text-2xl font-semibold">International Users</h2>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base lg:!text-base'>Please note that we may transfer, store, and process your personal data outside the country where you live. Your personal data is also processed by staff and external service providers (third parties) and partners in these countries. If we transfer your personal data out of Europe, we will rely on recognized transfer mechanisms, such as the European Commission's Standard Contractual Clauses, or equivalent agreements from the relevant competent authority in the UK (if applicable) unless the data transfer is to a country deemed to ensure an adequate level of protection.</p>
+                    <h2 className="!text-xl sm:!text-2xl font-semibold">International users</h2>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base lg:!text-base'>Please note that we may transfer, store, and process your personal data outside the country where you live. Your personal data is also processed by staff and external service providers (third parties) and partners in these countries.</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base lg:!text-base'>If we transfer your personal data out of Europe, we will rely on recognized transfer mechanisms, such as the European Commission&apos;s Standard Contractual Clauses, or equivalent agreements from the relevant competent authority in the UK (if applicable) unless the data transfer is to a country deemed to ensure an adequate level of protection.</p>
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Changes to This Privacy Policy</h2>
@@ -89,10 +93,10 @@ export default function PrivacyPolicyPage() {
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Contact Us</h2>
                     <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4 lg:!text-base'>If you have questions or concerns about this Privacy Policy, please contact us:</p>
                     <p className='flex flex-col gap-2 !text-sm sm:!text-base lg:!text-base'>
-                        <span className="break-words">Email: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="underline underline-offset-4 break-all">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
-                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
+                        <span className="break-words">Email: <a href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`} className="underline underline-offset-4 break-all">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
+                        <span>Phone: <a href={`tel:${import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}`} className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
                         <span className="break-words">Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
-                        <span>Website: <a href="{import.meta.env.VITE_DOMAIN_NAME}" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">{import.meta.env.VITE_STORE_NAME}.com</a></span>
+                        <span>Website: <a href={import.meta.env.VITE_DOMAIN_NAME} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">{import.meta.env.VITE_DOMAIN_NAME}</a></span>
                     </p>
                 </div>
             </div>

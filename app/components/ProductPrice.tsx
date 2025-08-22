@@ -23,7 +23,7 @@ export function ProductPrice({
           </div>
         </div>
       ) : price ? (
-        <div className="text-lg font-bold text-white">
+        <div className="text-2xl font-bold text-white">
           <Money data={price} />
         </div>
       ) : (

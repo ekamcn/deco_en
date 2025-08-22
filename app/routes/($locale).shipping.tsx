@@ -4,12 +4,13 @@ export default function ShippingPolicyPage() {
     return (
         <div className="bg-white min-h-screen py-8 sm:py-12 px-4 sm:px-5 [&_ul]:-indent-[1.3em]">
             <div className="max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8 lg:gap-10 tracking-wider">
-                <p className='!text-2xl sm:!text-3xl font-bold'>Shipping policy</p>
                 <p className="!text-2xl sm:!text-3xl lg:!text-3xl font-bold">Shipping Policy</p>
 
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Who We Are</h2>
-                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base'>{import.meta.env.VITE_COMPANY_NAME} ("we," "us," or "our") operates the website {import.meta.env.VITE_DOMAIN_NAME}/ (the "Site"). Our goal is to ensure a seamless and transparent shipping process for your convenience and satisfaction. Below are the details of our shipping process.</p>
+                    <p className='leading-6 sm:leading-7 !text-sm sm:!text-base'>
+                        {import.meta.env.VITE_COMPANY_NAME} (<span>&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;</span>) operates the website {import.meta.env.VITE_DOMAIN_NAME} (the <span>&quot;Site&quot;</span>). Our goal is to ensure a seamless and transparent shipping process for your convenience and satisfaction. Below are the details of our shipping process.
+                    </p>
                 </div>
                 <div>
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Shipping Costs</h2>
@@ -61,10 +62,10 @@ export default function ShippingPolicyPage() {
                     <h2 className="!text-xl sm:!text-2xl font-semibold">Contact Us</h2>
                     <p className='leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4'>If you have questions or concerns about this Shipping Policy, please contact us:</p>
                     <p className='flex flex-col gap-2 !text-sm sm:!text-base'>
-                        <span>Email: <a href="mailto:{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
-                        <span>Phone: <a href="tel:+14842148789" className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
+                        <span>Email: <a href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`} className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></span>
+                        <span>Phone: <a href={`tel:${import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}`} className="underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}</a></span>
                         <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
-                        <span className='pt-4'>Last updated: 1-7-2025</span>
+                        <span className='pt-4'>Last updated: 16-7-2025</span>
                     </p>
                 </div>
             </div>

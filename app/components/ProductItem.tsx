@@ -6,18 +6,20 @@ import type {
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
-
+ 
 export function ProductItem({
   product,
   loading,
-  badgeText
+  badgeText,
+  badgeIcon,
 }: {
   product:
-  | CollectionItemFragment
-  | ProductItemFragment
-  | RecommendedProductFragment;
+    | CollectionItemFragment
+    | ProductItemFragment
+    | RecommendedProductFragment;
   loading?: 'eager' | 'lazy';
   badgeText?: string; // Optional badge text for flash deals or discounts
+  badgeIcon?: boolean; // Optional badge icon for flash deals or discounts
 }) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
@@ -26,14 +28,15 @@ export function ProductItem({
   const priceRange = product.priceRange as any;
   const minPrice = priceRange.minVariantPrice;
   const maxPrice = priceRange.maxVariantPrice || priceRange.minVariantPrice;
-
+ 
   // Get compare-at-price from custom property added by AllProductsWidget
   const compareAtPrice = (product as any).__compareAtPrice;
-
+ 
   // Check if there's a discount (compareAtPrice exists and is higher than regular price)
-  const hasDiscount = compareAtPrice && 
+  const hasDiscount =
+    compareAtPrice &&
     parseFloat(compareAtPrice.amount) > parseFloat(minPrice.amount);
-
+ 
   return (
     <Link
       className="border border-gray-300 bg-white p-2.5 text-center shadow-md relative flex flex-col justify-between transition-transform duration-200 ease-in-out hover:scale-105 rounded-sm"
@@ -41,13 +44,21 @@ export function ProductItem({
       prefetch="intent"
       to={variantUrl}
     >
-      {/* Flash Deal Badge - positioned absolute like the CSS */}
       {badgeText && (
-        <div className="absolute top-1 left-1 bg-[var(--color-1)] text-white p-2 text-xs rounded-sm flex items-center">
+        <div className="absolute top-1 left-1 bg-[var(--color-1)] text-white p-2 text-xs rounded-sm flex items-center gap-1">
+          {badgeIcon && (
+            <img 
+              src="/alarmClock.svg" 
+              alt="Alarm clock icon" 
+              width="16" 
+              height="16"
+              className="flex-shrink-0"
+            />
+          )}
           {badgeText}
         </div>
       )}
-
+ 
       {/* Product Image */}
       <div className="mb-2.5">
         {image && (
@@ -61,12 +72,12 @@ export function ProductItem({
           />
         )}
       </div>
-
+ 
       {/* Product Title */}
-      <h4 className="flex flex-wrap text-sm font-bold text-gray-800 mb-2 line-clamp-2 min-h-[2.5rem] leading-tight">
+<p className="text-sm font-bold text-gray-800 mb-2 line-clamp-2 min-h-[2.5rem] leading-tight text-center">
         {product.title}
-      </h4>
-
+      </p>
+ 
       {/* Price Info Section - with margin like CSS */}
       <div
         className={`my-2.5 flex ${compareAtPrice ? 'flex-wrap' : 'flex-col'} gap-1 justify-center items-center`}
@@ -77,7 +88,7 @@ export function ProductItem({
             <Money data={compareAtPrice} />
           </div>
         )}
-
+ 
         {/* Current Price */}
         <div className="text-lg font-bold text-[var(--color-1)]">
           <Money data={minPrice} />
@@ -91,25 +102,25 @@ export function ProductItem({
             </>
           )}
         </div>
-
+ 
         {/* Savings Badge - only if there's a discount */}
         {badgeText === 'Flash Sale' && (
-          <div className="w-full !text-sm font-medium text-[#666666] px-2 py-1 mt-3">
-            <p className="text-[#B7B7B7] !text-xs  !md:pt-2">
+          <div className="w-full !text-sm font-medium text-[#666666] px-2 py-1 self-center border-t border-gray-300 m-2">
+            <p className="text-[#B7B7B7] !text-xs !pt-2">
               Today&apos;s Special Offer:
             </p>
             <div className="flex flex-wrap justify-center gap-1 !text-xs text-center">
               <span>
-                {new Date().toLocaleDateString('en-US', { weekday: 'long' })},
+                {new Date().toLocaleDateString('en-US', {weekday: 'long'})},
               </span>
               <span className="text-red-600">
-                {new Date().toLocaleDateString('en-US', { month: 'long' })}
+                {new Date().toLocaleDateString('en-US', {month: 'long'})}
               </span>
               <span>
-                {new Date().toLocaleDateString('en-US', { day: 'numeric' })},
+                {new Date().toLocaleDateString('en-US', {day: 'numeric'})},
               </span>
               <span>
-                {new Date().toLocaleDateString('en-US', { year: 'numeric' })}
+                {new Date().toLocaleDateString('en-US', {year: 'numeric'})}
               </span>
             </div>
           </div>
@@ -118,4 +129,5 @@ export function ProductItem({
     </Link>
   );
 }
-
+ 
+ 
