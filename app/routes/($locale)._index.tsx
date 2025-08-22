@@ -1,16 +1,69 @@
-import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link, type MetaFunction} from 'react-router';
-import {Suspense} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
+import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { Await, useLoaderData, Link, type MetaFunction } from 'react-router';
+import { Suspense } from 'react';
+import { Image, Money } from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
-import {ProductItem} from '~/components/ProductItem';
-import {ImageBanner} from '~/components/ImageBanner';
+import { ProductItem } from '~/components/ProductItem';
+import { ImageBanner } from '~/components/ImageBanner';
+import { AllProductsWidget } from '~/components/AllProductsWidget';
+import { AllCollectionsWidgetSimple } from '~/components/AllCollections';
+import { CollectionByHandle } from '~/components/GetCollectionByHandle';
+import FaqSection from '~/components/FaqSection';
+
+
+
+const sections = [
+  {
+    title: 'Questions? We’ve Got Answers',
+    faqs: [
+      {
+        question: 'Before You Reach Out',
+        answer: (
+          <div className='flex flex-col gap-4'>
+            <p><strong>PLEASE NOTE :</strong> We kindly ask you to check our FAQ carefully before contacting us.</p>
+            <p>If you don’t find the answer to your question, feel free to email us at <a href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`} className=" hover:text-blue-300 transition-colors !text-[var(--color-footer)] underline underline-offset-4">{import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}</a></p>
+          </div>
+        ),
+      },
+      {
+        question: 'What Payment Methods Do You Accept?',
+        answer: (
+          <div className='flex flex-col gap-4'>
+            <p>We accept a variety of payment methods, including Visa and MasterCard.</p>
+            <p>All transactions are securely processed and encrypted to ensure your peace of mind.</p>
+
+          </div>
+        ),
+      },
+      {
+        question: 'How Can I Track My Order?',
+        answer: (
+          <div className='flex flex-col gap-4'>
+            <p>Once your order has been shipped, you’ll receive a confirmation email with a tracking number.</p>
+            <p>You can use this number to track your package in real time on our website or directly on the carrier’s website.</p>
+          </div>
+        ),
+      },
+      {
+        question: 'What Is Your Return Policy?',
+        answer: (
+          <div className='flex flex-col gap-4'>
+            <p>We offer a flexible return policy. If you’re not satisfied with your purchase, please contact us within 30 days of receiving your order to arrange a return or exchange.</p>
+            <p>For full details, please visit our Returns Policy page.</p>
+
+          </div>
+        ),
+      }
+    ],
+  },
+];
+
 
 export const meta: MetaFunction = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{ title: 'Hydrogen | Home' }];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -20,15 +73,15 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return {...deferredData, ...criticalData};
+  return { ...deferredData, ...criticalData };
 }
 
 /**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- */
-async function loadCriticalData({context}: LoaderFunctionArgs) {
-  const [{collections}] = await Promise.all([
+* Load data necessary for rendering content above the fold. This is the critical data
+* needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
+*/
+async function loadCriticalData({ context }: LoaderFunctionArgs) {
+  const [{ collections }] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
     // Add other queries here, so that they are loaded in parallel
   ]);
@@ -39,11 +92,11 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
 }
 
 /**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
-function loadDeferredData({context}: LoaderFunctionArgs) {
+* Load data for rendering content below the fold. This data is deferred and will be
+* fetched after the initial page load. If it's unavailable, the page should still 200.
+* Make sure to not throw any errors here, as it will cause the page to 500.
+*/
+function loadDeferredData({ context }: LoaderFunctionArgs) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
     .catch((error) => {
@@ -61,16 +114,61 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home">
-      <ImageBanner 
-        title="Deco Bay"
-        imageUrl = {`${import.meta.env.VITE_BANNER}`}
-        subtitle="Welcome to Deco Bay, a proudly American brand committed to transforming your home with style, quality, and unbeatable value."
+
+      <ImageBanner
+        title={import.meta.env.VITE_STORE_TITLE}
+        imageUrl={import.meta.env.VITE_BANNER}
+        mobileImageUrl={import.meta.env.VITE_MOBILE_BANNER}
+        subtitle={`Welcome to ${import.meta.env.VITE_STORE_TITLE}, a proudly American brand committed to transforming your  style, quality, and unbeatable value.`}
         description="Founded by a team of passionate home decor enthusiasts, our mission is simple: to make your living space more beautiful, more functional, and above all — more accessible for everyone."
         buttonText="Shop Now"
         buttonUrl=""
       />
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
+
+      <CollectionByHandle
+        handle="offre-flash"
+        // title="offer flash"
+        limit={6}
+        columnSize="6"
+        badgeText="Flash Sale"
+        showTitle={true}
+        showDescription={false}
+        className="featured-collection"
+        forceSmallCols2={true}
+      />
+
+      <CollectionByHandle
+        handle="derniere-chance"
+        // title="derniere chance"
+        limit={20}
+        columnSize="4"
+        badgeText="Last Chance"
+        badgeIcon={true}
+        showTitle={true}
+        showDescription={false}
+        className="featured-collection"
+        forceSmallCols2={true}
+      />
+
+
+      <AllCollectionsWidgetSimple />
+      {/* <AllProductsWidget limit={8} /> */}
+
+      <CollectionByHandle
+        handle="tout-a-moins-de-20"
+        // title="tout a moins de 20"
+        limit={20}
+        columnSize="5"
+        showTitle={true}
+        badgeText=""
+        showDescription={false}
+        className="featured-collection"
+      />
+
+      <FaqSection sections={sections} showNewsletter rounded heading='Emails' />
+
+      {/* <FeaturedCollection collection={data.featuredCollection} />
+      <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
   );
 }
@@ -97,31 +195,31 @@ function FeaturedCollection({
   );
 }
 
-function RecommendedProducts({
-  products,
-}: {
-  products: Promise<RecommendedProductsQuery | null>;
-}) {
-  return (
-    <div className="recommended-products">
-      <h2>Recommended Products</h2>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={products}>
-          {(response) => (
-            <div className="recommended-products-grid">
-              {response
-                ? response.products.nodes.map((product) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
-                : null}
-            </div>
-          )}
-        </Await>
-      </Suspense>
-      <br />
-    </div>
-  );
-}
+// function RecommendedProducts({
+//   products,
+// }: {
+//   products: Promise<RecommendedProductsQuery | null>;
+// }) {
+//   return (
+//     <div className="recommended-products">
+//       <h2>Recommended Products</h2>
+//       <Suspense fallback={<div>Loading...</div>}>
+//         <Await resolve={products}>
+//           {(response) => (
+//             <div className="recommended-products-grid">
+//               {response
+//                 ? response.products.nodes.map((product) => (
+//                     <ProductItem key={product.id} product={product} />
+//                   ))
+//                 : null}
+//             </div>
+//           )}
+//         </Await>
+//       </Suspense>
+//       <br />
+//     </div>
+//   );
+// }
 
 const FEATURED_COLLECTION_QUERY = `#graphql
   fragment FeaturedCollection on Collection {
@@ -165,7 +263,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       height
     }
   }
-  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
+  query RecommendedProductsPage ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
     products(first: 4, sortKey: UPDATED_AT, reverse: true) {
       nodes {
@@ -174,3 +272,4 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     }
   }
 ` as const;
+

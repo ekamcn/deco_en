@@ -9,3 +9,8 @@
  .html, body {
   font-family: var(--font-family);
 }
+
+
+.page-width  {
+  padding: 0 1rem;
+}

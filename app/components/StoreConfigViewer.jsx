@@ -6,49 +6,49 @@ export function StoreConfigViewer() {
   // Get environment variables
   const storeConfig = {
     // Store Basics
-    storeName: import.meta.env.VITE_STORE_NAME || 'Store Name Not Set',
-    customerSupportEmail: import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL || 'Email Not Set',
-    customerServicePhone: import.meta.env.VITE_CUSTOMER_SERVICE_PHONE || 'Phone Not Set',
-    domainName: import.meta.env.VITE_DOMAIN_NAME || 'Domain Not Set',
+    storeName: import.meta.env.VITE_STORE_TITLE || 'Store Name Not Set', //done
+    customerSupportEmail: import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL || 'Email Not Set', //done
+    customerServicePhone: import.meta.env.VITE_CUSTOMER_SERVICE_PHONE || 'Phone Not Set', //done
+    domainName: import.meta.env.VITE_DOMAIN_NAME || 'Domain Not Set', //done
     shopifyEmail: import.meta.env.VITE_SHOPIFY_EMAIL || 'Optional',
     shopifyURL: import.meta.env.VITE_SHOPIFY_URL || 'Shopify URL Not Set',
 
 
     // Theme Selection
-    category: import.meta.env.VITE_CATEGORY || 'general',
-    language: import.meta.env.VITE_LANGUAGE || 'en',
+    category: import.meta.env.VITE_CATEGORY || 'general', //done
+    language: import.meta.env.VITE_LANGUAGE || 'en', //done
 
     // Brand Customization
-    color1: import.meta.env.VITE_COLOR1 || '#000000',
-    color2: import.meta.env.VITE_COLOR2 || '#ffffff',
-    logo: import.meta.env.VITE_LOGO || '/logo.png',
-    banner: import.meta.env.VITE_BANNER || '/banner.png',
-    typography: import.meta.env.VITE_TYPOGRAPHY || 'sans-serif',
+    color1: import.meta.env.VITE_COLOR1 || '#000000', //done
+    color2: import.meta.env.VITE_COLOR2 || '#ffffff', //done
+    logo: import.meta.env.VITE_LOGO || '/deco-bay-logo.avif',
+    banner: import.meta.env.VITE_BANNER || '/banner.webp', //done
+    typography: import.meta.env.VITE_TYPOGRAPHY || 'sans-serif', //done
 
     // Legal Information
-    companyName: import.meta.env.VITE_COMPANY_NAME || 'Company Name Not Set',
-    companyAddress: import.meta.env.VITE_COMPANY_ADDRESS || 'Address Not Set',
+    companyName: import.meta.env.VITE_COMPANY_NAME || 'Company Name Not Set', //done
+    companyAddress: import.meta.env.VITE_COMPANY_ADDRESS || 'Address Not Set', //done
 
     // Checkout Configuration
-    checkoutDomain: import.meta.env.VITE_CHECKOUT_DOMAIN || 'Checkout Domain Not Set',
-    checkoutId: import.meta.env.VITE_CHECKOUT_ID || 'Checkout ID Not Set',
+    checkoutDomain: import.meta.env.VITE_CHECKOUT_DOMAIN || 'Checkout Domain Not Set', //done
+    checkoutId: import.meta.env.VITE_CHECKOUT_ID || 'Checkout ID Not Set', //done
     squareLogo: import.meta.env.VITE_SQUARE_LOGO || '/square-logo.png',
     offerIdType: import.meta.env.VITE_OFFER_ID_TYPE || 'default',
 
     // Custom Offer IDs
     customOfferIds: {
       '9.99': import.meta.env.VITE_CUSTOM_OFFER_ID_9_99 || '9.99',
-      '19.5': import.meta.env.VITE_CUSTOM_OFFER_ID_19_5 || '',
-      '29.9': import.meta.env.VITE_CUSTOM_OFFER_ID_29_9 || '',
-      '39.99': import.meta.env.VITE_CUSTOM_OFFER_ID_39_99 || '',
-      '49.9': import.meta.env.VITE_CUSTOM_OFFER_ID_49_9 || '',
-      '59.5': import.meta.env.VITE_CUSTOM_OFFER_ID_59_5 || '',
-      '69.99': import.meta.env.VITE_CUSTOM_OFFER_ID_69_99 || '',
-      '79.9': import.meta.env.VITE_CUSTOM_OFFER_ID_79_9 || '',
-      '89.5': import.meta.env.VITE_CUSTOM_OFFER_ID_89_5 || '',
-      '99.99': import.meta.env.VITE_CUSTOM_OFFER_ID_99_99 || '',
-      '109.9': import.meta.env.VITE_CUSTOM_OFFER_ID_109_9 || '',
-      '119.5': import.meta.env.VITE_CUSTOM_OFFER_ID_119_5 || '',
+      '19.5': import.meta.env.VITE_CUSTOM_OFFER_ID_19_5 || '19.5',
+      '29.9': import.meta.env.VITE_CUSTOM_OFFER_ID_29_9 || '29.9',
+      '39.99': import.meta.env.VITE_CUSTOM_OFFER_ID_39_99 || '39.99',
+      '49.9': import.meta.env.VITE_CUSTOM_OFFER_ID_49_9 || '49.9',
+      '59.5': import.meta.env.VITE_CUSTOM_OFFER_ID_59_5 || '59.5',
+      '69.99': import.meta.env.VITE_CUSTOM_OFFER_ID_69_99 || '69.99',
+      '79.9': import.meta.env.VITE_CUSTOM_OFFER_ID_79_9 || '79.9',
+      '89.5': import.meta.env.VITE_CUSTOM_OFFER_ID_89_5 || '89.5',
+      '99.99': import.meta.env.VITE_CUSTOM_OFFER_ID_99_99 || '99.99',
+      '109.9': import.meta.env.VITE_CUSTOM_OFFER_ID_109_9 || '109.9',
+      '119.5': import.meta.env.VITE_CUSTOM_OFFER_ID_119_5 || '119.5',
     },
   };
 

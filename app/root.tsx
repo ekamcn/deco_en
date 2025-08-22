@@ -1,5 +1,5 @@
-import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
-import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import { Analytics, getShopAnalytics, useNonce } from '@shopify/hydrogen';
+import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import {
   Outlet,
   useRouteError,
@@ -12,11 +12,12 @@ import {
   useRouteLoaderData,
 } from 'react-router';
 import favicon from '~/assets/favicon.svg';
-import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
-import {PageLayout} from './components/PageLayout';
+import { PageLayout } from './components/PageLayout';
+import { Aside } from './components/Aside';
 
 export type RootLoader = typeof loader;
 
@@ -62,7 +63,7 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    { rel: 'icon', type: 'image/svg+xml', href: favicon },
   ];
 }
 
@@ -73,7 +74,7 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  const {storefront, env} = args.context;
+  const { storefront, env } = args.context;
 
   return {
     ...deferredData,
@@ -98,8 +99,8 @@ export async function loader(args: LoaderFunctionArgs) {
  * Load data necessary for rendering content above the fold. This is the critical data
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
-async function loadCriticalData({context}: LoaderFunctionArgs) {
-  const {storefront} = context;
+async function loadCriticalData({ context }: LoaderFunctionArgs) {
+  const { storefront } = context;
 
   const [header] = await Promise.all([
     storefront.query(HEADER_QUERY, {
@@ -111,7 +112,7 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
     // Add other queries here, so that they are loaded in parallel
   ]);
 
-  return {header};
+  return { header };
 }
 
 /**
@@ -119,8 +120,8 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData({context}: LoaderFunctionArgs) {
-  const {storefront, customerAccount, cart} = context;
+function loadDeferredData({ context }: LoaderFunctionArgs) {
+  const { storefront, customerAccount, cart } = context;
 
   // defer the footer query (below the fold)
   const footer = storefront
@@ -142,10 +143,9 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
   };
 }
 
-export function Layout({children}: {children?: React.ReactNode}) {
+export function Layout({ children }: { children?: React.ReactNode }) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
-
 
   // import environment variables for scripts and styles
   const googleVerificationId = import.meta.env.VITE_HEAD_SCRIPT?.replace(/"/g, '') || '';
@@ -154,15 +154,42 @@ export function Layout({children}: {children?: React.ReactNode}) {
   const typography = import.meta.env.VITE_TYPOGRAPHY?.replace(/"/g, '') || 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   const color1 = import.meta.env.VITE_COLOR1?.replace(/"/g, '');
   const color2 = import.meta.env.VITE_COLOR2?.replace(/"/g, '');
-
+  const colorFooter = import.meta.env.VITE_FOOTER_COLOR?.replace(/"/g, '');
 
   return (
     <html lang="en">
-    
       <head>
-           {/* <!-- This meta id is passed by .env variable ! --> */}
-        <meta name='google-site-verification' content={googleVerificationId} />
-         
+        {/* Google Site Verification (placed first as per best practices) */}
+        <meta name="google-site-verification" content="wdy2HT8RjYX_Rv8UVmMCCTR_5mzV_Q0ckhLLOV0rVyU" />
+
+        {/* Google Ads Global Site Tag (gtag.js) */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GOOGLE_ADS_ID || 'AW-XXXXXXXXX'}`}></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${import.meta.env.VITE_GOOGLE_ADS_ID || 'AW-XXXXXXXXX'}');
+            `,
+          }}
+        />
+
+        {/* Synchronis Analytics Script (placeholder - verify compatibility) */}
+        {/* TODO: Confirm Synchronis script URL and configuration with dev team */}
+        <script async src="https://cdn.synchronis.com/analytics.js"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Initialize Synchronis analytics (placeholder configuration)
+              window.Synchronis = window.Synchronis || [];
+              function synchronisTrack(){Synchronis.push(arguments);}
+              synchronisTrack('init', '${import.meta.env.VITE_SYNCHRONIS_ID || 'SYNC-XXXXXXXXX'}');
+              synchronisTrack('pageview');
+            `,
+          }}
+        />
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="stylesheet" href={tailwindCss}></link>
@@ -171,15 +198,17 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <Meta />
         <Links />
       </head>
-       <style dangerouslySetInnerHTML={{
-          __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
             :root ,:host {
               --font-family: ${typography};
-              --color-1: ${color1 };
-              --color-2: ${color2 };
+              --color-1: ${color1};
+              --color-2: ${color2};
+              --color-footer: ${colorFooter};
+
             }
           `
-        }} />
+      }} />
       <body>
         {data ? (
           <Analytics.Provider
@@ -187,18 +216,19 @@ export function Layout({children}: {children?: React.ReactNode}) {
             shop={data.shop}
             consent={data.consent}
           >
-            <PageLayout {...data}>{children}</PageLayout>
+            <Aside.Provider contextId="header">
+              <PageLayout {...data}>{children}</PageLayout>
+            </Aside.Provider>
           </Analytics.Provider>
         ) : (
           children
         )}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
-        {/* <!-- This script is passed by .env variables ! --> */}
+        {/* External body script */}
         <script src={bodyScriptURL} type='text/javascript' async></script>
-
+        {/* Inline body function */}
         <script dangerouslySetInnerHTML={{ __html: `(${bodyFunction})();` }}></script>
-   
       </body>
     </html>
   );

@@ -188,6 +188,15 @@ const MENU_FRAGMENT = `#graphql
   }
 ` as const;
 
+const COLLECTIONS_FRAGMENT = `#graphql
+  fragment CollectionCard on Collection {
+    id
+    title
+    handle
+    updatedAt
+  }
+` as const;
+
 export const HEADER_QUERY = `#graphql
   fragment Shop on Shop {
     id
@@ -214,6 +223,16 @@ export const HEADER_QUERY = `#graphql
     }
     menu(handle: $headerMenuHandle) {
       ...Menu
+    }
+    collections(first: 50, query: "collection_type:smart") {
+      edges {
+        node {
+          id
+          handle
+          title
+          updatedAt
+        }
+      }
     }
   }
   ${MENU_FRAGMENT}

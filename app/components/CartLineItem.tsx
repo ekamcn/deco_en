@@ -23,7 +23,7 @@ export function CartLineItem({
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
-  const {close} = useAside();
+  const {close} = useAside('header');
 
   return (
     <li key={id} className="cart-line">
@@ -38,7 +38,7 @@ export function CartLineItem({
         />
       )}
 
-      <div>
+      <div className='flex flex-col gap-1'>
         <Link
           prefetch="intent"
           to={lineItemUrl}
@@ -52,8 +52,7 @@ export function CartLineItem({
             <strong>{product.title}</strong>
           </p>
         </Link>
-        <ProductPrice price={line?.cost?.totalAmount} />
-        <ul>
+                <ul>
           {selectedOptions.map((option) => (
             <li key={option.name}>
               <small>
@@ -62,11 +61,15 @@ export function CartLineItem({
             </li>
           ))}
         </ul>
+
         <CartLineQuantity line={line} />
+        <ProductPrice price={line?.cost?.totalAmount} />
       </div>
     </li>
   );
 }
+
+
 
 /**
  * Provides the controls to update the quantity of a line item in the cart.
@@ -80,29 +83,64 @@ function CartLineQuantity({line}: {line: CartLine}) {
   const nextQuantity = Number((quantity + 1).toFixed(0));
 
   return (
-    <div className="cart-line-quantity">
-      <small>Quantity: {quantity} &nbsp;&nbsp;</small>
+    <div className="cart-line-quantity flex items-center gap-2">
+      
+      <div className='border rounded-full flex items-center justify-center px-2 gap-2'>
+
       <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
         <button
           aria-label="Decrease quantity"
+          className='cursor-pointer'
           disabled={quantity <= 1 || !!isOptimistic}
           name="decrease-quantity"
           value={prevQuantity}
-        >
-          <span>&#8722; </span>
+          >
+         <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              aria-hidden="true" 
+              focusable="false" 
+              role="presentation" 
+              className="w-4 h-4" 
+              fill="none" 
+              viewBox="0 0 10 2"
+            >
+              <path 
+                fillRule="evenodd" 
+                clipRule="evenodd" 
+                d="M.5 1C.5.7.7.5 1 .5h8a.5.5 0 110 1H1A.5.5 0 01.5 1z" 
+                fill="currentColor"
+              />
+            </svg>
         </button>
       </CartLineUpdateButton>
-      &nbsp;
+      <input type="text" className='w-12 h-6 text-center rounded-full !border-none' value={quantity} name='quantity' />
       <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
         <button
           aria-label="Increase quantity"
+          className='cursor-pointer'
           name="increase-quantity"
           value={nextQuantity}
           disabled={!!isOptimistic}
-        >
-          <span>&#43;</span>
+          >
+        <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              aria-hidden="true" 
+              focusable="false" 
+              role="presentation" 
+              className="w-4 h-4" 
+              fill="none" 
+              viewBox="0 0 10 10"
+            >
+              <path 
+                fillRule="evenodd" 
+                clipRule="evenodd" 
+                d="M1 4.51a.5.5 0 000 1h3.5l.01 3.5a.5.5 0 001-.01V5.5l3.5-.01a.5.5 0 00-.01-1H5.5L5.49.99a.5.5 0 00-1 .01v3.5l-3.5.01H1z" 
+                fill="currentColor"
+              />
+            </svg>
         </button>
       </CartLineUpdateButton>
+          </div>
       &nbsp;
       <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
     </div>
@@ -128,8 +166,16 @@ function CartLineRemoveButton({
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button disabled={disabled} type="submit">
-        Remove
+      <button
+        disabled={disabled}
+        type="submit"
+        className="button button--tertiary p-2 rounded-full transition-colors bg-[var(--color-1)] text-white cursor-pointer"
+        aria-label="Remove item from cart"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" focusable="false" role="presentation" className="icon icon-remove w-5 h-5">
+          <path d="M14 3h-3.53a3.07 3.07 0 00-.6-1.65C9.44.82 8.8.5 8 .5s-1.44.32-1.87.85A3.06 3.06 0 005.53 3H2a.5.5 0 000 1h1.25v10c0 .28.22.5.5.5h8.5a.5.5 0 00.5-.5V4H14a.5.5 0 000-1zM6.91 1.98c.23-.29.58-.48 1.09-.48s.85.19 1.09.48c.2.24.3.6.36 1.02h-2.9c.05-.42.17-.78.36-1.02zm4.84 11.52h-7.5V4h7.5v9.5z" fill="currentColor"></path>
+          <path d="M6.55 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5zM9.45 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5z" fill="currentColor"></path>
+        </svg>
       </button>
     </CartForm>
   );

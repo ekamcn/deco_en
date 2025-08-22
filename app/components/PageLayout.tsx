@@ -1,5 +1,5 @@
 import {Await, Link} from 'react-router';
-import {Suspense, useId} from 'react';
+import {Suspense, useEffect, useId} from 'react';
 import type {
   CartApiQueryFragment,
   FooterQuery,
@@ -14,7 +14,8 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
-
+import {AllProductsWidget} from './AllProductsWidget';
+ 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
   footer: Promise<FooterQuery | null>;
@@ -23,7 +24,7 @@ interface PageLayoutProps {
   publicStoreDomain: string;
   children?: React.ReactNode;
 }
-
+ 
 export function PageLayout({
   cart,
   children = null,
@@ -32,32 +33,46 @@ export function PageLayout({
   isLoggedIn,
   publicStoreDomain,
 }: PageLayoutProps) {
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+ 
+    if (gclid) {
+      const expiry = new Date();
+      expiry.setTime(expiry.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+      document.cookie = `gclid=${gclid}; expires=${expiry.toUTCString()}; path=/; SameSite=Lax`;
+    }
+  }, []);
+ 
   return (
-    <Aside.Provider>
-      <CartAside cart={cart} />
-      <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
-      {header && (
-        <Header
+    <>
+      <Aside.Provider contextId="header">
+        <CartAside cart={cart} />
+        <SearchAside />
+        <MobileMenuAside
           header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
         />
-      )}
-      <main>{children}</main>
-      <Footer
-        footer={footer}
-        header={header}
-        publicStoreDomain={publicStoreDomain}
-      />
-    </Aside.Provider>
+        {header && (
+          <Header
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+      </Aside.Provider>
+      <Aside.Provider contextId="filters">
+        <main>{children}</main>
+      </Aside.Provider>
+      <Footer />
+    </>
   );
 }
-
+ 
 function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
   return (
-    <Aside type="cart" heading="CART">
+    <Aside type="cart" heading="CART" contextId="header">
       <Suspense fallback={<p>Loading cart ...</p>}>
         <Await resolve={cart}>
           {(cart) => {
@@ -68,11 +83,11 @@ function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
     </Aside>
   );
 }
-
+ 
 function SearchAside() {
   const queriesDatalistId = useId();
   return (
-    <Aside type="search" heading="SEARCH">
+    <Aside type="search" heading="SEARCH" contextId="header">
       <div className="predictive-search">
         <br />
         <SearchFormPredictive>
@@ -92,19 +107,19 @@ function SearchAside() {
             </>
           )}
         </SearchFormPredictive>
-
+ 
         <SearchResultsPredictive>
           {({items, total, term, state, closeSearch}) => {
             const {articles, collections, pages, products, queries} = items;
-
+ 
             if (state === 'loading' && term.current) {
               return <div>Loading...</div>;
             }
-
+ 
             if (!total) {
               return <SearchResultsPredictive.Empty term={term} />;
             }
-
+ 
             return (
               <>
                 <SearchResultsPredictive.Queries
@@ -138,7 +153,7 @@ function SearchAside() {
                   >
                     <p>
                       View all results for <q>{term.current}</q>
-                      &nbsp; →
+                      &nbsp; → {""}
                     </p>
                   </Link>
                 ) : null}
@@ -150,7 +165,7 @@ function SearchAside() {
     </Aside>
   );
 }
-
+ 
 function MobileMenuAside({
   header,
   publicStoreDomain,
@@ -161,7 +176,8 @@ function MobileMenuAside({
   return (
     header.menu &&
     header.shop.primaryDomain?.url && (
-      <Aside type="mobile" heading="MENU">
+      <div className="lg:hidden">
+      <Aside type="mobile" heading="MENU" contextId="header">
         <HeaderMenu
           menu={header.menu}
           viewport="mobile"
@@ -169,6 +185,9 @@ function MobileMenuAside({
           publicStoreDomain={publicStoreDomain}
         />
       </Aside>
+      </div>
     )
   );
 }
+ 
+ 

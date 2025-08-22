@@ -51,17 +51,25 @@ function CartEmpty({
   hidden: boolean;
   layout?: CartMainProps['layout'];
 }) {
-  const {close} = useAside();
+  const {close} = useAside('header');
   return (
-    <div hidden={hidden}>
+    <div
+      hidden={hidden}
+      className="flex flex-col items-center justify-center h-full min-h-[60vh] w-full"
+    >
       <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
+      <strong>Your Cart is Empty</strong>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
+      <Link to="/collections/all" onClick={close} prefetch="viewport">
+        <button
+          type="submit"
+          // onClick={() => {
+          //   console.log('checkout');
+          // }}
+          className="product-form__submit flex items-center justify-center gap-2 w-full px-3 py-2 rounded-full text-md font-medium transition-colors duration-200 bg-[var(--color-1)] text-white cursor-pointer"
+        >
+          <span className="addbtntext">Continue to Shopping</span>
+        </button>
       </Link>
     </div>
   );

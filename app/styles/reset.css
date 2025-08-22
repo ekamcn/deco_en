@@ -46,10 +46,10 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+/* a:hover {
   text-decoration: underline;
   cursor: pointer;
-}
+} */
 
 hr {
   border-bottom: none;
@@ -67,9 +67,9 @@ body {
   min-height: 100vh;
 }
 
-body > main {
+/* body > main {
   margin: 0 1rem 1rem 1rem;
-}
+} */
 
 section {
   padding: 1rem 0;
@@ -125,4 +125,13 @@ code {
   border-radius: 4px;
   font-family: monospace;
   padding: 0.25rem;
+}
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
 }
