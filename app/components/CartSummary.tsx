@@ -3,7 +3,7 @@ import type {CartLayout} from '~/components/CartMain';
 import {Money, type OptimisticCart} from '@shopify/hydrogen';
 import {LuLoaderCircle} from 'react-icons/lu';
 import {useEffect, useRef, useState} from 'react';
-
+ 
 const pricingMatrix = {
   french: [
     {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_9_99 || '49768', price: 9.99, currency: 'EUR'},
@@ -34,7 +34,7 @@ const pricingMatrix = {
     {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_119_5 || '49815', price: 119.5, currency: 'USD'},
   ],
 };
-
+ 
 function getOfferId(
   price: number | string,
   locale: 'english' | 'french' = 'english',
@@ -45,24 +45,25 @@ function getOfferId(
   );
   return found ? found.offerId : '';
 }
-
+ 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
   layout: CartLayout;
   logoPath?: string;
   affId?: string;
 };
-
+ 
 export function CartSummary({cart, layout, affId}: CartSummaryProps) {
   const className = layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
   const language = import.meta.env.VITE_LANGUAGE || 'english';
-
+ 
   // State to manage subtotal loader visibility
   const [showSubtotalLoader, setShowSubtotalLoader] = useState(false);
-  const subtotalTimeoutRef = useRef<number | null>(null);
-  const isUpdatingRef = useRef<boolean>(false);
+  const isWaitingForSubtotalRef = useRef<boolean>(false);
+  const safetyTimeoutRef = useRef<number | null>(null);
   const prevLinesRef = useRef<string>('');
-
+  const prevSubtotalRef = useRef<string>('');
+ 
   // Compute a unique identifier for cart lines to detect changes
   const lines = Array.isArray((cart?.lines as any)?.nodes)
     ? (cart?.lines as any).nodes
@@ -73,61 +74,54 @@ export function CartSummary({cart, layout, affId}: CartSummaryProps) {
       quantity: line.quantity,
     })),
   );
-
+ 
   // Trigger loader on cart lines change (e.g., + or - clicks, or add to cart)
   useEffect(() => {
     // Only trigger loader if lines have changed
     if (cartLinesIdentifier !== prevLinesRef.current) {
-      isUpdatingRef.current = true;
       setShowSubtotalLoader(true);
-
-      // Clear any existing timeout
-      if (subtotalTimeoutRef.current) {
-        window.clearTimeout(subtotalTimeoutRef.current);
+      isWaitingForSubtotalRef.current = true;
+      prevSubtotalRef.current = String(cart.cost?.subtotalAmount?.amount ?? '');
+ 
+      // Safety timeout to avoid an infinite spinner in edge cases
+      if (safetyTimeoutRef.current) {
+        window.clearTimeout(safetyTimeoutRef.current);
       }
-
-      // Set initial timeout (minimum 1 second)
-      subtotalTimeoutRef.current = window.setTimeout(() => {
-        // Only hide loader if price has stabilized (checked in price useEffect)
-        if (!isUpdatingRef.current) {
-          setShowSubtotalLoader(false);
-        }
-      }, 1000);
+      safetyTimeoutRef.current = window.setTimeout(() => {
+        isWaitingForSubtotalRef.current = false;
+        setShowSubtotalLoader(false);
+      }, 10000);
     }
     // Update prevLinesRef for next comparison
     prevLinesRef.current = cartLinesIdentifier;
-
+ 
     // Cleanup on unmount or when cart lines change again
     return () => {
-      if (subtotalTimeoutRef.current) {
-        window.clearTimeout(subtotalTimeoutRef.current);
+      if (safetyTimeoutRef.current) {
+        window.clearTimeout(safetyTimeoutRef.current);
       }
     };
   }, [cartLinesIdentifier]);
-
-  // Extend loader duration if price is still updating
+ 
+  // Hide loader when subtotal actually changes after a lines change
   useEffect(() => {
-    if (isUpdatingRef.current) {
-      // Price is updating, extend loader duration
-      if (subtotalTimeoutRef.current) {
-        window.clearTimeout(subtotalTimeoutRef.current);
-      }
-
-      // Extend timeout to ensure loader stays until price stabilizes
-      subtotalTimeoutRef.current = window.setTimeout(() => {
-        isUpdatingRef.current = false;
+    const currentSubtotal = String(cart.cost?.subtotalAmount?.amount ?? '');
+    if (isWaitingForSubtotalRef.current) {
+      if (currentSubtotal !== prevSubtotalRef.current) {
+        isWaitingForSubtotalRef.current = false;
         setShowSubtotalLoader(false);
-      }, 500); // Additional 500ms to cover price update delay
-    }
-
-    // Cleanup on unmount or when price changes again
-    return () => {
-      if (subtotalTimeoutRef.current) {
-        window.clearTimeout(subtotalTimeoutRef.current);
+        if (safetyTimeoutRef.current) {
+          window.clearTimeout(safetyTimeoutRef.current);
+          safetyTimeoutRef.current = null;
+        }
       }
+    }
+ 
+    return () => {
+      // no-op
     };
   }, [cart.cost?.subtotalAmount?.amount]);
-
+ 
   return (
     <div aria-labelledby="cart-summary" className={className}>
       <dl className="cart-subtotal flex items-center justify-between">
@@ -147,46 +141,48 @@ export function CartSummary({cart, layout, affId}: CartSummaryProps) {
         logoPath={import.meta.env.VITE_SQUARE_LOGO}
         affId={affId}
         locale={language}
+        isPriceUpdating={showSubtotalLoader}
       />
     </div>
   );
 }
-
+ 
 type CartCheckoutActionsProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
   logoPath?: string;
   affId?: string;
   locale?: string;
+  isPriceUpdating?: boolean;
 };
-
-function CartCheckoutActions({cart, logoPath, affId, locale}: CartCheckoutActionsProps) {
+ 
+function CartCheckoutActions({cart, logoPath, affId, locale, isPriceUpdating}: CartCheckoutActionsProps) {
   // Map short language codes to your pricingMatrix keys
   const langMap: Record<string, 'english' | 'french'> = {
     en: 'english',
     fr: 'french',
   };
-
+ 
   // Get language from env and normalize it
   const rawLang = import.meta.env.VITE_LANGUAGE || 'en';
   const normalizedLocale = langMap[rawLang.toLowerCase()] || 'english';
-
+ 
   // Get affiliate ID
   const defaultAffId = affId || 'AFF123';
   const finalAffId = encodeURIComponent(defaultAffId);
-
+ 
   // Get checkout domain and ID from env
   const checkoutBaseUrl = `${import.meta.env.VITE_CHECKOUT_DOMAIN}/${import.meta.env.VITE_CHECKOUT_ID}`;
-
+ 
   const lines = Array.isArray((cart?.lines as any)?.nodes)
     ? (cart?.lines as any).nodes
     : [];
-
+ 
   if (!lines.length) return null;
-
+ 
   const s2Arr: string[] = [];
   const s3Arr: string[] = [];
   const s4Arr: string[] = [];
-
+ 
   lines.forEach((line: any) => {
     const qty = line.quantity || 1;
     const image = line.merchandise?.image?.url || '';
@@ -194,14 +190,14 @@ function CartCheckoutActions({cart, logoPath, affId, locale}: CartCheckoutAction
     const price =
       line.cost?.amountPerQuantity?.amount || line.merchandise?.priceV2?.amount;
     const offerId = getOfferId(price, normalizedLocale);
-
+ 
     for (let i = 0; i < qty; i++) {
       s2Arr.push(image);
       s3Arr.push(title);
       s4Arr.push(offerId);
     }
   });
-
+ 
   const s2Param = encodeURIComponent(s2Arr.join(','));
   const s3Param = encodeURIComponent(s3Arr.join(','));
   const s4Param = encodeURIComponent(s4Arr.join(','));
@@ -214,16 +210,16 @@ function CartCheckoutActions({cart, logoPath, affId, locale}: CartCheckoutAction
     import.meta.env.VITE_CUSTOMER_SERVICE_PHONE,
   );
   const m1param = encodeURIComponent(`${window.location.origin}/shipping`);
-
+ 
   const gclid = (() => {
     const match = document.cookie.match(/(?:^|; )gclid=([^;]*)/);
     return match ? decodeURIComponent(match[1]) : '';
   })();
-
+ 
   const [showSpinner, setShowSpinner] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const spinnerTimeoutRef = useRef<number | null>(null);
-
+ 
   function startSpinnerForOneSecond() {
     setShowSpinner(true);
     setIsDisabled(true);
@@ -236,7 +232,12 @@ function CartCheckoutActions({cart, logoPath, affId, locale}: CartCheckoutAction
       spinnerTimeoutRef.current = null;
     }, 2500);
   }
-
+ 
+  useEffect(() => {
+    // Disable button while price is updating
+    setIsDisabled(isPriceUpdating || showSpinner);
+  }, [isPriceUpdating, showSpinner]);
+ 
   useEffect(() => {
     return () => {
       if (spinnerTimeoutRef.current) {
@@ -244,9 +245,9 @@ function CartCheckoutActions({cart, logoPath, affId, locale}: CartCheckoutAction
       }
     };
   }, []);
-
+ 
   const url = `${checkoutBaseUrl}?s1=${window.location.origin}/${import.meta.env.VITE_LOGO}&s2=${s2Param}&s3=${s3Param}&s4=${s4Param}&c1=custom1&c2=custom2&c3=custom3&c4=&c5=&c6=&affId=${finalAffId}&l1=${l1Param}&l2=${l2Param}&l3=${l3Param}&l4=${l4Param}&m1=${m1param}&m2=&gclId=${gclid}`;
-
+ 
   return (
     <div>
       <a href={url} target="_self">
@@ -272,3 +273,4 @@ function CartCheckoutActions({cart, logoPath, affId, locale}: CartCheckoutAction
     </div>
   );
 }
+ 
