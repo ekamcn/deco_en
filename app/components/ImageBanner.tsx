@@ -118,7 +118,7 @@ export function ImageBannerVariant({
     description = 'Founded by a team of passionate home decor enthusiasts, our mission is simple: to make your living space more beautiful, more functional, and above all — more accessible for everyone.',
     imageUrl = '',
     buttonText = 'Shop Now',
-    buttonUrl = '/collections/all',
+    buttonUrl = '/',
     className = '',
     layout = 'bottom', // "bottom", "center", "left", "right"
     theme = 'dark', // "dark", "light"

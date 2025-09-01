@@ -60,7 +60,7 @@ function CartEmpty({
       <br />
       <strong>Your Cart is Empty</strong>
       <br />
-      <Link to="/collections/all" onClick={close} prefetch="viewport">
+      <Link to="/" onClick={close} prefetch="viewport">
         <button
           type="submit"
           // onClick={() => {
