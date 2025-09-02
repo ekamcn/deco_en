@@ -4,36 +4,62 @@ import {Money, type OptimisticCart} from '@shopify/hydrogen';
 import {LuLoaderCircle} from 'react-icons/lu';
 import {useEffect, useRef, useState} from 'react';
  
-const pricingMatrix = {
+type Offer = {
+  offerId: string;
+  price: number | string;
+};
+const defaultPricingMatrix = {
   french: [
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_9_99 || '49768', price: 9.99, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_19_5 || '49769', price: 19.5, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_29_9 || '49770', price: 29.9, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_39_99 || '49771', price: 39.99, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_49_9 || '49772', price: 49.9, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_59_5 || '49773', price: 59.5, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_69_99 || '49774', price: 69.99, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_79_9 || '49775', price: 79.9, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_89_5 || '49776', price: 89.5, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_99_99 || '49777', price: 99.99, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_109_9 || '49778', price:109.9, currency: 'EUR'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_119_5 || '49779', price: 119.5, currency: 'EUR'},
+    { offerId: '49768', price: 9.99, currency: 'EUR' },
+    { offerId: '49769', price: 19.5, currency: 'EUR' },
+    { offerId: '49770', price: 29.9, currency: 'EUR' },
+    { offerId: '49771', price: 39.99, currency: 'EUR' },
+    { offerId: '49772', price: 49.9, currency: 'EUR' },
+    { offerId: '49773', price: 59.5, currency: 'EUR' },
+    { offerId: '49774', price: 69.99, currency: 'EUR' },
+    { offerId: '49775', price: 79.9, currency: 'EUR' },
+    { offerId: '49776', price: 89.5, currency: 'EUR' },
+    { offerId: '49777', price: 99.99, currency: 'EUR' },
+    { offerId: '49778', price: 109.9, currency: 'EUR' },
+    { offerId: '49779', price: 119.5, currency: 'EUR' },
   ],
   english: [
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_9_99 || '49804', price: 9.99, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_19_5 || '49805', price: 19.5, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_29_9 || '49806', price: 29.9, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_39_99 || '49807', price: 39.99, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_49_9 || '49808', price: 49.9, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_59_5 || '49809', price: 59.5, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_69_99 || '49810', price: 69.99, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_79_9 || '49811', price: 79.9, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_89_5 || '49812', price:  89.5, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_99_99 || '49813', price: 99.99, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_109_9 || '49814', price: 109.9, currency: 'USD'},
-    {offerId: import.meta.env.VITE_CUSTOM_OFFER_ID_119_5 || '49815', price: 119.5, currency: 'USD'},
+    { offerId: '49804', price: 9.99, currency: 'USD' },
+    { offerId: '49805', price: 19.5, currency: 'USD' },
+    { offerId: '49806', price: 29.9, currency: 'USD' },
+    { offerId: '49807', price: 39.99, currency: 'USD' },
+    { offerId: '49808', price: 49.9, currency: 'USD' },
+    { offerId: '49809', price: 59.5, currency: 'USD' },
+    { offerId: '49810', price: 69.99, currency: 'USD' },
+    { offerId: '49811', price: 79.9, currency: 'USD' },
+    { offerId: '49812', price: 89.5, currency: 'USD' },
+    { offerId: '49813', price: 99.99, currency: 'USD' },
+    { offerId: '49814', price: 109.9, currency: 'USD' },
+    { offerId: '49815', price: 119.5, currency: 'USD' },
   ],
 };
+ 
+const customOffers: Offer[] | null = import.meta.env.VITE_CUSTOM_OFFER_IDS
+  ? (JSON.parse(import.meta.env.VITE_CUSTOM_OFFER_IDS) as Offer[])
+  : null;
+
+const pricingMatrix = customOffers && customOffers.length > 0
+  ? {
+      french: customOffers.map((offer: Offer) => ({
+        offerId: offer.offerId,
+        price: Number(offer.price),
+        currency: 'EUR',
+      })),
+      english: customOffers.map((offer: Offer) => ({
+        offerId: offer.offerId,
+        price: Number(offer.price),
+        currency: 'USD',
+      })),
+    }
+  : defaultPricingMatrix;
+ 
+console.log(pricingMatrix);
+ 
  
 function getOfferId(
   price: number | string,
