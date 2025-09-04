@@ -43,7 +43,7 @@ export const AddToCartButton = forwardRef<
           <input
             name="analytics"
             type="hidden"
-            value={JSON.stringify(analytics)}
+            value={JSON.stringify(analytics ?? {})}
           />
           <div className="flex items-center justify-end rounded-full py-1 gap-2 max-w-[450px] lg:w-[330px] xl:w-[450px] md:w-[255px]">
             <span className="font-semibold text-xs"> ✅ EN STOCK</span>

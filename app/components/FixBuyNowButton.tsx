@@ -83,8 +83,8 @@ export function FixedBuyNowButton({
               <input
                 name="analytics"
                 type="hidden"
-                value={JSON.stringify(analytics)}
-              />
+                value={JSON.stringify(analytics ?? {})}
+                />
               <button
                 type="submit"
                 onClick={() => open('cart')}

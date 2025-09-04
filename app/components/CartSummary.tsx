@@ -39,9 +39,17 @@ const defaultPricingMatrix = {
   ],
 };
  
-const customOffers: Offer[] | null = import.meta.env.VITE_CUSTOM_OFFER_IDS
-  ? (JSON.parse(import.meta.env.VITE_CUSTOM_OFFER_IDS) as Offer[])
-  : null;
+let customOffers: Offer[] | null = null;
+const offerIdsEnv = import.meta.env.VITE_CUSTOM_OFFER_IDS;
+if (offerIdsEnv && offerIdsEnv.trim() !== '') {
+  try {
+    customOffers = JSON.parse(offerIdsEnv) as Offer[];
+  } catch {
+    customOffers = null;
+  }
+} else {
+  customOffers = null;
+}
 
 const pricingMatrix = customOffers && customOffers.length > 0
   ? {
