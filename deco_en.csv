@@ -1,21 +1,21 @@
 title,description,handle,match_any,type,operator,value
-"Last Chance","Derniere Chance","derniere-chance","true","VARIANT_PRICE","GREATER_THAN","21"
-"Everything under 20€","Tout à moins de 20€","tout-a-moins-de-20","true","VARIANT_PRICE","LESS_THAN","21"
-"Flash Sale","Offre Flash","offre-flash","true","VARIANT_PRICE","GREATER_THAN","49"
-"Chairs & Stools","Chaises & Tabourets","chaises-tabourets","true","TAG","EQUALS","chaise"
-"Chairs & Stools","Chaises & Tabourets","chaises-tabourets","true","TAG","EQUALS","tabouret"
-"TV Stand","Meuble TV","meuble-tv","true","TAG","EQUALS","Meuble TV"
-"Mirrors","Miroirs","miroirs","true","TAG","EQUALS","miroir"
-"Display Cabinets","Vitrines","vitrines","true","TAG","EQUALS","vitrine"
-"Sofas & Armchairs","Canapés & Fauteuils","canapes-fauteuils","true","TAG","EQUALS","canapé"
-"Sofas & Armchairs","Canapés & Fauteuils","canapes-fauteuils","true","TAG","EQUALS","Fauteuil"
-"Coffee Tables","Tables Basses","tables-basses","true","TAG","EQUALS","Tables Basses"
-"Bookcase & Shelf","Bibliothèque & Étagère","bibliotheque-etagere","true","TAG","EQUALS","Bibliothèque & Étagère"
-"Bookcase & Shelf","Bibliothèque & Étagère","bibliotheque-etagere","true","TAG","EQUALS","Bibliothèque"
-"Bookcase & Shelf","Bibliothèque & Étagère","bibliotheque-etagere","true","TAG","EQUALS","étagère"
-"Dining Tables","Tables à Manger","tables-a-manger","true","TAG","EQUALS","table"
-"Benches","Bancs","bancs","true","TAG","EQUALS","bancs"
-"Dressers & Sideboards","Commodes & Buffets","commodes-buffets","true","TAG","EQUALS","commode"
-"Dressers & Sideboards","Commodes & Buffets","commodes-buffets","true","TAG","EQUALS","buffet"
-"Shoe Cabinet","Meuble à Chaussures","meuble-a-chaussures","true","TAG","EQUALS","Meuble à Chaussures"
-"Storage & Organization","Rangement & Organisation","rangement-organisation","true","TAG","EQUALS","Rangement & Organisation"
+Last Chance,Derniere Chance,derniere-chance,TRUE,VARIANT_PRICE,GREATER_THAN,21
+Everything under 20€,Tout à moins de 20€,tout-a-moins-de-20,TRUE,VARIANT_PRICE,LESS_THAN,21
+Flash Sale,Offre Flash,offre-flash,TRUE,VARIANT_PRICE,GREATER_THAN,49
+Chairs & Stools,Chaises & Tabourets,chaises-tabourets-01,TRUE,TAG,EQUALS,chaise
+Chairs & Stools,Chaises & Tabourets,chaises-tabourets,TRUE,TAG,EQUALS,tabouret
+TV Stand,Meuble TV,meuble-tv,TRUE,TAG,EQUALS,Meuble TV
+Mirrors,Miroirs,miroirs,TRUE,TAG,EQUALS,miroir
+Display Cabinets,Vitrines,vitrines,TRUE,TAG,EQUALS,vitrine
+Sofas & Armchairs,Canapés & Fauteuils,canapes-fauteuils-01,TRUE,TAG,EQUALS,canapé
+Sofas & Armchairs,Canapés & Fauteuils,canapes-fauteuils,TRUE,TAG,EQUALS,Fauteuil
+Coffee Tables,Tables Basses,tables-basses,TRUE,TAG,EQUALS,Tables Basses
+Bookcase & Shelf,Bibliothèque & Étagère,bibliotheque-etagere,TRUE,TAG,EQUALS,Bibliothèque & Étagère
+Bookcase & Shelf,Bibliothèque & Étagère,bibliotheque-etagere-01,TRUE,TAG,EQUALS,Bibliothèque
+Bookcase & Shelf,Bibliothèque & Étagère,bibliotheque-etagere-02,TRUE,TAG,EQUALS,étagère
+Dining Tables,Tables à Manger,tables-a-manger,TRUE,TAG,EQUALS,table
+Benches,Bancs,bancs,TRUE,TAG,EQUALS,bancs
+Dressers & Sideboards,Commodes & Buffets,commodes-buffets,TRUE,TAG,EQUALS,commode
+Dressers & Sideboards,Commodes & Buffets,commodes-buffets-01,TRUE,TAG,EQUALS,buffet
+Shoe Cabinet,Meuble à Chaussures,meuble-a-chaussures,TRUE,TAG,EQUALS,Meuble à Chaussures
+Storage & Organization,Rangement & Organisation,rangement-organisation,TRUE,TAG,EQUALS,Rangement & Organisation
