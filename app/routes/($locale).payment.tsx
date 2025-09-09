@@ -65,12 +65,12 @@ export default function PaymentTermsPage() {
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
             If you wish to obtain a refund, please contact us at the following
             address: {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}. You have{' '}
-            {import.meta.env.VITE_REFUND_PERIOD} days from receipt of your order
+            30 days from receipt of your order
             to exercise your right of withdrawal.
           </p>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
             The refund will be processed to the payment method used for the
-            order and will take {import.meta.env.VITE_REFUND_PROCESSING_TIME}{' '}
+            order and will take 5
             business days to appear in your bank account.
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function PaymentTermsPage() {
             To contact us, simply send an email to{' '}
             {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL} or call{' '}
             {import.meta.env.VITE_CUSTOMER_SERVICE_PHONE} during{' '}
-            {import.meta.env.VITE_BUSINESS_HOURS}.
+            Monday to Friday - 9:00 AM to 5:00 PM.
           </p>
           <p className="flex flex-col gap-2 !text-sm sm:!text-base">
             <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
@@ -137,7 +137,7 @@ export default function PaymentTermsPage() {
               </a>
             </span>
             <span className="pt-4">
-              Last updated: {import.meta.env.VITE_PP_LAST_UPDATED_DATE}
+              Last updated: 9-9-2025
             </span>
           </p>
         </div>

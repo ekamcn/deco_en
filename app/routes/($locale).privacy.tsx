@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
         </p>
         <div>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base ">
-            Updated on {import.meta.env.VITE_PP_LAST_UPDATED_DATE}
+            Updated on 9-9-2025
           </p>
         </div>
         <div>

@@ -10,7 +10,7 @@ export default function ReturnPolicyPage() {
         </p>
         <div>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
-            Last Updated: {import.meta.env.VITE_PP_LAST_UPDATED_DATE}
+            Last Updated: 9-9-2025
           </p>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
             Thank you for shopping with us at{' '}
@@ -56,17 +56,17 @@ export default function ReturnPolicyPage() {
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
-              Return Period: {import.meta.env.VITE_RETURN_PERIOD} days from
+              Return Period: 30 days from
               delivery date
             </li>
             <li>
-              Refund Processing Time:{' '}
-              {import.meta.env.VITE_REFUND_PROCESSING_TIME} business days from
+              Refund Processing Time:
+              5 business days from
               receipt
             </li>
             <li>
-              Return Shipping Costs:{' '}
-              {import.meta.env.VITE_RETURN_SHIPPING_POLICY}
+              Return Shipping Costs:
+              Free and Covered by us even the product is defective or incorrect.
             </li>
             <li>Return label: Included in the package, Free</li>
           </ul>
@@ -91,7 +91,7 @@ export default function ReturnPolicyPage() {
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
               Return Window:Items can be returned within{' '}
-              {import.meta.env.VITE_RETURN_PERIOD} days of delivery.
+              30 days of delivery.
             </li>
             <li>
               Item Condition: Items must be in their original, unused condition
@@ -101,7 +101,7 @@ export default function ReturnPolicyPage() {
             <li>
               Exceptions:Certain products, such as custom or personalized items
               and hygiene products (e.g., undergarments), are{' '}
-              {import.meta.env.VITE_SALE_ITEMS_POLICY}
+              non-returnable unless unopened and unused.
             </li>
           </ul>
         </div>
@@ -128,7 +128,7 @@ export default function ReturnPolicyPage() {
               original packaging are included, and attach the return
               authorization form.
             </li>
-            <li>Shipping: {import.meta.env.VITE_RETURN_SHIPPING_POLICY}</li>
+            <li>Shipping: Use a reliable shipping service with tracking. Return shipping free and Covered by us even the product is defective or incorrect.</li>
           </ul>
         </div>
         <div>
@@ -136,13 +136,13 @@ export default function ReturnPolicyPage() {
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
             Refund Approval: Once we receive and inspect your returned item, we
             will notify you regarding the approval status within{' '}
-            {import.meta.env.VITE_REFUND_PROCESSING_TIME} business days.
+            5 business days.
           </p>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
               Processing Time: Approved refunds will be processed to your
               original payment method within{' '}
-              {import.meta.env.VITE_REFUND_PROCESSING_TIME} business days. Your
+              5 business days. Your
               bank or credit card provider may require additional time to post
               the refund.
             </li>
@@ -197,14 +197,14 @@ export default function ReturnPolicyPage() {
             Processing Times
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
-            <li>Return Window: {import.meta.env.VITE_RETURN_PERIOD} days</li>
+            <li>Return Window: Returns must be initiated and shipped within 30 days of receiving the item.</li>
             <li>
               Inspection Period: Once received, returns are inspected within{' '}
-              {import.meta.env.VITE_REFUND_PROCESSING_TIME} business days.
+              5 business days.
             </li>
             <li>
               Refund Issuance: Refunds are processed to the original payment
-              method within {import.meta.env.VITE_REFUND_PROCESSING_TIME}{' '}
+              method within 5.
               business days after inspection.
             </li>
           </ul>

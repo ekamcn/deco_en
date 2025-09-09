@@ -184,11 +184,11 @@ export default function TermsServicesPage() {
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
             If you are not satisfied with your purchase, please contact us via{' '}
-            {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL} within{' '}
-            {import.meta.env.VITE_RETURN_PERIOD} days for returns or exchanges.
+            {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL} within
+            30 days for returns or exchanges.
             Products must be returned in original condition and packaging.
-            Refunds will be processed within{' '}
-            {import.meta.env.VITE_REFUND_PROCESSING_TIME} business days after we
+            Refunds will be processed within
+            5 business days after we
             receive and inspect the returned item.
           </p>
         </div>
@@ -336,7 +336,7 @@ export default function TermsServicesPage() {
               </a>
             </span>
             <span className="pt-4">
-              Last Updated: {import.meta.env.VITE_TC_LAST_UPDATED_DATE}
+              Last Updated: 9-9-2025
             </span>
           </p>
         </div>

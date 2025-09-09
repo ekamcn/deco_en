@@ -33,8 +33,8 @@ export default function ShippingPolicyPage() {
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
-              Delivery Area: We currently ship{' '}
-              {import.meta.env.VITE_DELIVERY_AREAS}
+              Delivery Area: We currently ship
+              within our service regions
             </li>
             <li>
               Future Expansion: We are considering expanding our delivery areas.
@@ -47,9 +47,9 @@ export default function ShippingPolicyPage() {
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
-              Processing Time: Orders are processed within{' '}
-              {import.meta.env.VITE_ORDER_PROCESSING_TIME} business days,{' '}
-              {import.meta.env.VITE_REFUND_PROCESSING_TIME}
+              Processing Time: Orders are processed within
+              1-2 business days,
+              Monday to Saturday.
             </li>
             <li>
               Cut-off Time: Orders placed before 22:00 (GMT-08:00) Pacific
@@ -66,12 +66,12 @@ export default function ShippingPolicyPage() {
           <h2 className="!text-xl sm:!text-2xl font-semibold">Delivery Time</h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
-              Estimated Delivery: Orders typically arrive within{' '}
-              {import.meta.env.VITE_STANDARD_DELIVERY_TIME} business days after
+              Estimated Delivery: Orders typically arrive within
+              2-4 business days after
               processing, depending on the destination.
             </li>
             <li>
-              Total Delivery Time: {import.meta.env.VITE_STANDARD_DELIVERY_TIME}{' '}
+              Total Delivery Time: 2-6
               business days
             </li>
           </ul>
@@ -82,8 +82,8 @@ export default function ShippingPolicyPage() {
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
-              Courier Services: We use reliable carriers such as{' '}
-              {import.meta.env.VITE_DELIVERY_PROVIDER} for all shipments.
+              Courier Services: We use reliable carriers such as
+              DHL, and FedE for all shipments.
             </li>
             <li>
               Tracking Information: After your order is shipped, you will
@@ -140,7 +140,7 @@ export default function ShippingPolicyPage() {
             </span>
             <span>Address: {import.meta.env.VITE_COMPANY_ADDRESS}</span>
             <span className="pt-4">
-              Last updated: {import.meta.env.VITE_PP_LAST_UPDATED_DATE}
+              Last updated: 16-7-2025
             </span>
           </p>
         </div>
