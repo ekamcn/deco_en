@@ -195,16 +195,21 @@ export function AllCollectionsWidget({
   }, [limit]);
 
 
+  // const filteredCollections = collections?.nodes.filter(
+  //   (collection: CollectionFragment) => {
+  //     const titleMatch = import.meta.env.VITE_DISCOVER_OUR_COLLECTIONS.includes(
+  //       collection.title,
+  //     );
+  //     const values = collection?.metafield?.value
+  //       ?.split(',')
+  //       .map((v: string) => v.trim());        
+  //     const metafieldMatch = values?.includes(import.meta.env.VITE_STORE_NAME);
+  //     return titleMatch && metafieldMatch;
+  //   },
+  // );
   const filteredCollections = collections?.nodes.filter(
     (collection: CollectionFragment) => {
-      const titleMatch = import.meta.env.VITE_DISCOVER_OUR_COLLECTIONS?.includes(
-        collection.title,
-      );
-      const values = collection?.metafield?.value
-        ?.split(',')
-        .map((v: string) => v.trim());        
-      const metafieldMatch = values?.includes(import.meta.env.VITE_STORE_NAME);
-      return titleMatch && metafieldMatch;
+      return import.meta.env.VITE_DISCOVER_OUR_COLLECTIONS.includes(collection.title);
     },
   );
   if (loading) {

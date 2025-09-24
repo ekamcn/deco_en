@@ -184,12 +184,14 @@ export function CollectionByHandle({
     null,
   );
 
-  const filteredProducts = collection?.products.nodes.filter((product: any) => {
-    const values = product.metafield?.value
-      ?.split(',')
-      .map((v: string) => v.trim());
-    return values?.includes(import.meta.env.VITE_STORE_NAME);
-  });
+  // const filteredProducts = collection?.products.nodes.filter((product: any) => {
+  //   const values = product.metafield?.value
+  //     ?.split(",")
+  //     .map((v: string) => v.trim());
+  //   return values?.includes(import.meta.env.VITE_STORE_NAME);
+  // });
+  const filteredProducts = collection?.products.nodes || [];
+
 
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);

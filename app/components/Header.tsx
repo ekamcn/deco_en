@@ -180,20 +180,28 @@ export function Header({
     </>
   );
 }
-
+// function transformMenuToHTML(menu: any, collections: any, currentTheme: string) {
+//   const excludedHandles = ["derniere-chance", "tout-a-moins-de-20", "offre-flash"];
+//   const collectionsData =
+//     collections?.edges
+//       ?.filter((edge: any) => {
+//         const values = edge.node.metafield?.value
+//           ?.split(",")
+//           .map((v: string) => v.trim());
+ 
+//         return values?.includes(currentTheme);
+//       })
+//       ?.filter((edge: any) => !excludedHandles.includes(edge.node.handle)) // exclude unwanted
+//       ?.map((edge: any) => ({
+//         id: edge.node.handle,
+//         href: `/collections/${edge.node.handle}`,
+//         title: edge.node.title,
+//       })) || [];
 // Transform menu object to the desired structure
-function transformMenuToHTML(menu: any, collections: any, currentTheme: string) {
-  // Get collections data from the query
-const excludedHandles = ["derniere-chance", "tout-a-moins-de-20", "offre-flash"];
+function transformMenuToHTML(menu: any, collections: any) {
+  const excludedHandles = ["derniere-chance", "tout-a-moins-de-20", "offre-flash"];
   const collectionsData =
     collections?.edges
-      ?.filter((edge: any) => {
-        const values = edge.node.metafield?.value
-          ?.split(",")
-          .map((v: string) => v.trim());
- 
-        return values?.includes(currentTheme);
-      })
       ?.filter((edge: any) => !excludedHandles.includes(edge.node.handle)) // exclude unwanted
       ?.map((edge: any) => ({
         id: edge.node.handle,
@@ -378,7 +386,7 @@ export function HeaderMenu({
     const transformedMenu = transformMenuToHTML(
       menu || FALLBACK_HEADER_MENU,
       collections,
-    `${import.meta.env.VITE_STORE_NAME }`
+    // `${import.meta.env.VITE_STORE_NAME }`
     );
 
     return (
@@ -481,7 +489,7 @@ export function HeaderMenu({
   const transformedMenu = transformMenuToHTML(
     menu || FALLBACK_HEADER_MENU,
     collections,
-    `${import.meta.env.VITE_STORE_NAME }`
+    // `${import.meta.env.VITE_STORE_NAME }`
   );
 
   return (
@@ -703,17 +711,26 @@ function CollectionsAside() {
   const aside = useAside('header');
   const [collections, setCollections] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const currentTheme = import.meta.env.VITE_STORE_NAME;
+  // const currentTheme = import.meta.env.VITE_STORE_NAME;
+  // const excludedHandles = ["derniere-chance", "tout-a-moins-de-20", "offre-flash"];
+  // const collectionsData =
+  //   collections?.edges
+  //     ?.filter((edge: any) => {
+  //       const values = edge.node.metafield?.value
+  //         ?.split(",")
+  //         .map((v: string) => v.trim());
+ 
+  //       return values?.includes(currentTheme);
+  //     })
+  //     ?.filter((edge: any) => !excludedHandles.includes(edge.node.handle)) // exclude unwanted
+  //     ?.map((edge: any) => ({
+  //       id: edge.node.handle,
+  //       href: `/collections/${edge.node.handle}`,
+  //       title: edge.node.title,
+  //     })) || [];
   const excludedHandles = ["derniere-chance", "tout-a-moins-de-20", "offre-flash"];
   const collectionsData =
     collections?.edges
-      ?.filter((edge: any) => {
-        const values = edge.node.metafield?.value
-          ?.split(",")
-          .map((v: string) => v.trim());
- 
-        return values?.includes(currentTheme);
-      })
       ?.filter((edge: any) => !excludedHandles.includes(edge.node.handle)) // exclude unwanted
       ?.map((edge: any) => ({
         id: edge.node.handle,

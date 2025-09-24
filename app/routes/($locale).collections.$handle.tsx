@@ -245,12 +245,13 @@ export default function Collection() {
   }
 
   const pagination = getPagination(page, totalPages);
-  const filteredProducts = collection?.products.nodes.filter((product: any) => {
-  const values = product?.metafield?.value
-    ?.split(",")
-    .map((v: string) => v.trim());
-  return values?.includes(import.meta.env.VITE_STORE_NAME);
-});
+  // const filteredProducts = collection?.products.nodes.filter((product: any) => {
+  //   const values = product.metafield?.value
+  //     ?.split(",")
+  //     .map((v: string) => v.trim());
+  //   return values?.includes(import.meta.env.VITE_STORE_NAME);
+  // });
+  const filteredProducts = collection?.products.nodes || [];
 
   return (
     <>
