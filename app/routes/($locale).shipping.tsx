@@ -83,7 +83,7 @@ export default function ShippingPolicyPage() {
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
               Courier Services: We use reliable carriers such as
-              DHL, and FedE for all shipments.
+              "DHL and FedEx" for all shipments.
             </li>
             <li>
               Tracking Information: After your order is shipped, you will

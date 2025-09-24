@@ -4,8 +4,8 @@ export default function ReturnPolicyPage() {
   return (
     <div className="bg-white min-h-screen py-8 sm:py-12 px-4 sm:px-5 [&_ul]:-indent-[1.3em]">
       <div className="max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8 lg:gap-10 tracking-wider">
-        <p className="!text-2xl sm:!text-3xl font-bold">Return Policy</p>
-        <p className="!text-2xl sm:!text-3xl lg:!text-3xl font-bold">
+        <p className="!text-[clamp(28px,5vw,32px)] font-bold">Return Policy</p>
+        <p className="!text-[clamp(28px,5vw,32px)] font-bold">
           {import.meta.env.VITE_COMPANY_NAME} Return and Refund Policy
         </p>
         <div>
@@ -21,7 +21,7 @@ export default function ReturnPolicyPage() {
           </p>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Scope and Contact Information
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
@@ -51,7 +51,7 @@ export default function ReturnPolicyPage() {
           </p>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Policy Overview
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
@@ -72,7 +72,7 @@ export default function ReturnPolicyPage() {
           </ul>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Order Cancellations
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
@@ -82,7 +82,7 @@ export default function ReturnPolicyPage() {
           </p>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Return Conditions
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
@@ -106,7 +106,7 @@ export default function ReturnPolicyPage() {
           </ul>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Return Instructions
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
@@ -115,7 +115,13 @@ export default function ReturnPolicyPage() {
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
             <li>
               Contact Customer Service: Email{' '}
-              {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL} with your order
+              <a
+                href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
+                className="underline underline-offset-4"
+              >
+                {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
+              </a>{' '}
+              with your order
               number, reason for return, and any supporting photos if
               applicable.
             </li>
@@ -132,7 +138,7 @@ export default function ReturnPolicyPage() {
           </ul>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">Refund Policy</h2>
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">Refund Policy</h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
             Refund Approval: Once we receive and inspect your returned item, we
             will notify you regarding the approval status within{' '}
@@ -154,11 +160,17 @@ export default function ReturnPolicyPage() {
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pt-4">
             If you do not see the refund within the expected time, please check
             with your bank. For further assistance, contact us at{' '}
-            {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}.
+            <a
+              href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
+              className="underline underline-offset-4"
+            >
+              {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
+            </a>
+            .
           </p>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Exchange Policy
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
@@ -170,7 +182,7 @@ export default function ReturnPolicyPage() {
           </p>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Exceptions and Special Cases
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
@@ -193,7 +205,7 @@ export default function ReturnPolicyPage() {
           </ul>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Processing Times
           </h2>
           <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
@@ -210,7 +222,7 @@ export default function ReturnPolicyPage() {
           </ul>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Return Shipping Address
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
@@ -222,7 +234,7 @@ export default function ReturnPolicyPage() {
           </p>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">
+          <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">
             Contact Information
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">

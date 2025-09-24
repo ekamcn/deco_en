@@ -5,9 +5,9 @@ export default function PaymentTermsPage() {
     <div className="bg-white min-h-screen py-8 sm:py-12 px-4 sm:px-5">
       <div className="max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8 lg:gap-10 tracking-wider">
         <p className="!text-2xl sm:!text-3xl font-bold">Payment Terms</p>
-        <p className="!text-2xl sm:!text-3xl lg:!text-3xl font-bold">
+        {/* <p className="!text-2xl sm:!text-3xl lg:!text-3xl font-bold">
           PAYMENT TERMS
-        </p>
+        </p> */}
         <div>
           <h2 className="!text-xl sm:!text-2xl font-semibold">
             Payment Processing
@@ -34,7 +34,7 @@ export default function PaymentTermsPage() {
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
             All transactions made on our site are secured through SSL (Secure
-            Socket Layer) encryption protocol, which ensures the confidentiality
+            Sockets Layer) encryption protocol, which ensures the confidentiality
             of transmitted information. We are committed to protecting our
             customers&apos; personal data in accordance with the General Data
             Protection Regulation (GDPR).
@@ -64,7 +64,12 @@ export default function PaymentTermsPage() {
           <h2 className="!text-xl sm:!text-2xl font-semibold">Refunds</h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
             If you wish to obtain a refund, please contact us at the following
-            address: {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}. You have{' '}
+            address: {' '}<a
+              href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
+              className="underline underline-offset-4 break-all"
+            >
+              {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
+            </a>. You have{' '}
             30 days from receipt of your order
             to exercise your right of withdrawal.
           </p>
@@ -101,8 +106,20 @@ export default function PaymentTermsPage() {
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
             To contact us, simply send an email to{' '}
-            {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL} or call{' '}
-            {import.meta.env.VITE_CUSTOMER_SERVICE_PHONE} during{' '}
+            <a
+              href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
+              className="underline underline-offset-4 break-all"
+            >
+              {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
+            </a>{' '}
+            or call{' '}
+            <a
+              href={`tel:${import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}`}
+              className="underline underline-offset-4"
+            >
+              {import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}
+            </a>{' '}
+            during{' '}
             Monday to Friday - 9:00 AM to 5:00 PM.
           </p>
           <p className="flex flex-col gap-2 !text-sm sm:!text-base">
@@ -125,7 +142,7 @@ export default function PaymentTermsPage() {
                 {import.meta.env.VITE_CUSTOMER_SERVICE_PHONE}
               </a>
             </span>
-            <span>
+            {/* <span>
               Website:{' '}
               <a
                 href={
@@ -139,7 +156,7 @@ export default function PaymentTermsPage() {
               >
                 {import.meta.env.VITE_DOMAIN_NAME}
               </a>
-            </span>
+            </span> */}
             <span className="pt-4">
               Last updated: 9-9-2025
             </span>

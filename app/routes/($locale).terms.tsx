@@ -29,7 +29,7 @@ export default function TermsServicesPage() {
             comply with these Terms of Service. If you do not agree to these
             terms, please do not use our Site. We reserve the right to modify
             these terms at any time and continued use of the Site after such
-            changes will constitute your acceptance of the new terms.
+            changes will constitutes acceptance of the updated Terms.
           </p>
         </div>
         <div>
@@ -183,13 +183,18 @@ export default function TermsServicesPage() {
             Return and Refund Policy
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
-            If you are not satisfied with your purchase, please contact us via{' '}
-            {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL} within
-            30 days for returns or exchanges.
-            Products must be returned in original condition and packaging.
-            Refunds will be processed within
-            5 business days after we
-            receive and inspect the returned item.
+            If you are not satisfied with your purchase, please contact us email
+            via{' '}
+            <a
+              href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
+              className="underline underline-offset-4 break-all"
+            >
+              {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
+            </a>{' '}
+            within 30 days for returns or exchanges. Products must be returned
+            in original condition and packaging. Refunds will be processed
+            within 5 business days after we receive and inspect the returned
+            item.
           </p>
         </div>
         <div>
@@ -264,7 +269,7 @@ export default function TermsServicesPage() {
           </p>
         </div>
         <div>
-          <h2 className="!text-xl sm:!text-2xl font-semibold">COOKIES</h2>
+          <h2 className="!text-xl sm:!text-2xl font-semibold">Cookies</h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base">
             {import.meta.env.VITE_COMPANY_NAME} uses &quot;Cookies&quot; to
             identify the areas of our website that you have visited. A Cookie is
@@ -324,7 +329,7 @@ export default function TermsServicesPage() {
               {' '}
               Address: {import.meta.env.VITE_COMPANY_ADDRESS}
             </span>
-            <span>
+            {/* <span>
               Website:{' '}
               <a
                 href={
@@ -338,10 +343,8 @@ export default function TermsServicesPage() {
               >
                 {import.meta.env.VITE_DOMAIN_NAME}
               </a>
-            </span>
-            <span className="pt-4">
-              Last Updated: 9-9-2025
-            </span>
+            </span> */}
+            <span className="pt-4">Last Updated: 9-9-2025</span>
           </p>
         </div>
       </div>

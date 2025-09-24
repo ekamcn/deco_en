@@ -105,7 +105,7 @@ export default function PrivacyPolicyPage() {
               products, services, and overall user experience.
             </li>
             <li>
-              To Process Payments: Only use submitted information to complete
+              To Process Payments: We use submitted information only to complete
               transactions.
             </li>
             <li>
@@ -207,9 +207,9 @@ export default function PrivacyPolicyPage() {
           </h2>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base lg:!text-base">
             Please note that we may transfer, store, and process your personal
-            data outside the country where you live. Your personal data is also
-            processed by staff and external service providers (third parties)
-            and partners in these countries.
+            data outside the country where you live. Your personal data may also
+            be processed by our staff, external service providers, or partners
+            in these countries.
           </p>
           <p className="leading-6 sm:leading-7 !text-sm sm:!text-base lg:!text-base">
             If we transfer your personal data out of Europe, we will rely on
@@ -260,7 +260,7 @@ export default function PrivacyPolicyPage() {
             <span className="break-words">
               Address: {import.meta.env.VITE_COMPANY_ADDRESS}
             </span>
-            <span>
+            {/* <span>
               Website:{' '}
               <a
                 href={
@@ -274,7 +274,7 @@ export default function PrivacyPolicyPage() {
               >
                 {import.meta.env.VITE_DOMAIN_NAME}
               </a>
-            </span>
+            </span> */}
           </p>
         </div>
       </div>

@@ -58,8 +58,14 @@ const sections = [
               We offer a flexible return policy. If you’re not satisfied with
               your purchase, please contact us within 30 days of receiving your
               order to arrange a return or exchange. For more details, please
-              visit our Return Policy page.
-            </p>
+              visit our{' '}
+              <a
+                href="/returns"
+                className="transition-colors !text-white underline underline-offset-4"
+              >
+                Return Policy
+              </a>{' '}
+              page.            </p>
           </div>
         ),
       },
