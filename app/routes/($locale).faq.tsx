@@ -30,6 +30,7 @@ const sections = [
         ),
       },
       {
+        
         question: 'How can I cancel my order?',
         answer: (
           <div className="flex flex-col gap-4">
@@ -42,7 +43,7 @@ const sections = [
               service at{' '}
               <a
                 href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
-                className="hover:text-blue-300 transition-colors !text-[var(--color-footer)] underline underline-offset-4"
+                className="hover:text-blue-300 transition-colors !text-white underline underline-offset-4"
               >
                 {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
               </a>{' '}
@@ -93,7 +94,7 @@ const sections = [
               free to contact our customer service at:{' '}
               <a
                 href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
-                className="hover:text-blue-300 transition-colors !text-[var(--color-footer)] underline underline-offset-4"
+                className="hover:text-blue-300 transition-colors !text-white underline underline-offset-4"
               >
                 {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
               </a>
@@ -117,7 +118,7 @@ const sections = [
               at:{' '}
               <a
                 href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
-                className="hover:text-blue-300 transition-colors !text-[var(--color-footer)] underline underline-offset-4"
+                className="hover:text-blue-300 transition-colors !text-white underline underline-offset-4"
               >
                 {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
               </a>
@@ -140,7 +141,7 @@ const sections = [
               contact our customer service at:{' '}
               <a
                 href={`mailto:${import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}`}
-                className="hover:text-blue-300 transition-colors !text-[var(--color-footer)] underline underline-offset-4"
+                className="hover:text-blue-300 transition-colors !text-white underline underline-offset-4"
               >
                 {import.meta.env.VITE_CUSTOMER_SUPPORT_EMAIL}
               </a>
