@@ -139,12 +139,12 @@ export default function ReturnPolicyPage() {
         </div>
         <div>
           <h2 className="!text-[clamp(22px,4vw,26px)] font-semibold">Refund Policy</h2>
-          <p className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
+          <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
+          <li className="leading-6 sm:leading-7 !text-sm sm:!text-base !pb-4">
             Refund Approval: Once we receive and inspect your returned item, we
             will notify you regarding the approval status within{' '}
             5 business days.
-          </p>
-          <ul className="!list-disc !list-inside text-gray-700 space-y-2 !text-sm sm:!text-base !pl-6 lg:!pl-8">
+          </li>
             <li>
               Processing Time: Approved refunds will be processed to your
               original payment method within{' '}
